@@ -1,0 +1,97 @@
+% Chapter 1
+
+\chapter{Introduction} % Main chapter title
+
+\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+
+%----------------------------------------------------------------------------------------
+
+% Define some commands to keep the formatting separated from the content 
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+
+%----------------------------------------------------------------------------------------
+
+\section{What is Image Segmentation}
+Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
+
+If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
+
+\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+
+%----------------------------------------------------------------------------------------
+
+\section{Energy Minimisation}
+
+Brief energy minimisation and what it is. Huge number of problems in vision are inference problems which can be found from energy minimisation. The relation of the concept of energy in physics is not important but useful.
+
+Vision problems are much more complex involving hundreds or even millions of interdependant variables. Some energies precisely model the desired inference problem while some are coarse approximations. Some energies are easy to optimise while others are known to be NP-hard. Once an accurate energy and satisfying algorithm are available, the associated inference problem is essentially solved.
+
+Many of the most important developments in computer vision began with a proposal for a better energy, better algorithm or a combination of both.
+
+%----------------------------------------------------------------------------------------
+
+\section{Labelling Problems}
+
+What is a labelling problem? Type of labelling problems. What is needed for a labelling problem. What is a discrete labelling problem in vision? What are the type of labels (semantic or related to geometry).
+
+Data driven criteria - Data influences the outcome. These preferences are dereived from machine learning.
+
+Regularisation criteria - When we explicitely prefer some kinds  of labelling over others, these criteria are called regularisers. The most prominent in computer vision are spatially coherent labellings. The idea of smoothness in preference to noisy. We know from experience that object and medical data correpsonds to coherent labels more often than not - varies from application to application but has now become a rule of thumb. Because data in computer vision tends to be highly correlated in space.
+
+%----------------------------------------------------------------------------------------
+
+\section{Labelling Problems as Energy Minimisation}
+
+General case of expressing data-driven and regularisation criteria as concrete energy decisions.
+
+smoothness, neighbourhood, joint probability
+
+Markov Random Field, MAP-MRF problem
+
+%----------------------------------------------------------------------------------------
+
+\section{Energy Minimisation Algorithms and Special Cases}\label{FillingFile}
+
+Dynamic Programming 
+
+Binary Energies with Coherence
+
+%----------------------------------------------------------------------------------------
+
+\section{Following Chapter Outlines}
+
+The remainder of the thesis outline.
+
+%----------------------------------------------------------------------------------------
+
+\section{Other things to talk about}\label{ThesisConventions}
+
+Gestalt groupings
+
+Properties of a good segmentation and segmentation algorithhm
+
+%----------------------------------------------------------------------------------------
+
+\section{Other things to talk about 2}
+
+Goal of image segmentation: to cluster pixels into salient image regions i.e. regions corresponding to individual surfaces, objects or natural part of objects.
+
+Difference between bottom-up and top-down image segmentation.
+
+%----------------------------------------------------------------------------------------
+
+\section{In Closing}
+
+You have reached the end of this mini-guide. You can now rename or overwrite this pdf file and begin writing your own \file{Chapter1.tex} and the rest of your thesis. The easy work of setting up the structure and framework has been taken care of for you. It's now your job to fill it out!
+
+Good luck and have lots of fun!
+
+\begin{flushright}
+Guide written by ---\\
+Sunil Patel: \href{http://www.sunilpatel.co.uk}{www.sunilpatel.co.uk}\\
+Vel: \href{http://www.LaTeXTemplates.com}{LaTeXTemplates.com}
+\end{flushright}

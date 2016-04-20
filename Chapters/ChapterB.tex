@@ -1,0 +1,876 @@
+% Chapter Template
+
+\chapter{Mathematical Background} % Main chapter title
+
+\label{Chapter2} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Markov Random Fields}
+
+In this section we review MRF's as a pure mathematical/statical tool used used specifically for vision. That is, we only cover the necessary concepts related to understanding 
+the problem of modelling images for analysis and inference purposes. In sub-section 1 we cover the basics, in sub-section 2 we cover how to model an image using MRF, and 
+in sub-section 3 we cover how to find the MAP, or a close enough approximation, to the MRF.
+
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+
+\subsection{Markov Random Fields Theory and Concepts}
+
+MRF theory and concepts. Purely mathematical/statistical.
+
+%-----------------------------------
+%	SUBSECTION 2
+%-----------------------------------
+
+\subsection{Markov Random Fields in Image Modelling}
+
+Modelling the joint probability of of image using MRFs.
+
+%-----------------------------------
+%	SUBSECTION 3
+%-----------------------------------
+
+\subsection{MAP-MRF Approxiamtion via Graph Cuts}
+
+How to make MAP estimates on the MRF. How does the graph-cut approach ensure an MAP solution.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Graph Theory and Flow Networks}
+
+In this section we cover Graph Theory and specifically Flow Networks, which is a branch of Graph Theory, which is fundamental to the understanding of image segmentation via graph cuts. With it roots in Germany where Euler tried to find the solution to the Konigsberg bridge problem, graph theory has since blossomed into a rich field of Mathematics with seemingly endless amounts of application. Graph Theory is a huge topic in mathematics and can be applied to many other sciences. Graph theory is part of another more encompassing field of Mathematics known as Combinatronics. Graph theory and applications are more useful than the average person would recognise. They're used in Google Maps to find shortest routes to destinations, in Molecular Chemistry to model the structure of atoms, and the list goes on for quite a while. It is no surprise that it is also found to be useful in image segmentation.
+
+\begin{definition}[Graph]\label{def_graph}
+	A graph $G$ is a pair $(V,E)$, where $V$ is the set of nodes/vertices and $E$ is the set of edges consisting of pairs $(u,v)$ where $u,v \in V$. The graph is assumed to be finite i.e. $|V| = n$ and $|E| = m$.
+\end{definition}
+
+In an \textbf{undirected graph}, the edge $(u,v)$ and $(v,u)$ are not distinct. That is, they refer to the same edge. However, in a \textbf{directed graph}, the two edge are now distinct. In a directed graph with edge $(u,v)$, $u$ is known as the \textbf{tail} and $v$ is know as the \textbf{head}. In directed graphs, edges, also known as arcs, are depicted by placing arrowheads at the head of the edge. Given an edge $e = (u,v)$, $u$ and $v$ are said to be \textbf{incident} on $e$. A graph is said to be \textbf{simple} if it does not contain any self-loops. A \textbf{self-loop} is an edge with of its end points being the same vertex.
+
+\begin{definition}[Degree]
+	The degree of a vertex $v$ is the number of edges incident on it. $deg(v) = |\{(u,v), (v,u) \in E\}|$. A self-loop counts for 2.
+\end{definition}
+
+If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an \textbf{in-degree} $d_{in}(v)$ and an \textbf{out-degree} $d_{out}(v)$. A digraph is said to be \textbf{balanced} if $d_{in}(v) = d_{out}(v), \forall v \in V$.
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,-]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+	\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};
+	% draw the vertices
+	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
+		{(4,-1)/g}, {(1,-1)/f}}
+	\node[vertex] (\name) at \pos {$\name$};
+	% connect vertices with edges and draw weights
+	\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,d/b/7, e/b/9, e/c/7,e/d/5,
+		f/d/3,f/e/1, g/e/3,g/f/5}
+	\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+	% info box
+	\draw[yshift=0cm,xshift=4.5cm]
+	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+	{
+		$V_{G} = \{a,b,c,d,e,f,g\}$, \\
+		$|V_{G}| = 7$\\
+		$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
+		$|E_{G}| = 11$
+	};	
+	% degrees
+	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
+	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
+	\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(c)=2$};
+	\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
+	\draw[orange] node at (3.2,0.0) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
+	\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(f)=3$};
+	\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(g)=2$};
+	\end{tikzpicture}
+}
+	\caption{Undirected weighted graph \textbf{G}. The degree of each node is shown next to the corresponding node. The graph is simple. The red box shows the vertex set, $V_{G}$, and edge set, $E_{G}$, and their corresponding norm.}
+\end{figure}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,<-]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+	\draw[black] node at (-0.2,3.1) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{D}$};
+	% draw the vertices
+	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
+		{(4,-1)/g}, {(1,-1)/f}}
+	\node[vertex] (\name) at \pos {$\name$};
+	% connect vertices with edges and draw weights
+	\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,e/b/9,e/d/5,
+		f/d/3,f/e/1, g/e/3,g/f/5}
+	\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+	% bend edges
+	\path [edge] (b) edge[bend right=20] node {$7$} (d);
+	\path [edge] (d) edge[bend left=-20] node {$4$} (b);
+	\path [edge] (e) edge[bend right=20] node {$7$} (c); 
+	\path [edge] (c) edge[bend right=20] node {$2$} (e);
+	% info box
+	\draw[yshift=0cm,xshift=4.5cm]
+	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+	{
+		$V_{D} = \{a,b,c,d,e,f,g\}$, \\
+		$|V_{D}| = 7$\\
+		$E_{D} = \{ab,ad,bc,bd,be,ce,db,de,df,$\\$ec,ef,eg,fg\}$, \\
+		$|E_{D}| = 13$
+	};
+	% degrees
+	% a	
+	\draw[orange] node at (-0.2,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+	% b
+	\draw[orange] node at (1.8,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=5$};
+	% c
+	\draw[orange] node at (3.8,1.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+	% d
+	\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (-0.3,-0.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
+	% e
+	\draw[orange] node at (3.2,0.08) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=3$};
+	\draw[orange] node at (3.2,-0.12) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=3$};
+	% f
+	\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (0.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+	 %g
+	\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (3.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+	\end{tikzpicture}
+}
+	\caption{Directed weighted graph (Digraph) \textbf{D}. The in-degree and out-degree is shown next to each node. The graph is simple and not balanced. The red box shows the vertex set, $V_{D}$, and edge set, $E_{D}$, and their corresponding norm.}
+\end{figure}
+
+\begin{definition}[Subgraph]
+	A graph $G' = (V', E')$ is said to be a sub-graph of $G = (V, E)$, denoted as $G' \subseteq G$, if $V' \subseteq V$ and $E' \subseteq E$.
+\end{definition}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,-]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+	\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{H}$};
+	% draw the vertices
+	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(0,0)/d}, {(3,0)/e}}
+	\node[vertex] (\name) at \pos {$\name$};
+	% connect vertices with edges and draw weights
+	\foreach \source/ \dest /\weight in {b/a/10,d/a/5,d/b/7,e/b/9,e/d/5}
+	\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+	% info box
+	\draw[yshift=-1.6cm,xshift=0cm]
+	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+	{
+		$V_{H} = \{a,b,d,e\} \subseteq V_{G}$, \\
+		$|V_{H}| = 4$\\
+		$E_{H} = \{ab,ad,bd,be,de\} \subseteq E_{G}$, \\ 
+		$|E_{H}| = 5$
+	};	
+	% degrees
+	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
+	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
+	\draw[orange] node at (-0.2,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
+	\draw[orange] node at (2.5,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
+	
+	
+	\draw[black] node at (4.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{I}$};
+	% draw the vertices
+	\foreach \pos/\name in {{(4.4,2)/a}, {(6.4,2)/b}, {(4.4,0)/d}, {(7.4,0)/e}}
+	\node[vertex] (\name) at \pos {$\name$};
+	% connect vertices with edges and draw weights
+	\foreach \source/ \dest /\weight in {b/a/10,d/a/5,e/b/9,e/d/5}
+	\path[draw=black!24, very thick,<-] (\source) -- node[weight] {$\weight$} (\dest);
+	% bends
+	\path [draw=black!24, very thick,<-] (d) edge[bend left=-20] node {$4$} (b);
+	% info box
+	\draw[yshift=-1.6cm,xshift=4.4cm]
+	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+	{
+		$V_{I} = \{a,b,d,e\} \subseteq V_{D}$, \\
+		$|V_{I}| = 4$\\
+		$E_{I} = \{ab,ad,bd,be,de\} \subseteq E_{D}$, \\ 
+		$|E_{I}| = 5$
+	};	
+	% degrees
+	% a	
+	\draw[orange] node at (4.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+	\draw[orange] node at (4.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+	% b
+	\draw[orange] node at (6.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=1$};
+	\draw[orange] node at (6.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
+	% d
+	\draw[orange] node at (4.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (4.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+	% e
+	\draw[orange] node at (7.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (7.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+	\end{tikzpicture}
+}
+	\caption{Undirected weighted graph \textbf{H} is a subgraph of \textbf{G} in Figure XX, $\textbf{H} \subseteq \textbf{G}$. Directed weighted graph \textbf{I} is a subgraph of \textbf{D} in Figure XX, $\textbf{I} \subseteq \textbf{D}$. The degree of each node is shown next to the corresponding node. The red box shows the vertex set, the edge set and their corresponding norms.}
+\end{figure}
+
+
+\begin{definition}[Clique]
+	A clique is a maximal subgraph.
+\end{definition}
+
+\begin{definition}[Network]
+	A network $N = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
+\end{definition}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+	\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+	
+	\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
+	\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
+	\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
+	\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+	\draw[dashed,draw=red!24,very thick] (2.65,1.25) -- (4,1.5);
+		
+	% draw the vertices
+	\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+	\node[vertex] (\name) at \pos {$\name$};
+	% connect vertices with edges and draw weights
+	\foreach \source/ \dest /\weight in {s/a/7,s/c/2,a/b/{},c/d/2,b/t/5,d/t/3}
+	\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+	% bends
+	\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3$} (d);
+	\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3$} (b);
+	% info box		
+	\draw node[circle,right,fill=red!20] at (2.65,1.25) {$5$};
+	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$capacity$};
+	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5){$source$};
+	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5){$sink$};
+	% s	
+	\draw[orange] node at (-0.2,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+	\draw[orange] node at (-0.2,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+	% t
+	\draw[orange] node at (5.8,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+	\draw[orange] node at (5.8,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+	\end{tikzpicture}
+}
+	\caption{Network \textbf{N} with no flow. The in-degree and out-degree for the source, \textbf{s}, and the sink, \textbf{t}, are shown next to the corresponding node.}
+\end{figure}
+
+The \textbf{source node} only has out-going edges, $d_{in}(s) = 0$ and $d_{out}(s) \geq 0$. The \textbf{sink node} only has incoming edges, $d_{in} \geq 0$ and $d_out = 0$.
+
+\begin{definition}[Flow]
+	A flow $f : V^2 \longrightarrow \Re^{+}$ is associated with each edge $e = (u,v)$ such that:
+	\begin{enumerate}
+		\item for each edge $e \in E$ we have $0 \leq f(e) \leq c(e)$. That is, the flow is positive and cannot excees the capacity of the edge.
+		
+		\item for each intermediate node $v \in V\setminus \{s,t\}$ the in- and out-flow of that node $\sum_{u \in V^-(v)} f(u,v) = \sum_{u \in V^+(v)} f(v,u)$.
+	\end{enumerate}
+\end{definition}
+
+The \textbf{total flow} $F$ of a network is then what leave the source $s$ or reaches the sink $t$:
+\begin{equation}
+F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \sum_{u \in V}f(t,u)
+\end{equation}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
+		\draw[dashed,draw=red!24,very thick] (2.65,1.25) -- (4,1.5);
+		\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/{5/7},s/c/{2/2},a/b/{},c/d/{1/2},b/t/{4/5},d/t/{3/3}}
+		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		% bends
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$1/3$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$2/3$} (b);
+		% info box		
+		\draw node[rounded corners,right,fill=red!20] at (2.65,1.25) {$3/5$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$flow/capacity$};
+		% s	
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(s,u)=7$};
+		% t
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=7$};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with flow. The flow out of the source node, \textbf{s}, is equal to the flow into the sink node, \textbf{t}. For all other nodes, the flow-in is equal to the flow-out. This is the conservation of flow principle. This is only part of the network. The remaining part is the residual graph which shows the amount of reverse flow is available on an edge.}
+\end{figure}
+
+\begin{definition}[Cut]
+	A cut of a network $N = (V,E)$ is a partitioning of the vertex set $V = P \bigcup \bar{P}$ into two disjoint sets $P$ containining the source node $s$ and $\bar{P}$ containing the sink node $t$. $P \bigcap \bar{P} = \emptyset$.
+\end{definition}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (1,1) .. (2.3,1.2) .. (1.3,0.2);
+%		\draw node[text=blue] at (-0.3,0) {$1$};
+%		\draw node[text=blue] at (1,1) {$2$};
+%		\draw node[text=blue] at (2.5,1.2) {$3$};
+%		\draw node[text=blue] at (1,0.0) {$4$};
+		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (2.5,0.5) .. (3.5,1.2) .. (5.2,1.0) .. (6.3,0.0) .. (5.0,-1);
+%		\draw node[text=blue] at (1,-1) {$1$};
+%		\draw node[text=blue] at (3.2,1.2) {$2$};
+%		\draw node[text=blue] at (5.0,1.2) {$3$};
+%		\draw node[text=blue] at (6.5,0.0) {$4$};
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/{},s/c/{},a/b/{},c/d/{},b/t/{},d/t/{}}
+		{
+			\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		}		
+		% bends
+		\path [draw=black!24,very thick,->,name path=curve1] (a) edge[bend left=-30] node {} (d);
+		\path [draw=black!24,very thick,->,name path=curve2] (c) edge[bend left=30] node {} (b);
+		% cut
+		\draw node [text=orange] at (0,-0.7) {$C$};
+		\path[dashed, very thick, draw=orange, name path=C] (0,-1) -- (3.5,1.5);
+		% intersections
+		\path [draw=black!24,name path=line1] (s) -- (c);		
+		\path [draw=black!24,name path=line2] (a) -- (b);		
+		\path [draw=blue!24,name path=line3] (a) edge [bend left=-30] (d);
+		\fill [color=orange, name intersections={of=C and line1}] (intersection-1) circle (2pt);
+		\fill [color=orange, name intersections={of=C and line2}] (intersection-1) circle (2pt);
+		\fill [color=orange, name intersections={of=C and line3}] (2.15,0.53) circle (2pt);	
+		% info box
+		\draw[yshift=-2.1cm,xshift=-0.5cm]
+		node [right,rounded corners,fill=orange!20,inner sep=1ex]
+		{
+			$S = \{s,a\}$, \, $T = \{t,b,c,d\}$, \,$C = \{(sc), (ab), (ad)\}$
+		};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with with a valid cut \textbf{C}. The nodes within the red region are reachable from the source and the nodes within the blue region are able to reach the sink. The cut set, \textbf{C}, is show in the orange filled block.}
+\end{figure}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (6.4,-0.1) .. (4,0) .. (2,0) ;
+%				\draw node[text=blue] at (-0.3,0) {$1$};
+%				\draw node[text=blue] at (2,1.5) {$2$};
+%				\draw node[text=blue] at (4,1.5) {$3$};
+%				\draw node[text=blue] at (6.3,0.0) {$4$};
+%				\draw node[text=blue] at (4,0.0) {$5$};
+%				\draw node[text=blue] at (2,0.0) {$6$};
+		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (3.0,-0.7) .. (4.5,-1.0) .. (3.0,-1.2);
+%				\draw node[text=blue] at (1.5,-1) {$1$};
+%				\draw node[text=blue] at (3.0,-0.7) {$2$};
+%				\draw node[text=blue] at (4.5,-1.0) {$3$};
+%				\draw node[text=blue] at (3.0,-1.2) {$4$};			
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/{},s/c/{},a/b/{},c/d/{},b/t/{},d/t/{}}
+		{
+			\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		}		
+		% bends
+		\path [draw=black!24,very thick,->,name path=curve1] (a) edge[bend left=-30] node {} (d);
+		\path [draw=black!24,very thick,->,name path=curve2] (c) edge[bend left=30] node {} (b);
+		% cut
+		\draw node [text=orange] at (0,-0.7) {$C$};
+		\path[dashed, very thick, draw=orange, name path=C] (0,-1) edge[bend left=30] (6,-1);
+		% intersections
+		\fill [color=orange] (1.0,-0.5) circle (2pt);
+		\fill [color=orange] (5.0,-0.5) circle (2pt);
+		\fill [color=orange] (2.28,-0.18) circle (2pt);
+		\fill [color=orange] (2.52,-0.165) circle (2pt);
+		% info box
+%		\draw[yshift=-2.1cm,xshift=-0.5cm]
+%		node [right,rounded corners,fill=orange!20,inner sep=1ex]
+%		{
+%			$S = \{s,a\}$, \, $T = \{t,b,c,d\}$, \,$C = \{(sc), (ab), (ad)\}$
+%		};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with with a invalid cut \textbf{C}. The cut does not partition source node \textbf{s} and sink node \textbf{t} into distinct sets.}
+\end{figure}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+%		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (6.4,-0.1) .. (4,0) .. (2,0) ;
+		%				\draw node[text=blue] at (-0.3,0) {$1$};
+		%				\draw node[text=blue] at (2,1.5) {$2$};
+		%				\draw node[text=blue] at (4,1.5) {$3$};
+		%				\draw node[text=blue] at (6.3,0.0) {$4$};
+		%				\draw node[text=blue] at (4,0.0) {$5$};
+		%				\draw node[text=blue] at (2,0.0) {$6$};
+%		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (3.0,-0.7) .. (4.5,-1.0) .. (3.0,-1.2);
+		%				\draw node[text=blue] at (1.5,-1) {$1$};
+		%				\draw node[text=blue] at (3.0,-0.7) {$2$};
+		%				\draw node[text=blue] at (4.5,-1.0) {$3$};
+		%				\draw node[text=blue] at (3.0,-1.2) {$4$};			
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/{},s/c/{},a/b/{},c/d/{},b/t/{},d/t/{}}
+		{
+			\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		}		
+		% bends
+		\path [draw=black!24,very thick,->,name path=curve1] (a) edge[bend left=-30] node {} (d);
+		\path [draw=black!24,very thick,->,name path=curve2] (c) edge[bend left=30] node {} (b);
+		% cut
+		\draw node [text=orange] at (0,-0.7) {$C$};
+		\draw [dashed, orange, very thick] plot [smooth] coordinates {(0,-1) (2.5,1) (3,1.2) (3.5,-1.5)};
+		% intersections
+		\fill [color=orange] (0.77,-0.37) circle (2pt);
+		\fill [color=orange] (2.09,0.68) circle (2pt);
+		\fill [color=orange] (2.5,1) circle (2pt);
+		\fill [color=orange] (3.05,1) circle (2pt);
+		\fill [color=orange] (3.12,0.7) circle (2pt);
+		\fill [color=orange] (3.40,-0.82) circle (2pt);
+		\fill [color=orange] (3.42,-1) circle (2pt);
+		% info box
+		%		\draw[yshift=-2.1cm,xshift=-0.5cm]
+		%		node [right,rounded corners,fill=orange!20,inner sep=1ex]
+		%		{
+		%			$S = \{s,a\}$, \, $T = \{t,b,c,d\}$, \,$C = \{(sc), (ab), (ad)\}$
+		%		};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with with a invalid cut \textbf{C}. The cut partition partitions the graph into more than two sets and the cut intersects the edges $ab$ and $ad$ twice.}
+\end{figure}
+
+The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \in P$ and $v \in \bar{P}$:
+\begin{equation}
+	\kappa (P, \bar{P}) = \sum_{u \in P; v \in \bar{P}} c(u,v)
+\end{equation}
+
+\begin{definition}[Maximal Flow]
+	The largest amount of flow that can be sent through the source that is able to reach the sink is known as the maximal flow.
+\end{definition}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
+		\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/{6/7},s/c/{2/2},a/b/{5/5},c/d/{2/2},b/t/{5/5},d/t/{3/3}}
+		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		% bends
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$0/3$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$1/3$} (b);
+		%info
+		% s	
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(s,u)=8$};
+		% t
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=8$};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with maximum flow. There is no way to push more flow out of the source into the sink without breaking the rules for conservation of flow.}
+\end{figure}
+
+\begin{definition}[Minimal Cut]
+	A cut $C$ on a network $N = (V,E)$ is a minimal cut if there exists no other cut $C'$ where $\kappa (C') < \kappa(C)$.
+\end{definition}
+
+\tikzstyle{vertex}=[circle,thick,draw]
+\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{weight} = [font=\small]
+\begin{figure}[!h]
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};	
+		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (4.5,-0.1) .. (4,-1.5) .. (2,-1.5) ;
+%			\draw node[text=blue] at (-0.3,0) {$1$};
+%			\draw node[text=blue] at (2,1.5) {$2$};
+%			\draw node[text=blue] at (4,1.5) {$3$};
+%			\draw node[text=blue] at (6.3,0.0) {$4$};
+%			\draw node[text=blue] at (4,-1.5) {$5$};
+%			\draw node[text=blue] at (2,-1.5) {$6$};
+		\path[fill=blue!20,,use Hobby shortcut,closed=true] (5.5,0) .. (6.0,0.5) .. (6.5,0) .. (6.0,-0.5);
+%			\draw node[text=blue] at (5.5,0) {$1$};
+%			\draw node[text=blue] at (6.0,0.5) {$2$};
+%			\draw node[text=blue] at (6.5,0) {$3$};
+%			\draw node[text=blue] at (6.0,-0.5) {$4$};
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/7,s/c/2,a/b/{5},c/d/2,b/t/5,d/t/3}
+		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		% bends
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3$} (b);
+		% cut
+		\draw node [text=orange] at (4.8,-1.0) {$C$};
+		\path[dashed, very thick, draw=orange, name path=C] (5,-1.2) -- (5,1.2);
+		% intersections
+		\path [draw=black!24,name path=line1] (b) -- (t);
+		\path [draw=black!24,name path=line2] (d) -- (t);
+		\fill [color=orange, name intersections={of=C and line1}] (intersection-1) circle (2pt);
+		\fill [color=orange, name intersections={of=C and line2}] (intersection-1) circle (2pt);
+		%info
+		% minimum capacity	
+		\draw node[right,rounded corners,fill=orange!20,inner sep=1ex] at (5,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{e \in C} c(e)=8$};
+		\end{tikzpicture}
+	}
+	\caption{Network \textbf{N} with minimal cut \textbf{C}. The sum of the capacity of all the edges in the cut set is the minimum of all possible valid cuts on the network \textbf{N}.}
+\end{figure}
+
+In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Max-Flow/Min-Cut Problem}
+
+Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Modelling Images as Graphs}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+\subsection{Sub-modularity Conditions for Discrete Systems}
+
+Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+
+%-----------------------------------
+%	SUBSECTION 2
+%-----------------------------------
+
+\subsection{Connectivity}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%-----------------------------------
+%	SUBSECTION 3
+%-----------------------------------
+
+\subsection{Distance Metrics}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%-----------------------------------
+%	SUBSUBSECTION 1
+%-----------------------------------
+
+\subsubsection{Euclidean Distance}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%-----------------------------------
+%	SUBSUBSECTION 2
+%-----------------------------------
+
+\subsubsection{Riemannian Distance}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%	SUBSUBSECTION 3
+%-----------------------------------
+
+\subsubsection{Learned Distance from Seeds}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 5
+%----------------------------------------------------------------------------------------
+
+\section{Max-Flow/Min-Cut Algorithms}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+\subsection{Ford-Fulkerson}
+
+Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+
+\begin{algorithm}
+	\caption{Euclid’s algorithm}\label{alg:euclid}
+	\begin{algorithmic}[1]
+		\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+		\State $r\gets a\bmod b$
+		\While{$r\not=0$}\Comment{We have the answer if r is 0}
+		\State $a\gets b$
+		\State $b\gets r$
+		\State $r\gets a\bmod b$
+		\EndWhile\label{euclidendwhile}
+		\State \textbf{return} $b$\Comment{The gcd is b}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+%-----------------------------------
+%	SUBSECTION 2
+%-----------------------------------
+
+\subsection{Dinic/Edmond-Karp}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%-----------------------------------
+%	SUBSECTION 3
+%-----------------------------------
+
+\subsection{Push-Relabel}
+Originally developed by Andrew V. Goldberg and Robert E. Tarjan. Previous algorithms, such as Ford-Fulkerson, used the concept of residual networks and augmenting paths to determine max-flow.
+Push-Relabel used the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the Preflow-Push Algorithm.
+Preflow is a concept originally developed by A.V. Karzanov.
+
+The algorithm works at converting a preflow, $f$, into a normal flow and then terminates. This flow also turns out to be the maximum flow. Goldberg and Tarjan defined a generic Push-Relabel algorithm  which solves the maximum flow problem.
+
+\begin{definition}[Preflow]
+	A preflow is a real-valued function, $f$, on vertice pairs. The total flow into a vertex can exceed the flow out of a vertex but not vice versa.
+\end{definition}
+A preflow where all $v \in V-\{s, t\}$ has a flow excess of zero, $e_f(v) = 0$, is a normal flow. The preflow function is also referred to as the \textbf{s-t preflow}.
+
+Preflow must satisfy:
+\begin{enumerate}
+	\item Capacity Constraint\\
+	$\forall u,v \in V, f(u,v) \leq c(u,v)$
+	
+	\item Antisymmetry/Skew Symmetry\\
+	$\forall u, v, \in V, f(u,v) = -f(v,u)$
+	
+	\item Nonnegative Constrain\\
+	The flow into $v \in V-\{s\}$ must be greater than or equal to the flow out of $v$. $\forall u \in V, v \in V-\{s\}, \sum f(u,v)>0$
+\end{enumerate}
+
+\begin{definition}[Flow Excess]
+	Flow excess, $e_f(v)$, is the net flow into $v$ where $v \in V$ for some preflow $f$.
+\end{definition}
+
+\[
+e_f(v) =
+\begin{cases} 
+\hfill \infty \hfill & \text{ if $v=s$} \\
+\hfill \sum_{u \in V}f(u,v) \hfill & \text{ if $v \in V-\{s\}$} \\
+\end{cases}
+\]
+
+\begin{definition}[Active Vertex]
+	An active vertex/node is a vertex $v$ which satisfies all of the properties:
+	\begin{enumerate}
+		\item Not a source or sink, $v \in V-\{s,t\}$
+		\item Positive flow excess, $e_f(v) > 0$
+		\item Has a valid label, $d(v) < \infty$
+	\end{enumerate}
+\end{definition}
+
+Push-Relabel also uses the concept of a residual graph, $G_f=(V, E_f)$.
+
+\begin{definition}[Residual Capacity]
+	The residual capacity of a preflow is defined as $r_f(v,w) = c(v,w)-f(v,w)$.
+\end{definition}
+
+\begin{definition}[Residual Edges]
+	The residual edges for a preflow $f$ is defined as the set of edges with positive residual capacity. $E_f = \{(v,w)\} | r-f(v,w) > 0$.
+\end{definition}
+
+\begin{definition}[Labelling]
+	Push-Relabel also use a valid labelling function, $d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+A valid labelling , $d$, is a nonnegative integer function applied to all vertices to denote a label. The labelling is often referred as the height or distance from the sink node, $t$. This function is sometimes compared to the physical intuition that liquids naturally flow downhill.
+
+A valid labelling for a preflow consists of:
+\begin{enumerate}
+	\item For $v \in V, 0 \leq d(v) \leq \infty$
+	\item $d(s) = |V| \text{ (source condition)}$
+	\item $d(t) = 0 \text{ (sink condition)}$
+	\item $d(v) = d(w) + 1$ for every residual edge $(v,u) \in E_f$
+\end{enumerate}
+A labelling $d$ and a preflow $f$ are said to be compatible id $d$ adheres to the properties above.
+
+The algorithm pushes flow excess starting at the source, $s$, along all vertices towards the sink, $t$. The algorithm maintains a compatible vertex labelling function, $d$, to the preflow, $f$. The labelling is usedto determine where to puch the flow excess. The algorithm repeatedly performs either a push or a relabel operation so long as there is an active vertex in $G_f$.
+
+\begin{definition}[Push Operation]
+	The push operation is used to move flow from one vertex to another. The transfer of excess can be performed across the vertex pair $(v,w) \in E_f$ if:
+	\begin{enumerate}
+		\item $v$ is an active vertex
+		\item the edge has positive residual capacity, $r_f(v,w)>0$
+		\item the label distance $d(v) = d(w)+1$
+	\end{enumerate}
+\end{definition}
+This allows the algorithm to move $\delta$ excess flow: $\delta = min (e_f(v), r_f(v,w))$ from $v$ to $w$. A push is considered \textbf{saturating} if no more flow can be sent over the edge, $\delta = r_f(v,w)$. A push is considered to be \textbf{non-saturating} if all the excess from $v$ the push over the dge and the edge still has some cpacity, $\delta = e_f(v)$.
+
+\begin{algorithm}
+	\caption{Push Operation}\label{alg:push}
+	\textbf{Input:} Preflow $f$, labels $d$, and $(v,w)$ where $v,w \in V$\\
+	\textbf{Output:} Preflow $f$\\
+	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$, $r_f(v,w)>0$ and $d(v)=d(w)+1$
+	\begin{algorithmic}[1]
+		\Procedure{Push}{$v,w$}
+		\State $\delta \coloneqq min(e_f(v), r_f(v,w)$
+		\State $f(v,w) \coloneqq f(v,w) + \delta$
+		\State $f(w,v) \coloneqq f(w,v) - \delta$
+		\State $e_f(v) \coloneqq e_f(v) - \delta$
+		\State $e_f(w) \coloneqq e_f(w) + \delta$
+		\State \textbf{return} $f$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+	
+\begin{definition}[Relabel Operation]
+	The relabel operation is used to increase the label value of a single active vertex so that excess flow can be pushed out of the active vertex. The relabel operation is performed when all the residual edges of the active vertex have positive residual capacity, $r_f(v,w)>0$. This implies that $v$'s label is less than or equal to all vertices, $d(v) \leq d(w)$, meaning that no push operation across the edges is possible given the push condition $d(v) = d(w)+1$.
+\end{definition}
+The relabel operation for some vertex $v$ selects the smallest label for the vertices with positive residual edges, $r_f(v,w)>0$. The active vertex is then assigned the smallest label value $+1$ such that $d(v) := min{d(v)+1 | (v,w) \in E_f}$. This will alow the vertex $v$ to potentially push its excess flow to atleast one of the othe vertices during the algorithm's next iteration.
+
+\begin{algorithm}
+	\caption{Relabel Operation}\label{alg:relabel}
+	\textbf{Input:} Preflow $f$, labels $d$, and $v \in V-\{s,t\}$\\
+	\textbf{Output:} Labels $d$\\
+	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$, and $\forall w \in V, r_f(v,w)>0$ which implies $d(v) \leq d(w)$
+	\begin{algorithmic}[1]
+		\Procedure{Relabel}{$v$}
+		\If {$\{(v,w) \in E_f\} \neq 0$}
+		\State $d(v) \coloneqq min(d(w)+1 | (v,w) \in E_f)$
+		\Else 
+		\State $d(v) \coloneqq \infty$
+		\EndIf
+		\State \textbf{return} $d$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+The algorithm initialises the following values in the residual graph before the push andrelabel operations in the main loop.
+\begin{enumerate}
+	\item Initialise the preflow of all edges in the  residual graph
+	
+	\item Initialise the labellings such that:
+	\begin{enumerate}
+		\item $d(s) = |V|$
+		\item $d(v) = 0 \text{for } v \in V-\{s\}$
+	\end{enumerate}
+	
+	\item Performs saturation, pushes along all residual edges out of the source $(s,v) \in E_f$ and $v \in V$.
+\end{enumerate}
+Once complete the algorithm repeatedly performs either a push or a relabel operation against all vertices. The algorithm continues until no operation can be performed. The algorithm terminates when there are no more active vertices.
+
+\begin{algorithm}
+	\caption{Push-Relabel Main-loop}\label{alg:main_no_optimisation}
+	\textbf{Input:} Network flow graph $G=(V,E)$, $s$, $t$ and $c$\\
+	\textbf{Output:} Maximum flow $f$
+	\begin{algorithmic}[1]
+		\Procedure{Main}{$v$}
+		\ForAll {$(v,w) \in (V-\{s\})(V-\{s\})$}
+		\State $f(v,w) \coloneqq 0$
+		\State $f(w,v) \coloneqq 0$
+		\EndFor
+		\item[]
+		\ForAll {$v \in V$}
+		\State $f(s,v) \coloneqq r_f(s,v)$
+		\State $f(v,s) \coloneqq -r_f(s,v)$
+		\EndFor
+		\item[]
+		\State $d(s) = |V|$
+		\item[]
+		\ForAll {$v \in V-\{s\}$}
+		\State $d(v) \coloneqq 0$
+		\State $e_f(v) \coloneqq f(s,v)$
+		\EndFor
+		\item[]
+		\State While there exists an active vertex
+		\While {$\exists v \in V-\{s,t\}$} \Comment{with either applicable PUSH() or RELABEL() operation}
+		\State Perform either a PUSH or a RELABEL operation on $v$
+		\EndWhile
+		\item[]
+		\State \textbf{return} $f$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+The analaysis and the proof of correctness of the Push-Relabel algorithm can be found in \autoref{AppendixB}.
+
+%-----------------------------------
+%	SUBSUBSECTION 1
+%-----------------------------------
+
+\subsubsection{Push-Relabel Speed Optimisation Heuristics}
+\begin{definition}[Discharge]
+	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+
+\begin{definition}[FIFO]
+	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+
+\begin{definition}[Highest Label First]
+	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+
+\begin{definition}[Global Relabel]
+	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+
+\begin{definition}[Gap Relabel]
+	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
+\end{definition}
+
+%-----------------------------------
+%	SUBSECTION 4
+%-----------------------------------
+
+\subsection{Alpha-Beta Swap}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+
+%-----------------------------------
+%	SUBSECTION 5
+%-----------------------------------
+
+\subsection{Alpha-Expansion}
+Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.

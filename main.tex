@@ -41,11 +41,64 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage{palatino} % Use the Palatino font by default
 
+%\usepackage{hyperref}
+
 \usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
 \addbibresource{example.bib} % The filename of the bibliography
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+
+%\usepackage[usenames,x11names,dvipsnames,svgnames]{xcolor}
+%\usepackage{graphicx,amsmath,latexsym,amssymb,amsthm,geometry}
+\usepackage{tikz}
+%\usepackage{pagecolor}% http://ctan.org/pkg/{pagecolor,lipsum}
+\usetikzlibrary{arrows.meta,decorations,decorations.text,backgrounds,arrows,shapes,intersections,calc,hobby}
+%\usetikzlibrary{verbatim}
+
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{corollary}[theorem]{Corollary}
+%
+%\newenvironment{proof}[1][Proof]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{definition}[1][Definition]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{example}[1][Example]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{remark}[1][Remark]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%
+%\newcommand{\qed}{\nobreak \ifvmode \relax \else
+%	\ifdim\lastskip<1.5em \hskip-\lastskip
+%	\hskip1.5em plus0em minus0.5em \fi \nobreak
+%	\vrule height0.75em width0.5em depth0.25em\fi}\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{corollary}[theorem]{Corollary}
+%
+%\newenvironment{proof}[1][Proof]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{example}[1][Example]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{remark}[1][Remark]{\begin{trivlist}
+%		\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%
+%\newcommand{\qed}{\nobreak \ifvmode \relax \else
+%	\ifdim\lastskip<1.5em \hskip-\lastskip
+%	\hskip1.5em plus0em minus0.5em \fi \nobreak
+%	\vrule height0.75em width0.5em depth0.25em\fi}
+
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -196,6 +249,8 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 \listoftables % Prints the list of tables
 
+\listofalgorithms % Prints the list of algorithms
+
 %----------------------------------------------------------------------------------------
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
@@ -253,11 +308,15 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Include the chapters of the thesis as separate files from the Chapters folder
 % Uncomment the lines as you write the chapters
 
-\include{Chapters/Chapter1}
-%\include{Chapters/Chapter2} 
-%\include{Chapters/Chapter3}
-%\include{Chapters/Chapter4} 
-%\include{Chapters/Chapter5} 
+\include{Chapters/ChapterA} % Introduction
+\include{Chapters/ChapterB} % Mathematical Backgrounds
+\include{Chapters/ChapterC} % Interactive Segmentation on 1D Data
+\include{Chapters/ChapterD} % Interactive Segmentation on Multi-Dimensional Data
+% Texture Segmentation
+\include{Chapters/ChapterE} % Automatic Graph Cut Segmentation
+\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
+\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
+\include{Chapters/ChapterH} % Case Study: Fluorescence Microscopy Cell Segmentation
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -269,7 +328,7 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Uncomment the lines as you write the Appendices
 
 \include{Appendices/AppendixA}
-%\include{Appendices/AppendixB}
+\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
 
 %----------------------------------------------------------------------------------------
