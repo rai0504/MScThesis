@@ -2,47 +2,14 @@
 
 \chapter{Mathematical Background} % Main chapter title
 
-\label{Chapter2} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+\label{chap:Chapter2} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Markov Random Fields}
-
-In this section we review MRF's as a pure mathematical/statical tool used used specifically for vision. That is, we only cover the necessary concepts related to understanding 
-the problem of modelling images for analysis and inference purposes. In sub-section 1 we cover the basics, in sub-section 2 we cover how to model an image using MRF, and 
-in sub-section 3 we cover how to find the MAP, or a close enough approximation, to the MRF.
-
-%-----------------------------------
-%	SUBSECTION 1
-%-----------------------------------
-
-\subsection{Markov Random Fields Theory and Concepts}
-
-MRF theory and concepts. Purely mathematical/statistical.
-
-%-----------------------------------
-%	SUBSECTION 2
-%-----------------------------------
-
-\subsection{Markov Random Fields in Image Modelling}
-
-Modelling the joint probability of of image using MRFs.
-
-%-----------------------------------
-%	SUBSECTION 3
-%-----------------------------------
-
-\subsection{MAP-MRF Approxiamtion via Graph Cuts}
-
-How to make MAP estimates on the MRF. How does the graph-cut approach ensure an MAP solution.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
-
 \section{Graph Theory and Flow Networks}
+\label{sec:GraphTheory}
 
 In this section we cover Graph Theory and specifically Flow Networks, which is a branch of Graph Theory, which is fundamental to the understanding of image segmentation via graph cuts. With it roots in Germany where Euler tried to find the solution to the Konigsberg bridge problem, graph theory has since blossomed into a rich field of Mathematics with seemingly endless amounts of application. Graph Theory is a huge topic in mathematics and can be applied to many other sciences. Graph theory is part of another more encompassing field of Mathematics known as Combinatronics. Graph theory and applications are more useful than the average person would recognise. They're used in Google Maps to find shortest routes to destinations, in Molecular Chemistry to model the structure of atoms, and the list goes on for quite a while. It is no surprise that it is also found to be useful in image segmentation.
 
@@ -64,35 +31,35 @@ If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an
 \begin{figure}[!h]
 	\centering
 	\resizebox {\columnwidth} {!} {
-	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-	\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};
-	% draw the vertices
-	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-		{(4,-1)/g}, {(1,-1)/f}}
-	\node[vertex] (\name) at \pos {$\name$};
-	% connect vertices with edges and draw weights
-	\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,d/b/7, e/b/9, e/c/7,e/d/5,
-		f/d/3,f/e/1, g/e/3,g/f/5}
-	\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-	% info box
-	\draw[yshift=0cm,xshift=4.5cm]
-	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-	{
-		$V_{G} = \{a,b,c,d,e,f,g\}$, \\
-		$|V_{G}| = 7$\\
-		$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
-		$|E_{G}| = 11$
-	};	
-	% degrees
-	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
-	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
-	\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(c)=2$};
-	\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
-	\draw[orange] node at (3.2,0.0) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
-	\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(f)=3$};
-	\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(g)=2$};
-	\end{tikzpicture}
-}
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};
+		% draw the vertices
+		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
+			{(4,-1)/g}, {(1,-1)/f}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,d/b/7, e/b/9, e/c/7,e/d/5,
+			f/d/3,f/e/1, g/e/3,g/f/5}
+		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+		% info box
+		\draw[yshift=0cm,xshift=4.5cm]
+		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+		{
+			$V_{G} = \{a,b,c,d,e,f,g\}$, \\
+			$|V_{G}| = 7$\\
+			$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
+			$|E_{G}| = 11$
+		};	
+		% degrees
+		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
+		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
+		\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(c)=2$};
+		\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
+		\draw[orange] node at (3.2,0.0) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
+		\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(f)=3$};
+		\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(g)=2$};
+		\end{tikzpicture}
+	}
 	\caption{Undirected weighted graph \textbf{G}. The degree of each node is shown next to the corresponding node. The graph is simple. The red box shows the vertex set, $V_{G}$, and edge set, $E_{G}$, and their corresponding norm.}
 \end{figure}
 
@@ -102,54 +69,54 @@ If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an
 \begin{figure}[!h]
 	\centering
 	\resizebox {\columnwidth} {!} {
-	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
-	\draw[black] node at (-0.2,3.1) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{D}$};
-	% draw the vertices
-	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-		{(4,-1)/g}, {(1,-1)/f}}
-	\node[vertex] (\name) at \pos {$\name$};
-	% connect vertices with edges and draw weights
-	\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,e/b/9,e/d/5,
-		f/d/3,f/e/1, g/e/3,g/f/5}
-	\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
-	% bend edges
-	\path [edge] (b) edge[bend right=20] node {$7$} (d);
-	\path [edge] (d) edge[bend left=-20] node {$4$} (b);
-	\path [edge] (e) edge[bend right=20] node {$7$} (c); 
-	\path [edge] (c) edge[bend right=20] node {$2$} (e);
-	% info box
-	\draw[yshift=0cm,xshift=4.5cm]
-	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-	{
-		$V_{D} = \{a,b,c,d,e,f,g\}$, \\
-		$|V_{D}| = 7$\\
-		$E_{D} = \{ab,ad,bc,bd,be,ce,db,de,df,$\\$ec,ef,eg,fg\}$, \\
-		$|E_{D}| = 13$
-	};
-	% degrees
-	% a	
-	\draw[orange] node at (-0.2,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
-	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
-	% b
-	\draw[orange] node at (1.8,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=5$};
-	% c
-	\draw[orange] node at (3.8,1.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-	% d
-	\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (-0.3,-0.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
-	% e
-	\draw[orange] node at (3.2,0.08) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=3$};
-	\draw[orange] node at (3.2,-0.12) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=3$};
-	% f
-	\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (0.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-	 %g
-	\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (3.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
-	\end{tikzpicture}
-}
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,3.1) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{D}$};
+		% draw the vertices
+		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
+			{(4,-1)/g}, {(1,-1)/f}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,e/b/9,e/d/5,
+			f/d/3,f/e/1, g/e/3,g/f/5}
+		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		% bend edges
+		\path [edge] (b) edge[bend right=20] node {$7$} (d);
+		\path [edge] (d) edge[bend left=-20] node {$4$} (b);
+		\path [edge] (e) edge[bend right=20] node {$7$} (c); 
+		\path [edge] (c) edge[bend right=20] node {$2$} (e);
+		% info box
+		\draw[yshift=0cm,xshift=4.5cm]
+		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+		{
+			$V_{D} = \{a,b,c,d,e,f,g\}$, \\
+			$|V_{D}| = 7$\\
+			$E_{D} = \{ab,ad,bc,bd,be,ce,db,de,df,$\\$ec,ef,eg,fg\}$, \\
+			$|E_{D}| = 13$
+		};
+		% degrees
+		% a	
+		\draw[orange] node at (-0.2,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+		% b
+		\draw[orange] node at (1.8,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=5$};
+		% c
+		\draw[orange] node at (3.8,1.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+		% d
+		\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (-0.3,-0.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
+		% e
+		\draw[orange] node at (3.2,0.08) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=3$};
+		\draw[orange] node at (3.2,-0.12) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=3$};
+		% f
+		\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (0.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+		%g
+		\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (3.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+		\end{tikzpicture}
+	}
 	\caption{Directed weighted graph (Digraph) \textbf{D}. The in-degree and out-degree is shown next to each node. The graph is simple and not balanced. The red box shows the vertex set, $V_{D}$, and edge set, $E_{D}$, and their corresponding norm.}
 \end{figure}
 
@@ -163,63 +130,63 @@ If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an
 \begin{figure}[!h]
 	\centering
 	\resizebox {\columnwidth} {!} {
-	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-	\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{H}$};
-	% draw the vertices
-	\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(0,0)/d}, {(3,0)/e}}
-	\node[vertex] (\name) at \pos {$\name$};
-	% connect vertices with edges and draw weights
-	\foreach \source/ \dest /\weight in {b/a/10,d/a/5,d/b/7,e/b/9,e/d/5}
-	\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-	% info box
-	\draw[yshift=-1.6cm,xshift=0cm]
-	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-	{
-		$V_{H} = \{a,b,d,e\} \subseteq V_{G}$, \\
-		$|V_{H}| = 4$\\
-		$E_{H} = \{ab,ad,bd,be,de\} \subseteq E_{G}$, \\ 
-		$|E_{H}| = 5$
-	};	
-	% degrees
-	\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
-	\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
-	\draw[orange] node at (-0.2,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
-	\draw[orange] node at (2.5,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
-	
-	
-	\draw[black] node at (4.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{I}$};
-	% draw the vertices
-	\foreach \pos/\name in {{(4.4,2)/a}, {(6.4,2)/b}, {(4.4,0)/d}, {(7.4,0)/e}}
-	\node[vertex] (\name) at \pos {$\name$};
-	% connect vertices with edges and draw weights
-	\foreach \source/ \dest /\weight in {b/a/10,d/a/5,e/b/9,e/d/5}
-	\path[draw=black!24, very thick,<-] (\source) -- node[weight] {$\weight$} (\dest);
-	% bends
-	\path [draw=black!24, very thick,<-] (d) edge[bend left=-20] node {$4$} (b);
-	% info box
-	\draw[yshift=-1.6cm,xshift=4.4cm]
-	node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-	{
-		$V_{I} = \{a,b,d,e\} \subseteq V_{D}$, \\
-		$|V_{I}| = 4$\\
-		$E_{I} = \{ab,ad,bd,be,de\} \subseteq E_{D}$, \\ 
-		$|E_{I}| = 5$
-	};	
-	% degrees
-	% a	
-	\draw[orange] node at (4.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
-	\draw[orange] node at (4.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
-	% b
-	\draw[orange] node at (6.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=1$};
-	\draw[orange] node at (6.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
-	% d
-	\draw[orange] node at (4.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (4.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-	% e
-	\draw[orange] node at (7.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (7.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
-	\end{tikzpicture}
-}
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{H}$};
+		% draw the vertices
+		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(0,0)/d}, {(3,0)/e}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {b/a/10,d/a/5,d/b/7,e/b/9,e/d/5}
+		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+		% info box
+		\draw[yshift=-1.6cm,xshift=0cm]
+		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+		{
+			$V_{H} = \{a,b,d,e\} \subseteq V_{G}$, \\
+			$|V_{H}| = 4$\\
+			$E_{H} = \{ab,ad,bd,be,de\} \subseteq E_{G}$, \\ 
+			$|E_{H}| = 5$
+		};	
+		% degrees
+		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
+		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
+		\draw[orange] node at (-0.2,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
+		\draw[orange] node at (2.5,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
+		
+		
+		\draw[black] node at (4.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{I}$};
+		% draw the vertices
+		\foreach \pos/\name in {{(4.4,2)/a}, {(6.4,2)/b}, {(4.4,0)/d}, {(7.4,0)/e}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {b/a/10,d/a/5,e/b/9,e/d/5}
+		\path[draw=black!24, very thick,<-] (\source) -- node[weight] {$\weight$} (\dest);
+		% bends
+		\path [draw=black!24, very thick,<-] (d) edge[bend left=-20] node {$4$} (b);
+		% info box
+		\draw[yshift=-1.6cm,xshift=4.4cm]
+		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
+		{
+			$V_{I} = \{a,b,d,e\} \subseteq V_{D}$, \\
+			$|V_{I}| = 4$\\
+			$E_{I} = \{ab,ad,bd,be,de\} \subseteq E_{D}$, \\ 
+			$|E_{I}| = 5$
+		};	
+		% degrees
+		% a	
+		\draw[orange] node at (4.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+		\draw[orange] node at (4.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+		% b
+		\draw[orange] node at (6.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=1$};
+		\draw[orange] node at (6.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
+		% d
+		\draw[orange] node at (4.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (4.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
+		% e
+		\draw[orange] node at (7.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (7.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+		\end{tikzpicture}
+	}
 	\caption{Undirected weighted graph \textbf{H} is a subgraph of \textbf{G} in Figure XX, $\textbf{H} \subseteq \textbf{G}$. Directed weighted graph \textbf{I} is a subgraph of \textbf{D} in Figure XX, $\textbf{I} \subseteq \textbf{D}$. The degree of each node is shown next to the corresponding node. The red box shows the vertex set, the edge set and their corresponding norms.}
 \end{figure}
 
@@ -238,37 +205,37 @@ If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an
 \begin{figure}[!h]
 	\centering
 	\resizebox {\columnwidth} {!} {
-	\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
-	\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
-	
-	\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
-	\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
-	\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
-	\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
-	\draw[dashed,draw=red!24,very thick] (2.65,1.25) -- (4,1.5);
+		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
+		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
 		
-	% draw the vertices
-	\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
-	\node[vertex] (\name) at \pos {$\name$};
-	% connect vertices with edges and draw weights
-	\foreach \source/ \dest /\weight in {s/a/7,s/c/2,a/b/{},c/d/2,b/t/5,d/t/3}
-	\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
-	% bends
-	\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3$} (d);
-	\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3$} (b);
-	% info box		
-	\draw node[circle,right,fill=red!20] at (2.65,1.25) {$5$};
-	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$capacity$};
-	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5){$source$};
-	\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5){$sink$};
-	% s	
-	\draw[orange] node at (-0.2,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
-	\draw[orange] node at (-0.2,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
-	% t
-	\draw[orange] node at (5.8,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-	\draw[orange] node at (5.8,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
-	\end{tikzpicture}
-}
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
+		\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
+		\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (2.65,1.25) -- (4,1.5);
+		
+		% draw the vertices
+		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
+		\node[vertex] (\name) at \pos {$\name$};
+		% connect vertices with edges and draw weights
+		\foreach \source/ \dest /\weight in {s/a/7,s/c/2,a/b/{},c/d/2,b/t/5,d/t/3}
+		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
+		% bends
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3$} (b);
+		% info box		
+		\draw node[circle,right,fill=red!20] at (2.65,1.25) {$5$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$capacity$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5){$source$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5){$sink$};
+		% s	
+		\draw[orange] node at (-0.2,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
+		\draw[orange] node at (-0.2,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
+		% t
+		\draw[orange] node at (5.8,0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
+		\draw[orange] node at (5.8,0.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
+		\end{tikzpicture}
+	}
 	\caption{Network \textbf{N} with no flow. The in-degree and out-degree for the source, \textbf{s}, and the sink, \textbf{t}, are shown next to the corresponding node.}
 \end{figure}
 
@@ -335,15 +302,15 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
 		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
 		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (1,1) .. (2.3,1.2) .. (1.3,0.2);
-%		\draw node[text=blue] at (-0.3,0) {$1$};
-%		\draw node[text=blue] at (1,1) {$2$};
-%		\draw node[text=blue] at (2.5,1.2) {$3$};
-%		\draw node[text=blue] at (1,0.0) {$4$};
+		%		\draw node[text=blue] at (-0.3,0) {$1$};
+		%		\draw node[text=blue] at (1,1) {$2$};
+		%		\draw node[text=blue] at (2.5,1.2) {$3$};
+		%		\draw node[text=blue] at (1,0.0) {$4$};
 		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (2.5,0.5) .. (3.5,1.2) .. (5.2,1.0) .. (6.3,0.0) .. (5.0,-1);
-%		\draw node[text=blue] at (1,-1) {$1$};
-%		\draw node[text=blue] at (3.2,1.2) {$2$};
-%		\draw node[text=blue] at (5.0,1.2) {$3$};
-%		\draw node[text=blue] at (6.5,0.0) {$4$};
+		%		\draw node[text=blue] at (1,-1) {$1$};
+		%		\draw node[text=blue] at (3.2,1.2) {$2$};
+		%		\draw node[text=blue] at (5.0,1.2) {$3$};
+		%		\draw node[text=blue] at (6.5,0.0) {$4$};
 		% draw the vertices
 		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
 		\node[vertex] (\name) at \pos {$\name$};
@@ -385,17 +352,17 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
 		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
 		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (6.4,-0.1) .. (4,0) .. (2,0) ;
-%				\draw node[text=blue] at (-0.3,0) {$1$};
-%				\draw node[text=blue] at (2,1.5) {$2$};
-%				\draw node[text=blue] at (4,1.5) {$3$};
-%				\draw node[text=blue] at (6.3,0.0) {$4$};
-%				\draw node[text=blue] at (4,0.0) {$5$};
-%				\draw node[text=blue] at (2,0.0) {$6$};
+		%				\draw node[text=blue] at (-0.3,0) {$1$};
+		%				\draw node[text=blue] at (2,1.5) {$2$};
+		%				\draw node[text=blue] at (4,1.5) {$3$};
+		%				\draw node[text=blue] at (6.3,0.0) {$4$};
+		%				\draw node[text=blue] at (4,0.0) {$5$};
+		%				\draw node[text=blue] at (2,0.0) {$6$};
 		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (3.0,-0.7) .. (4.5,-1.0) .. (3.0,-1.2);
-%				\draw node[text=blue] at (1.5,-1) {$1$};
-%				\draw node[text=blue] at (3.0,-0.7) {$2$};
-%				\draw node[text=blue] at (4.5,-1.0) {$3$};
-%				\draw node[text=blue] at (3.0,-1.2) {$4$};			
+		%				\draw node[text=blue] at (1.5,-1) {$1$};
+		%				\draw node[text=blue] at (3.0,-0.7) {$2$};
+		%				\draw node[text=blue] at (4.5,-1.0) {$3$};
+		%				\draw node[text=blue] at (3.0,-1.2) {$4$};			
 		% draw the vertices
 		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
 		\node[vertex] (\name) at \pos {$\name$};
@@ -416,11 +383,11 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\fill [color=orange] (2.28,-0.18) circle (2pt);
 		\fill [color=orange] (2.52,-0.165) circle (2pt);
 		% info box
-%		\draw[yshift=-2.1cm,xshift=-0.5cm]
-%		node [right,rounded corners,fill=orange!20,inner sep=1ex]
-%		{
-%			$S = \{s,a\}$, \, $T = \{t,b,c,d\}$, \,$C = \{(sc), (ab), (ad)\}$
-%		};
+		%		\draw[yshift=-2.1cm,xshift=-0.5cm]
+		%		node [right,rounded corners,fill=orange!20,inner sep=1ex]
+		%		{
+		%			$S = \{s,a\}$, \, $T = \{t,b,c,d\}$, \,$C = \{(sc), (ab), (ad)\}$
+		%		};
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with with a invalid cut \textbf{C}. The cut does not partition source node \textbf{s} and sink node \textbf{t} into distinct sets.}
@@ -434,14 +401,14 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 	\resizebox {\columnwidth} {!} {
 		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
 		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};
-%		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (6.4,-0.1) .. (4,0) .. (2,0) ;
+		%		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (6.4,-0.1) .. (4,0) .. (2,0) ;
 		%				\draw node[text=blue] at (-0.3,0) {$1$};
 		%				\draw node[text=blue] at (2,1.5) {$2$};
 		%				\draw node[text=blue] at (4,1.5) {$3$};
 		%				\draw node[text=blue] at (6.3,0.0) {$4$};
 		%				\draw node[text=blue] at (4,0.0) {$5$};
 		%				\draw node[text=blue] at (2,0.0) {$6$};
-%		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (3.0,-0.7) .. (4.5,-1.0) .. (3.0,-1.2);
+		%		\path[fill=blue!20,,use Hobby shortcut,closed=true] (1.5,-1) .. (3.0,-0.7) .. (4.5,-1.0) .. (3.0,-1.2);
 		%				\draw node[text=blue] at (1.5,-1) {$1$};
 		%				\draw node[text=blue] at (3.0,-0.7) {$2$};
 		%				\draw node[text=blue] at (4.5,-1.0) {$3$};
@@ -481,7 +448,7 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 
 The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \in P$ and $v \in \bar{P}$:
 \begin{equation}
-	\kappa (P, \bar{P}) = \sum_{u \in P; v \in \bar{P}} c(u,v)
+\kappa (P, \bar{P}) = \sum_{u \in P; v \in \bar{P}} c(u,v)
 \end{equation}
 
 \begin{definition}[Maximal Flow]
@@ -524,7 +491,7 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,->]
+\tikzstyle{edge} = [draw=black!24,very thick,->]
 \tikzstyle{weight} = [font=\small]
 \begin{figure}[!h]
 	\centering
@@ -532,17 +499,17 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
 		\draw[black] node at (-0.2,1.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{N}$};	
 		\path[fill=red!20,,use Hobby shortcut,closed=true] (-0.3,-0.1) .. (2,1.5) .. (4,1.5) .. (4.5,-0.1) .. (4,-1.5) .. (2,-1.5) ;
-%			\draw node[text=blue] at (-0.3,0) {$1$};
-%			\draw node[text=blue] at (2,1.5) {$2$};
-%			\draw node[text=blue] at (4,1.5) {$3$};
-%			\draw node[text=blue] at (6.3,0.0) {$4$};
-%			\draw node[text=blue] at (4,-1.5) {$5$};
-%			\draw node[text=blue] at (2,-1.5) {$6$};
-		\path[fill=blue!20,,use Hobby shortcut,closed=true] (5.5,0) .. (6.0,0.5) .. (6.5,0) .. (6.0,-0.5);
-%			\draw node[text=blue] at (5.5,0) {$1$};
-%			\draw node[text=blue] at (6.0,0.5) {$2$};
-%			\draw node[text=blue] at (6.5,0) {$3$};
-%			\draw node[text=blue] at (6.0,-0.5) {$4$};
+		%			\draw node[text=blue] at (-0.3,0) {$1$};
+		%			\draw node[text=blue] at (2,1.5) {$2$};
+		%			\draw node[text=blue] at (4,1.5) {$3$};
+		%			\draw node[text=blue] at (6.3,0.0) {$4$};
+		%			\draw node[text=blue] at (4,-1.5) {$5$};
+		%			\draw node[text=blue] at (2,-1.5) {$6$};
+		\path[fill=blue!20,use Hobby shortcut,closed=true] (5.5,0) .. (6.0,0.5) .. (6.5,0) .. (6.0,-0.5);
+		%			\draw node[text=blue] at (5.5,0) {$1$};
+		%			\draw node[text=blue] at (6.0,0.5) {$2$};
+		%			\draw node[text=blue] at (6.5,0) {$3$};
+		%			\draw node[text=blue] at (6.0,-0.5) {$4$};
 		% draw the vertices
 		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
 		\node[vertex] (\name) at \pos {$\name$};
@@ -569,11 +536,51 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 \end{figure}
 
 In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Markov Random Fields}
+\label{sec:MarkovRandomFields}
+
+In this section we review MRF's as a pure mathematical/statistical tool used used specifically for vision. That is, we only cover the necessary concepts related to understanding 
+the problem of modelling images for analysis and inference purposes. In sub-section 1 we cover the basics, in sub-section 2 we cover how to model an image using MRF, and 
+in sub-section 3 we cover how to find the MAP, or a close enough approximation, to the MRF.
+
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+
+\subsection{Markov Random Fields Theory and Concepts}
+
+MRF theory and concepts. Purely mathematical/statistical.
+Markov Properties\\
+Markov Blankets
+
+%-----------------------------------
+%	SUBSECTION 2
+%-----------------------------------
+
+\subsection{Markov Random Fields in Image Modelling}
+
+Modelling the joint probability of of image using MRFs.
+Nearby pixels exhibit high correlation in natural images. This is where we can take advantage of Markov Modelling.
+
+%-----------------------------------
+%	SUBSECTION 3
+%-----------------------------------
+
+\subsection{MAP-MRF Approxiamtion via Graph Cuts}
+
+How to make MAP estimates on the MRF. How does the graph-cut approach ensure an MAP solution.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
 \section{Max-Flow/Min-Cut Problem}
+\label{sec:MaxFlowMinCutProblem}
 
 Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
 
@@ -582,6 +589,7 @@ Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat
 %----------------------------------------------------------------------------------------
 
 \section{Modelling Images as Graphs}
+\label{sec:MRFImageModelling}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
 
@@ -631,6 +639,7 @@ Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar p
 %----------------------------------------------------------------------------------------
 
 \section{Max-Flow/Min-Cut Algorithms}
+\label{sec:MaxFlowMinCutAlgoithms}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
 
