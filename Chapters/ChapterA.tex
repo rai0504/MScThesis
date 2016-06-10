@@ -2,7 +2,7 @@
 
 \chapter{Introduction} % Main chapter title
 
-\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+\label{chap:Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 
 %----------------------------------------------------------------------------------------
 
@@ -16,11 +16,73 @@
 %----------------------------------------------------------------------------------------
 
 \section{What is Image Segmentation}
-Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 
-If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
+definition\\
+types: region, edge\\
+human segmentation -> Gestalt Groupings\\
+Machine segmentation\\
+Good segmentation vs Bad Segmentation\\
+Goal of Image segmentation\\
+Differences between bottom-up and top-down image segmentation\\
+number of labels (2 labels -> binarization or binary segmentation, etc)
 
-\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%----------------------------------------------------------------------------------------
+
+\section{Gestalt Theory of Visual Perception}
+
+A psychological view of visual perception. The aim here is to give a brief realisation of the current understandings of human visual perception. Since image segmentation is predominantly guided by subjective human perception, it is wholesome to understand, at least briefly, what human perception is all about; at least to our current understanding.
+
+[It would be good to get a few experts to manually segment the same images and do a similarity comparison. This will prove that even experts in the same field are subject to their own interpretation of an image. Also compare the manual segmentation to people that are not experts in the field. Discuss, how trustworthy are manual segmentations?]
+
+Gestalt - movement in experimental psychology. Developed in Germany We percieve objects as well-origanised patterns rather than seperate components. Gestalt is a theory that the brain operates wholistically, with self-organising tendencies. "The whole is greater than the sum of its parts." Illusory Contours - The Kanisza triangle as figure ground illusory contours. Three main principles: Grouping(proximity, similarity, continuity, closure), Goodness of Figures, Figure/Ground Relationships.
+
+Gestalt - The German word mean Organised Whole
+
+Goodness of Figure, or the Law of Pragnaz. Pragnaz is the German word for Pregnant, but in the sense of pregnant with meaning, not with child.
+
+Figure/Ground Relationships: Figure-Foreground, Ground-Background, Contours-"belong" to the Figure. Reversible Figure/Ground Relationship.
+
+Problems with Gestalt Theory: 
+- It is a phenomenological approach.
+- Some terms are vague. E.g What is the simplest organisation?
+
+\begin{definition}[Contrast]
+	When perception is influenced by comparison. Three types:\\
+	Brightness Contrast\\
+	Colour Contrast\\
+	Size Contrast
+\end{definition}
+
+\begin{definition}[Context]
+	When a stimulus can be interpreted in more than one way, the context resolves the ambiguity.
+\end{definition}
+
+\begin{definition}[Figure Ground]
+	Separation of an image into figure and ground.
+\end{definition}
+
+\begin{definition}[Closure]
+	We tend to see figures as whole even though lines enclosing them are incomplete.
+\end{definition}
+
+\begin{definition}[Good Continuation, or Good Figure]
+	Where lines intersect, we tend to see them as continuing along their previous course, rather than suddenly changing direction. As a result we tend to decompose figures into their simplest components.
+\end{definition}
+
+\begin{definition}[Perceptual Consistancies]
+	4 types:\\
+	Shape Consitency: We tend to see object as holding its essential shape even though the shape of its image changes with our view of it.\\
+	Size Consistency: An object appears to retain its essential size event though its image size changes with distance.\\
+	Brightness/Lightness Consistency: Object seem to retain about the same brightness or lightness under widely differing levels of illumination.\\
+	Colour Consistency: Object appear to retain their essential colour even though illuminated by somewhat differently coloured lights.
+\end{definition}
+
+\begin{definition}[Principles of Grouping]
+	The principles by which  you recognise object as belonging to the same group. They include:\\
+	Similarity: Object are recognised as belonging to the same group when they have a similar appearance.\\
+	Proximity: We percieve object as belonging to the same group based on their relative distances from one another. \\
+	Common Fate: We percieve object as belonging to the same group when the same things are happening to them.
+\end{definition}
 
 %----------------------------------------------------------------------------------------
 
@@ -64,53 +126,18 @@ Binary Energies with Coherence
 
 \section{Thesis Overview}
 
-The remainder of the thesis outline.
-\begin{definition}[Chapter 2]
-	is where we cover the mathematical foundation to Graph Cut image segmenation.
-\end{definition}
-
-\begin{definition}[Chapter 3]
-	is where we cover the mathematical foundation to Graph Cut image segmenation.
-\end{definition}
-
-\begin{definition}[Chapter 4]
-	is where we cover the mathematical foundation to Graph Cut image segmenation.
-\end{definition}
-
-\begin{definition}[Chapter 5]
-	is where we cover the mathematical foundation to Graph Cut image segmenation.
-\end{definition}
-
-\begin{definition}[Chapter 6]
-	concludes the thesis with suggestions for further work.
-\end{definition}
-
-%----------------------------------------------------------------------------------------
-
-\section{Other things to talk about}\label{ThesisConventions}
-
-Gestalt groupings
-
-Properties of a good segmentation and segmentation algorithhm
-
-%----------------------------------------------------------------------------------------
-
-\section{Other things to talk about 2}
-
-Goal of image segmentation: to cluster pixels into salient image regions i.e. regions corresponding to individual surfaces, objects or natural part of objects.
-
-Difference between bottom-up and top-down image segmentation.
-
-%----------------------------------------------------------------------------------------
-
-\section{In Closing}
-
-You have reached the end of this mini-guide. You can now rename or overwrite this pdf file and begin writing your own \file{Chapter1.tex} and the rest of your thesis. The easy work of setting up the structure and framework has been taken care of for you. It's now your job to fill it out!
-
-Good luck and have lots of fun!
-
-\begin{flushright}
-Guide written by ---\\
-Sunil Patel: \href{http://www.sunilpatel.co.uk}{www.sunilpatel.co.uk}\\
-Vel: \href{http://www.LaTeXTemplates.com}{LaTeXTemplates.com}
-\end{flushright}
+The remainder of the thesis outline.\\
+\\
+\textbf{\hyperref[chap:Chapter2]{Chapter~\ref*{chap:Chapter2}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter3]{Chapter~\ref*{chap:Chapter3}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter4]{Chapter~\ref*{chap:Chapter4}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter5]{Chapter~\ref*{chap:Chapter5}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter6]{Chapter~\ref*{chap:Chapter6}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter7]{Chapter~\ref*{chap:Chapter7}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+\\
+\textbf{\hyperref[chap:Chapter8]{Chapter~\ref*{chap:Chapter8}}} concludes the thesis with suggestions for further work.
