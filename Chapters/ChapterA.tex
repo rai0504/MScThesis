@@ -34,17 +34,30 @@ A psychological view of visual perception. The aim here is to give a brief reali
 
 [It would be good to get a few experts to manually segment the same images and do a similarity comparison. This will prove that even experts in the same field are subject to their own interpretation of an image. Also compare the manual segmentation to people that are not experts in the field. Discuss, how trustworthy are manual segmentations?]
 
-Gestalt - movement in experimental psychology. Developed in Germany We percieve objects as well-origanised patterns rather than seperate components. Gestalt is a theory that the brain operates wholistically, with self-organising tendencies. "The whole is greater than the sum of its parts." Illusory Contours - The Kanisza triangle as figure ground illusory contours. Three main principles: Grouping(proximity, similarity, continuity, closure), Goodness of Figures, Figure/Ground Relationships.
+Gestalt\footnote{Gestalt is the German word mean Organised Whole} - movement in experimental psychology. Developed in Germany We percieve objects as well-origanised patterns rather than seperate components. Gestalt is a theory that the brain operates wholistically, with self-organising tendencies. "The whole is greater than the sum of its parts." Illusory Contours - The Kanisza triangle as figure ground illusory contours. Three main principles: Grouping(proximity, similarity, continuity, closure), Goodness of Figures, Figure/Ground Relationships.
 
-Gestalt - The German word mean Organised Whole
-
-Goodness of Figure, or the Law of Pragnaz. Pragnaz is the German word for Pregnant, but in the sense of pregnant with meaning, not with child.
+Goodness of Figure, or the Law of Pr\"{a}gnanz \footnote{Pr\"{a}gnanz is the German word for Pregnant, but in the sense of pregnant with meaning, not with child.}. 
 
 Figure/Ground Relationships: Figure-Foreground, Ground-Background, Contours-"belong" to the Figure. Reversible Figure/Ground Relationship.
 
 Problems with Gestalt Theory: 
 - It is a phenomenological approach.
 - Some terms are vague. E.g What is the simplest organisation?
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{ll}
+		%\hline 
+		\textbullet\, principles of grouping 		& \textbullet\, closure \\ 
+		%\hline 
+		\textbullet\, contrast 		& \textbullet\, figure and ground \\ 
+		%\hline 
+		\textbullet\, good continuity 	& \textbullet\, symmetry and surroundedness \\ 
+		%\hline 
+		\textbullet\, context 		& \textbullet\, pr\"{a}gnanz \\ 
+		%\hline 
+	\end{tabular} 
+\end{table}
 
 \begin{definition}[Contrast]
 	When perception is influenced by comparison. Three types:\\
@@ -55,7 +68,27 @@ Problems with Gestalt Theory:
 
 \begin{definition}[Context]
 	When a stimulus can be interpreted in more than one way, the context resolves the ambiguity.
+	Given the ambiguity of certain 2-D figures, the visual system is strongly influenced by the context within which these figures are presented.
+	An example of Gestalt context is seen in \autoref{fig:gestalt_context}.
 \end{definition}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_context}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\draw[black] node at (0.05,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{A}$};
+		\draw[black] node at (0.5,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{13}$};
+		\draw[black] node at (1.05,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{C}$};
+		\draw[black] node at (1.55,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{D}$};
+		\draw[black] node at (2.05,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{E}$};
+		\draw[black] node at (2.55,0) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{F}$};
+		
+		\draw[black] node at (0,0.5) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{12\,13\,14\,15\,16\,17}$};		
+		\end{tikzpicture}
+	}
+	\caption{Gestalt context}
+\end{figure}
 
 \begin{definition}[Figure Ground]
 	Separation of an image into figure and ground.
@@ -64,6 +97,33 @@ Problems with Gestalt Theory:
 \begin{definition}[Closure]
 	We tend to see figures as whole even though lines enclosing them are incomplete.
 \end{definition}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_closure}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		% size grouping
+		\node at (0,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (1,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (0,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (1,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\fill [blue!10] (0,0) rectangle (1,-1);
+		
+		\node at (1.75,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (2.75,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (1.75,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (2.75,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\fill [blue!10] (2.25,-0.5) circle (3.5ex);
+		
+		\node at (4,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (3.5,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (4.5,-1) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\fill [blue!10] (4,0) -- (3.5,-1) -- (4.5,-1) -- cycle;
+		\end{tikzpicture}
+	}
+	\caption{Gestalt Closure}
+\end{figure}
 
 \begin{definition}[Good Continuation, or Good Figure]
 	Where lines intersect, we tend to see them as continuing along their previous course, rather than suddenly changing direction. As a result we tend to decompose figures into their simplest components.
@@ -80,9 +140,99 @@ Problems with Gestalt Theory:
 \begin{definition}[Principles of Grouping]
 	The principles by which  you recognise object as belonging to the same group. They include:\\
 	Similarity: Object are recognised as belonging to the same group when they have a similar appearance.\\
+	Colour: Object are recognised as belonging to the same group when they have a similar appearance.\\
+	Size: Object are recognised as belonging to the same group when they have a similar appearance.\\
 	Proximity: We percieve object as belonging to the same group based on their relative distances from one another. \\
+	Region: Object are recognised as belonging to the same group when they have a similar appearance.\\
+	Connectedness: Object are recognised as belonging to the same group when they have a similar appearance.\\
 	Common Fate: We percieve object as belonging to the same group when the same things are happening to them.
 \end{definition}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_grouping_proximity}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+
+		\node at (0,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+		\node at (0.5,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+		\node at (2,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+		\node at (2.5,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+		\node at (4,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+%		\node at (4.5,0) [minimum size=0.4cm, circle, thick, draw, fill=black] {};
+		\end{tikzpicture}
+	}
+	\caption{Gestalt grouping - proximity}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_grouping_size}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		% size grouping
+		\node at (0,-2) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (1,-2) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (2,-2) [minimum size=0.8cm, circle, thick, draw, fill=black] {};
+		\node at (3,-2) [minimum size=0.8cm, circle, thick, draw, fill=black] {};
+		\node at (4,-2) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (5,-2) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\end{tikzpicture}
+	}
+	\caption{Gestalt grouping - size}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_grouping_colour}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\node at (0,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (1,0) [minimum size=0.5cm, circle, thick, draw, fill=red] {};
+		\node at (2,0) [minimum size=0.5cm, circle, thick, draw, fill=red] {};
+		\node at (3,0) [minimum size=0.5cm, circle, thick, draw, fill=black] {};
+		\node at (4,0) [minimum size=0.5cm, circle, thick, draw, fill=red] {};
+		\node at (5,0) [minimum size=0.5cm, circle, thick, draw, fill=red] {};
+		\end{tikzpicture}
+	}
+	\caption{Gestalt grouping - colour}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_grouping_connectedness}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (A) at (0,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (B) at (1,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (C) at (2,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (D) at (3,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (E) at (4,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (F) at (5,0)  {};
+		\path [draw=black!24,very thick,-] (B) --(C);
+		\path [draw=black!24,very thick,-] (D) --(E);
+		\end{tikzpicture}
+	}
+	\caption{Gestalt grouping - connectedness}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_grouping_region}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\path[fill=red!20,use Hobby shortcut,closed=true] (-0.5,0) .. (1,0.65) .. (2.5,0) .. (1,-0.65);
+		\path[fill=red!20,use Hobby shortcut,closed=true] (3.5,0) .. (4,0.65) .. (5.5,0) .. (4,-0.65);
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (A) at (0,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (B) at (1,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (C) at (2,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (D) at (3,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (E) at (4,0)  {};
+		\node [minimum size=0.5cm, circle, thick, draw, fill=black] (F) at (5,0)  {};
+		\end{tikzpicture}
+	}
+	\caption{Gestalt grouping - region}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 
