@@ -18,6 +18,7 @@
 \section{What is Image Segmentation}
 
 definition\\
+history/development of the field\\
 types: region, edge\\
 human segmentation -> Gestalt Groupings\\
 Machine segmentation\\
@@ -44,6 +45,8 @@ Problems with Gestalt Theory:
 - It is a phenomenological approach.
 - Some terms are vague. E.g What is the simplest organisation?
 
+In addition to these psychology examples find actual medical examples to compensate the importance.
+
 \begin{table}[h!]
 	\centering
 	\begin{tabular}{ll}
@@ -61,10 +64,68 @@ Problems with Gestalt Theory:
 
 \begin{definition}[Contrast]
 	When perception is influenced by comparison. Three types:\\
-	Brightness Contrast\\
-	Colour Contrast\\
-	Size Contrast
+	Brightness Contrast: The center squares are the same shade of gray. The look different because of their contrasting black and white surrounds.\\
+	Colour Contrast: The center squares are the same colour, but appear different because of their different contrasting surrounds.\\
+	Size Contrast: The two center circles are the same size, but appear different because of the different sized surrounding circles.
 \end{definition}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_contrast_brightness}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\fill [white] (0,0) rectangle (1,-1);
+		\fill [black!40] (0.25,-0.25) rectangle (0.75,-0.75);
+		\fill [black] (2,0) rectangle (3,-1);
+		\fill [black!40] (2.25,-0.25) rectangle (2.75,-0.75);
+		\end{tikzpicture}
+	}
+	\caption{Gestalt contrast brightness}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_contrast_colour}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\fill [black!20] (0,0) rectangle (1,-1);
+		\fill [black!40] (0.25,-0.25) rectangle (0.75,-0.75);
+		\fill [black!60] (2,0) rectangle (3,-1);
+		\fill [black!40] (2.25,-0.25) rectangle (2.75,-0.75);
+		\end{tikzpicture}
+	}
+	\caption{Gestalt contrast colour}
+\end{figure}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_contrast_scale}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\draw[draw=black!50,very thick,dashed] (0,0.5) -- (4,0.5);
+		\draw[draw=black!50,very thick,dashed] (0,-0.5) -- (4,-0.5);
+		
+		\draw [draw=black] (0,0) circle (0.5);
+		\pgfmathsetmacro {\numberOfCircles} {8}
+		\pgfmathsetmacro {\radius} {0.8}
+		\foreach \b in {0,...,\numberOfCircles}{
+			\pgfmathsetmacro {\x} {\radius*cos(\b * 360/\numberOfCircles)}
+			\pgfmathsetmacro {\y} {\radius*sin(\b * 360/\numberOfCircles)}
+			\draw [draw=black] (\x,\y) circle (0.2);
+		}
+		
+		\draw [draw=black] (4,0) circle (0.5);
+		\pgfmathsetmacro {\numberOfCircles} {5}
+		\pgfmathsetmacro {\radius} {1.5}
+		\foreach \b in {0,...,\numberOfCircles}{
+			\pgfmathsetmacro {\x} {\radius*cos(\b * 360/\numberOfCircles)+4}
+			\pgfmathsetmacro {\y} {\radius*sin(\b * 360/\numberOfCircles)}
+			\draw [draw=black] (\x,\y) circle (0.75);
+		}				
+		\end{tikzpicture}
+	}
+	\caption{Gestalt contrast scale}
+\end{figure}
 
 \begin{definition}[Context]
 	When a stimulus can be interpreted in more than one way, the context resolves the ambiguity.
@@ -91,8 +152,37 @@ Problems with Gestalt Theory:
 \end{figure}
 
 \begin{definition}[Figure Ground]
-	Separation of an image into figure and ground.
+	Separation of an image into figure and ground. What is in front (figure) and what is behind (ground)? There has to be one figure and one ground. Related to occlusion and thus to depth. Less attention is dedicated to the ground.
 \end{definition}
+
+\begin{figure}[!h]
+	\label{fig:gestalt_figure_ground}
+	\centering
+	\resizebox {\columnwidth} {!} {
+		\begin{tikzpicture}[scale=1.0, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
+		\path[fill=red!20,use Hobby shortcut,closed=true] (-0.5,0.0) .. (-0.55,0.4) .. (-0.5,0.5) .. (-0.4,0.5) .. (0.0,0) .. (-0.4,-0.5) .. (-0.5,-0.5) .. (-0.55,-0.4);		
+
+		%\fill[black!30] (-0.5,-0.7) rectangle (-0.3,0.7);
+		%\fill[black!30] (-0.5,-0.7) rectangle (1.0,-0.5);
+		%\fill[black!30] (-0.5,0.7) rectangle (1.0,0.5);
+		%\fill[black!30] (1,-0.7) rectangle (0.8,0.7);
+				
+		\filldraw[blue!80] (-0.5,0) circle (0.05);
+		\filldraw[blue!80] (-0.55,0.4) circle (0.05);
+		\filldraw[blue!80] (-0.5,0.5) circle (0.05);
+		\filldraw[blue!80] (-0.4,0.5) circle (0.05);
+			
+		\filldraw[blue!80] (0.0,0.0) circle (0.05);
+		
+		\filldraw[blue!80] (-0.4,-0.5) circle (0.05);			
+		\filldraw[blue!80] (-0.5,-0.5) circle (0.05);
+		\filldraw[blue!80] (-0.55,-0.4) circle (0.05);
+		
+		\draw[black] (-0.5,-0.5) rectangle (0.5,0.5);
+		\end{tikzpicture}
+	}
+	\caption{Gestalt Figure and Ground}
+\end{figure}
 
 \begin{definition}[Closure]
 	We tend to see figures as whole even though lines enclosing them are incomplete.
