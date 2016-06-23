@@ -195,48 +195,6 @@ If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an
 	A clique is a maximal subgraph.
 \end{definition}
 
-\tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,-]
-\tikzstyle{weight} = [font=\small]
-\begin{figure}[!h]
-	\centering
-	\resizebox {\columnwidth} {!} {
-		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};	
-		% draw the vertices
-		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-			{(4,-1)/g}, {(1,-1)/f}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/{},c/b/{},d/a/{},d/b/{},e/b/{},e/c/{},e/d/{},
-			f/d/{},f/e/{}, g/e/{},g/f/{}}
-		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-		
-		% hyperedges around cliques
-		% abd
-		\draw[red, thick, rounded corners=1pt] (a.north) -- (a.north west) -- (a.west) -- (d.west) -- (d.south west) -- (d.south) -- (d.south east) -- (b.south east) -- (b.east) -- (b.north east) -- (b.north) -- (a.north);
-		% bde
-		\draw[green, thick, rounded corners=1pt] (b.north) -- (b.north west) -- (d.north west) -- (d.west) -- (d.south west) -- (d.south) -- (e.south) -- (e.south east) -- (e.east) -- (e.north east) -- (b.north east) -- (b.north);
-		% def
-		\draw[blue, thick, rounded corners=1pt] (d.north) -- (d.north west) -- (d.west) -- (d.south west) -- (f.south west) -- (f.south) -- (f.south east) -- (e.south east) -- (e.east) -- (e.north east) -- (e.north) -- (d.north);
-		% efg
-		\draw[red, thick, rounded corners=1pt] (e.north) -- (e.north west) -- (f.north west) -- (f.west) -- (f.south west) -- (f.south) -- (g.south) -- (g.south east) -- (g.east) -- (g.north east) -- (e.north east) -- (e.north);
-		% bce
-		\draw[orange, thick, rounded corners=1pt] (b.north) -- (b.north west) -- (b.west) -- (b.south west) -- (e.south west) -- (e.south) -- (e.south east) -- (c.south east) -- (c.east) -- (c.north east) -- (b.north east) -- (b.north);
-		
-		% info box
-		\draw[yshift=2.5cm,xshift=3.0cm]
-		node [right,text width=7cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{G} = \{a,b,c,d,e,f,g\}$, \\
-			$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
-			$C_{G} = V_G \cup E_G \cup \{abd, bce, efg, edf, bde\}$
-		};	
-		\end{tikzpicture}
-	}
-	\caption{Cliques of the undirected weighted graph \textbf{G}. The maximal cliques are shown by the hyperedges that encompass the nodes of that clique.}
-\end{figure}
-
 \begin{definition}[Network]
 	A network $N = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
 \end{definition}
