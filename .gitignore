@@ -1,0 +1,10 @@
+*.lot
+*.lof
+*.loa
+main-blx.bib
+*.aux
+*.gz
+*.out
+*.log
+*.gz
+*.out
