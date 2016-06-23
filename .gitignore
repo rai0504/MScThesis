@@ -6,3 +6,5 @@ main-blx.bib
 *.gz
 *.out
 *.log
+*.gz
+*.out
