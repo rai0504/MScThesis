@@ -29,7 +29,7 @@ english, % ngerman for German
 singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
 %draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
 %nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
-%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
 %toctotoc, % Uncomment to add the main table of contents to the table of contents
 %parskip, % Uncomment to add space between paragraphs
 %nohyperref, % Uncomment to not load the hyperref package
@@ -43,7 +43,7 @@ headsepline, % Uncomment to get a line under the header
 
 %\usepackage{hyperref}
 
-\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+\usepackage[backend=bibtex,citestyle=phys,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
 \addbibresource{example.bib} % The filename of the bibliography
 
@@ -109,7 +109,7 @@ headsepline, % Uncomment to get a line under the header
 \geometry{
 	paper=letterpaper, % Change to letterpaper for US letter or a4paper
 	inner=2.5cm, % Inner margin
-	outer=3.8cm, % Outer margin
+	outer=2.5cm,%3.8cm, % Outer margin
 	bindingoffset=2cm, % Binding offset
 	top=1.5cm, % Top margin
 	bottom=1.5cm, % Bottom margin
@@ -139,7 +139,7 @@ headsepline, % Uncomment to get a line under the header
 \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
 
 \begin{document}
-
+	
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
 
 \pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
@@ -385,7 +385,7 @@ $\omega$ & angular frequency & \si{\radian} \\
 %\include{Chapters/ChapterI} % Texture Segmentation
 %\include{Chapters/ChapterJ} % Intensity and Texture Segmentation
 \include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
-%\include{Chapters/ChapterH} % Case Study: Fluorescence Microscopy Cell Segmentation
+\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
