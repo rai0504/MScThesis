@@ -4,13 +4,13 @@
 
 \label{chap:Chapter2} % Change 2 to a consecutive number; for referencing this chapter elsewhere, use \ref{chap:Chapter2}
 
-\citep{SpringDavisdson2016,Rice2016}
-\citep{Rice2016}
+%\citep{SpringDavisdson2016}
+%\citep{Rice2016}
 \citep{Nobel2016}
 \citep{AbramowitzDavidson2016}
-\citep{ThermoFisher2016}
-\citep{LichtmanConchello2005}
-\citep{Spring2003}
+%\citep{ThermoFisher2016}
+%\citep{LichtmanConchello2005}
+%\citep{Spring2003}
 \citep{Biehlmaier2013}
 \citep{Svoboda2007}
 \citep{Svoboda2009}
@@ -58,15 +58,15 @@ Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Sto
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.36\columnwidth]{Epifluorescence_Microscope.png}
-		\label{fig:epifluorescencemicroscope}
+		\includegraphics[width=0.4\columnwidth]{molecular_absorption.png}
+		\label{fig:molecularabsorption}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.60\columnwidth]{jablonski_diagram.png}
+		\includegraphics[width=0.56\columnwidth]{jablonski_diagram.png}
 		\label{fig:jablonski}
 	}
-	\caption{\textbf{(a)} The schematic of the epifluorescence microscope. \textbf{(b)} The Jabloski diagram depicting the electronics states from photon absorption to photo emission.}
+	\caption{\textbf{(a)} Simplified fluorescence process. \textbf{(b)} The Jabloski diagram depicting the electronics states from photon absorption to photo emission.}
 	\label{fig:thinkoflabel}
 \end{figure}
 
@@ -169,6 +169,58 @@ Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence\\
 Acquisition: CCD\\
 Hardware setup effect on image quality.\\
 Numerical Aperture, Sub-diffraction\\
+Information regarding fluorescence microscopes can be found in [X-Y]
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.36\columnwidth]{Epifluorescence_Microscope.png}
+	\caption{The schematic of the epifluorescence microscope.}
+	\label{fig:epifluorescencemicroscope}
+\end{figure}
+
+\begin{definition}[Light Source]
+	\textcolor{red}{What sort of light needs to be generated? What sort of lamps are used? Advantages and disadvantages of certain lamps.}
+	The light source is typically a high-luminance light source e.g. Mercury or Xenon arc lamps, LEDs, lasers, etc  \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Rice2016,ThermoFisher2016}.
+	The primary criterion for choosing a light sources is that its characeristic peaks must coincide with the excitation spectrum of the fluorophores being used \citep{LichtmanConchello2005,Spring2003,Fatima2008}.
+	Wavelength coverage spans from near infra-red to UV. Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative is bright LEDs \citep{Fatima2008,Dobrucki2013,SpringDavisdson2016}.
+\end{definition}
+
+\begin{definition}[Excitation Filter]
+	\textcolor{red}{What is an excitation filter? Why is it needed?}
+	The incoming light from the light source is typically mulispectral \citep{SpringDavisdson2016}. 
+	The excitation filter is a wavelength selection filter which is placed in the path of the incoming light and filters through only those wavelengths in the absorption spectrum of the fluorescent dye \citep{ThermoFisher2016,Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,CudeBurke2014,Fatima2008,Dobrucki2013}.
+\end{definition}
+
+\begin{definition}[Dichroic Mirror]
+	\textcolor{red}{What is a dichroic mirror? Why is it needed?}
+	Also known as a \textit{dichroic beam splitter}.
+	This is placed at a 45$^{\circ}$ angle and reflects the short-wavelenght light filtered through the excitation filter at a 90$^{\circ}$ angle towards the specimen \citep{Danek2012,Hubeny2008,Spring2003,CudeBurke2014} and allows the long-wavelength light from the fluorescing specimen to pass through to the detector \citep{LichtmanConchello2005}, thus serving as a separation filter between the absorption and emission light \citep{Fatima2008,Dobrucki2013}.
+\end{definition}
+
+\begin{definition}[Objective]
+	\textcolor{red}{What is the objective? Why is it needed?}
+	Purpose of the objective.
+\end{definition}
+
+%\begin{definition}[Specimen]
+%	\textcolor{red}{Say something about the specimen, for wholeness sake.}
+%	Purpose of the specimen.
+%\end{definition}
+
+\begin{definition}[Emission Filter]
+	\textcolor{red}{What is an emission filter? Why is it needed?}
+	Purpose of the emission filter.
+\end{definition}
+
+\begin{definition}[Occular]
+	\textcolor{red}{What is the occular why is it needed?}
+	Purpose of the occular.
+\end{definition}
+
+\begin{definition}[Detector]
+	\textcolor{red}{What is the detector why is it needed?}
+	Purpose of the detector.
+\end{definition}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
