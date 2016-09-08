@@ -65,6 +65,10 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage{cleveref}
 
+\usepackage{subfigure}
+
+%\usepackage{gensymb}
+
 %\newtheorem{theorem}{Theorem}[section]
 %\newtheorem{lemma}[theorem]{Lemma}
 %\newtheorem{proposition}[theorem]{Proposition}
@@ -137,6 +141,17 @@ headsepline, % Uncomment to get a line under the header
 \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
 \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
 \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+
+\makeatletter
+\newcommand{\addloflink}[1]{% \addloflink{<URL>}
+	\addtocontents{lof}{\begingroup\def\protect\@dotsep{10000}% Remove dots in LoF for this entry
+		\protect\contentsline{figlink}{\protect\numberline{}\url{#1}}{}{}%
+		\endgroup}% Restore dots in LoF for future entries
+}
+\newcommand{\l@figlink}{\@dottedtocline{1}{1.5em}{2.3em}}
+\makeatother
+
+%\captionsetup{width=\columnwidth}
 
 \begin{document}
 	
@@ -290,7 +305,10 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 % H
 % I
+\textbf{ICC} & \textbf{I}mmuno\textbf{c}yto\textbf{c}hemistry\\
+\textbf{ICF} & \textbf{I}mmuno\textbf{c}yto\textbf{f}luorescence\\
 \textbf{IHC} & \textbf{I}mmuno\textbf{h}isto\textbf{c}hemistry\\
+\textbf{IHF} & \textbf{I}mmuno\textbf{h}isto\textbf{f}luorescence\\
 
 % J
 % K
@@ -378,14 +396,14 @@ $\omega$ & angular frequency & \si{\radian} \\
 
 \include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
-\include{Chapters/ChapterB} % Mathematical Background
-%\include{Chapters/ChapterC} % Interactive Segmentation
-\include{Chapters/ChapterE} % Automatic Segmentation
-\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
-%\include{Chapters/ChapterI} % Texture Segmentation
-%\include{Chapters/ChapterJ} % Intensity and Texture Segmentation
-\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
-\include{Chapters/ChapterH} % Conclusion and Future Work
+%\include{Chapters/ChapterB} % Mathematical Background
+%%\include{Chapters/ChapterC} % Interactive Segmentation
+%\include{Chapters/ChapterE} % Automatic Segmentation
+%\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
+%%\include{Chapters/ChapterI} % Texture Segmentation
+%%\include{Chapters/ChapterJ} % Intensity and Texture Segmentation
+%\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
+%\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -396,8 +414,8 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-\include{Appendices/AppendixA}
-\include{Appendices/AppendixB}
+%\include{Appendices/AppendixA}
+%\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
 
 %----------------------------------------------------------------------------------------
