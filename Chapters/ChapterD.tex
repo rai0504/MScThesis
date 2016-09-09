@@ -18,11 +18,11 @@
 \citep{GonzalezWoods2002}
 \citep{Pratt2001}
 \citep{Soile2004}
-\citep{Murphy2001}
+%\citep{Murphy2001}
 \citep{Matula2006}
 \citep{Rohr2010}
 \citep{Matula2000}
-\citep{Sarder2006}
+%\citep{Sarder2006}
 \citep{Vu2008}
 \citep{Kolmogorov2004}
 %\citep{Hubeny2008}
@@ -66,7 +66,7 @@ Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Sto
 		\includegraphics[width=0.56\columnwidth]{jablonski_diagram.png}
 		\label{fig:jablonski}
 	}
-	\caption{\textbf{(a)} Simplified fluorescence process. \textbf{(b)} The Jabloski diagram depicting the electronics states from photon absorption to photo emission.}
+	\caption{\textbf{(a)} Simplified fluorescence process. \textbf{(b)} The Jab{\l}o{\'n}ski diagram depicting the electronics states from photon absorption to photo emission.}
 	\label{fig:thinkoflabel}
 \end{figure}
 
@@ -96,12 +96,12 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 
 \begin{definition}[Immunostaining]
 	\textcolor{red}{What is Immunofluorescence and the two main types, what is the difference between the two, and which is more common? What is the Immunofluorescence staining techniques used for?}
-	Immunofluorescence is the detection method where an antibody is used to detect an antigen in a tissue or a cell using fluorescence.
+	Immunofluorescence is the detection method where an antibody is used to detect an antigen in a tissue or a cell using fluorescence. Flourophores are usually conjugated onto antibodies, which are proteins that are designed bind to specific antigens, target proteins, on a cell \citep{CudeBurke2014}.
 	The two types of immunofluorescent detection are immunocytofluorescence (ICF) and immunohystofluorescence (IHF).
 	It must not be confused with immunocytochemistry (ICC) and immunohistochemistry (IHC).
 	\textit{Immuno} refers to the immunological technique, i.e. the binding of antibodies to antigens.
-	\textit{Cyto} refers to cells, i.e. cells without the extracellular matrix.
-	\textit{Histo} refers to tissue i.e. cells with the extracellular matrix.
+	\textit{Cyto} refers to cells, i.e. cells without the extracellular membrane.
+	\textit{Histo} refers to tissue i.e. cells with the extracellular membrane.
 	\textit{Chemistry} refers to the chemical method of detection, e.g. a change in colour.
 	\textit{Fluorescence} detection by emission of light \citep{Katikireddy2011}.
 	Figure \ref{fig:IHC} shows the detection of the p53 Binding Protein 1 in perfusion fixed frozen sections of rat kidney.
@@ -164,13 +164,6 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 \section{The Epifluorescence Microscope and Image Acquisition}
 \label{sec:TheEpifluorescenceMicroscope}
 
-Schematic layout of a Fluorescence Microscope. Process, function of each component\\
-Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence\\
-Acquisition: CCD\\
-Hardware setup effect on image quality.\\
-Numerical Aperture, Sub-diffraction\\
-Information regarding fluorescence microscopes can be found in [X-Y]
-
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=0.36\columnwidth]{Epifluorescence_Microscope.png}
@@ -178,11 +171,21 @@ Information regarding fluorescence microscopes can be found in [X-Y]
 	\label{fig:epifluorescencemicroscope}
 \end{figure}
 
+\textcolor{red}{What is a fluorescent microscope? Schematic layout of a fluorescence microscope? Function and purpose of each component in the fluorescent microscope?}
+A fluorescence microscope is an optical microscope that is designed specifically to exploit the principle of fluorescence to allow for the observation of flourescently labelled specimens \citep{Hubeny2008,Sarder2006,Dobrucki2013,Andrews2002,Fatima2008}.
+There are many types of fluorescent micrcoscopes avaialble but the favoured type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016}.
+The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:epifluorescencemicroscope}.
+
+%Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence\\
+%Acquisition: CCD\\
+%Hardware setup effect on image quality.\\
+%Numerical Aperture, Sub-diffraction\\
+
 \begin{definition}[Light Source]
 	\textcolor{red}{What sort of light needs to be generated? What sort of lamps are used? Advantages and disadvantages of certain lamps.}
-	The light source is typically a high-luminance light source e.g. Mercury or Xenon arc lamps, LEDs, lasers, etc  \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Rice2016,ThermoFisher2016}.
+	The light source is typically a high-luminance light source e.g. Mercury or Xenon arc lamps, LEDs, lasers, etc  \citep{Danek2012,Hubeny2008,Aswani2012,Rice2016,ThermoFisher2016}.
 	The primary criterion for choosing a light sources is that its characeristic peaks must coincide with the excitation spectrum of the fluorophores being used \citep{LichtmanConchello2005,Spring2003,Fatima2008}.
-	Wavelength coverage spans from near infra-red to UV. Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative is bright LEDs \citep{Fatima2008,Dobrucki2013,SpringDavisdson2016}.
+	Wavelength coverage spans from near infra-red to UV. Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative is bright LEDs \citep{Fatima2008,Dobrucki2013,Aswani2012,Koch1972}.
 \end{definition}
 
 \begin{definition}[Excitation Filter]
@@ -194,32 +197,39 @@ Information regarding fluorescence microscopes can be found in [X-Y]
 \begin{definition}[Dichroic Mirror]
 	\textcolor{red}{What is a dichroic mirror? Why is it needed?}
 	Also known as a \textit{dichroic beam splitter}.
-	This is placed at a 45$^{\circ}$ angle and reflects the short-wavelenght light filtered through the excitation filter at a 90$^{\circ}$ angle towards the specimen \citep{Danek2012,Hubeny2008,Spring2003,CudeBurke2014} and allows the long-wavelength light from the fluorescing specimen to pass through to the detector \citep{LichtmanConchello2005}, thus serving as a separation filter between the absorption and emission light \citep{Fatima2008,Dobrucki2013}.
+	This is placed at a 45$^{\circ}$ angle and reflects the short-wavelenght light filtered through the excitation filter at a 90$^{\circ}$ angle towards the specimen \citep{Danek2012,Hubeny2008,Spring2003,CudeBurke2014} and allows the long-wavelength light from the fluorescing specimen to pass through to the detector \citep{LichtmanConchello2005,Koch1972}, thus serving as a separation filter between the absorption and emission light \citep{Fatima2008,Dobrucki2013}.
 \end{definition}
 
 \begin{definition}[Objective]
 	\textcolor{red}{What is the objective? Why is it needed?}
-	Purpose of the objective.
+	The incoming light reflected of the dichroic mirror passes through the objective lens before reaching the specimen \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003}.
+	Emission light from the fluorescing specimen is gathered in the objective lens and passed through to the dichroic mirror.
 \end{definition}
 
-%\begin{definition}[Specimen]
-%	\textcolor{red}{Say something about the specimen, for wholeness sake.}
-%	Purpose of the specimen.
-%\end{definition}
+\begin{definition}[Specimen]
+	\textcolor{red}{Say something about the specimen, for wholeness sake.}
+	The specimen is irradiated by the incoming light from the objective and emits long-wavelength light in all directions.
+	The specimen is stained with a flourophore whose absorption and emission curves are well known.
+	This is important since the light source and the interference filters are chosen using the peaks of these curves.
+\end{definition}
 
 \begin{definition}[Emission Filter]
 	\textcolor{red}{What is an emission filter? Why is it needed?}
-	Purpose of the emission filter.
+	Also known as a \textit{barrier filter} \citep{LichtmanConchello2005,Spring2003,Koch1972}.
+	The light coming from the specimen contains multiple wavelengths and the dichroic mirror is used to filter out the shorter wavelength light.
+	The emission filter is further  used to filter out the wavelengths that correspond to the emission wavelengths of the fluorophore \citep{CudeBurke2014,Danek2012,Hubeny2008,SpringDavisdson2016,ThermoFisher2016}.
 \end{definition}
 
-\begin{definition}[Occular]
-	\textcolor{red}{What is the occular why is it needed?}
-	Purpose of the occular.
-\end{definition}
+%\begin{definition}[Occular]
+%	\textcolor{red}{What is the occular why is it needed?}
+%	Purpose of the occular.
+%\end{definition}
 
 \begin{definition}[Detector]
 	\textcolor{red}{What is the detector why is it needed?}
-	Purpose of the detector.
+	The dector is used to capture the emission light and can further digital form the image.
+	The detector is usually a CCD (charge-coupled device) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
+	It is vital that an appropriate detector be chosen as this has direct influence of image quality \citep{Fatima2008}.
 \end{definition}
 
 %----------------------------------------------------------------------------------------
