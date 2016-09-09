@@ -42,7 +42,8 @@ If emission persist only so long as the exciting light is on, then we call this 
 The first observance and publishing of fluorescence is credited to Sir John Frederick William Herschel around 1852.
 In 1852, Sir John George Stokes published a 100 page treatise about this luminescent phenomenon and coined the term \textit{fluorescence}, over Herschel's \textit{dispersive reflection}, when he observed that the mineral \textit{fluorite} emitted red light when irradiated by ultraviolet (UV) light \citep{Dobrucki2013,Danek2012}.
 
-In the remainder of this chapter we present the underlying principles of fluorescence, how specimens are fluorescently marked, the optical principles of microscope design, image acquisition, image processing and common analysis in cellular biology. We only go so far in depth as to present a rudimentary understanding of fluorescence microscopy as is necessary for the comprehension of this thesis.
+In the remainder of this chapter we present the underlying principles of fluorescence, how specimens are fluorescently marked, the optical principles of microscope design, image acquisition, image processing and common analysis in cellular biology.
+We only go so far in depth as to present a rudimentary understanding of fluorescence microscopy as is necessary for the comprehension of this thesis.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -223,7 +224,7 @@ The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:e
 %----------------------------------------------------------------------------------------
 
 \section{Image Processing in FM}
-\label{sec:ImageProcessingInFM}
+\label{sec:ImageProcessing}
 
 Limitations in Fluorescence Imaging\\
 Preprocessing: Point Spread Function deconvolution, etc\\
@@ -233,8 +234,66 @@ Segmentation
 %	SECTION 5
 %----------------------------------------------------------------------------------------
 
-\section{Measurements and Analysis in FM}
+\section{Object Measurement and Analysis}
 \label{sec:Measurements}
 
-what is measured and for what?\\
-Motion, number of cells, area, volume, lenght
+\textcolor{red}{What is the purpose of object analysis in FM? What is measured?}
+The aim in fluorescence image analysis is to measure specific properties of interest which enable higher level decision making.
+Typically, these properties are quantitative measures.
+In this section we review some of the important quantitative measurements in digital image analysis.
+It is important to note that for some of the properties of interest, the accuracy of the measurements depend heavily on the accuracy on the segmentation.
+The properties of interest are application dependent, one might require just the object morphology of structure and hence properties like perimeter, area, shape, intensity, colour, etc are of significance.
+Alternatively, if one requires the colocalisation of cells, then distance discriminants, such as Euclidean distance, Manhattan distance, chessboard distance, etc, are of significance \citep{Fatima2008_2,Danek2012}.
+
+Object measures can be loosely classified into four catergories: geometric measures, histogram-based measures, intensity based measures and temporal measures. One can also argue a fifth catergory statistical classifiers although this is generally used in higher level analysis.
+
+\begin{definition}[Size measures]
+	Perimeter, area and volume are common measures to describe the size of objects.
+	Area and volume are suitable measures to describe the general size of an object.
+	The perimeter of an object is distinctly useful in discriminating its shape complexity. Complex and irregular shapes need a larger perimeter to enclose its area.
+\end{definition}
+
+\begin{definition}[Pose measures]
+	This measure is defines an objects location and orientation.
+	The centroid is used as an objects' locale and its orientation is the measure of the angle subtended by its major axis.
+\end{definition}
+
+\begin{definition}[Shape measures]
+	Shape features are used to distinguish objects from one another.
+	These measures are generally translationally, rotationally and scale invariant and can be used independent of, or in conjunction with, the size measures.
+	Commonly assessed shape parameters are thinness ratio to describe the regularity of an object, rectangularity, circularity, Euler number, moments, central moments, object dispersion, rotationally invariant moments, Zernike moments and elongation.
+\end{definition}
+
+\begin{definition}[Shape descriptors]
+	Shapes descriptors provide a more wholesome way of decribing an object's shape than compared to the single parameter shape measures.
+	Differential chain codes, and its two most common descriptors boundary chain code (BCC) and differential chain code (DCC), are used to represent the distance around an object.
+	Fourier descriptors is another object distance measure that expliots the periodicity of BCC.
+	There are also graph respresentations of which the two most common are minimum spanning tree (MST) \citep{Giesen2014,Yuan2009} and Delaunay triagulation (DT) \citep{Kozubek2000,Attali1997}.
+\end{definition}
+
+\begin{definition}[Distance measures]
+	There are many ways to compute the separation between objects.
+	The most commonly assessed distance measures are Euclidean distance, Manhattan distance (also known as the City-block distance or absolute value metric), which is a more computationally efficient approximation of Euclidean distance, and the Chessboard distance (also known as the maximum value metric) \citep{French2008,Zinchuk2007}.
+\end{definition}
+
+\begin{definition}[Intensity measures]
+	Images are segmented generally into region with low intra-region intensity distribution and high inter-region intensity distribution \citep{Pinkel1986,Meijering2004}.
+	Common intensity measures are integrated optical density (IOD) \citep{Loferer1998,Watanabe1991}, is simply the sum of all the gray levels that compose the object, its a reflection of  the object's "mass" or "weight", average optical density (AOD), is the IOD divided by the objects area, and contrast.
+\end{definition}
+
+\begin{definition}[Histogram measures]
+	These measure provide a measure of an object's intensity distribution.
+	Common histogram-based measures are mean, standard deviation, skew, entropy and energy \citep{Rust2006,Boland2001}.
+\end{definition}
+
+\begin{definition}[Texture measures]
+	In image analysis texture refers to the spatial arrangement of gray level values \citep{Duda2001} and hence a texture feature quantifies some characteristic of the intensity variation within an object.
+	Common texture measures are statistical texture measures, gray-level co-occurrence matrix (GLCM) \citep{Atlamazoglou2001,Cicchi2010} and power spectrum features \citep{Erik1999,Xu1996}.
+\end{definition}
+
+\begin{definition}[Temporal measures]
+	Considering the time domain, many interesting properties can be observed.
+	Commonly computed properties of interest are motility \citep{Sekar2003,Miller1869,Mathur2000}, like velocity and acceleration, rate of growth, rate of change of colour, etc.
+\end{definition}
+
+These measures are used in higher decision making processes such as the evaluation of a hypothesis to detect the presence of a certain disease. They are also used to aid in the understanding of biological mechanisms, events and interatctions \citep{Danek2012}.
