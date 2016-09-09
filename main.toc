@@ -1,68 +1,21 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
 \select@language {english}
-\contentsline {chapter}{Declaration of Authorship}{iii}{section*.1}
-\contentsline {chapter}{Abstract}{vii}{section*.2}
-\contentsline {chapter}{Acknowledgements}{ix}{section*.3}
+\contentsline {chapter}{Declaration of Authorship}{i}{section*.1}
+\contentsline {chapter}{Abstract}{iii}{section*.2}
+\contentsline {chapter}{Acknowledgements}{iv}{section*.3}
+\contentsline {chapter}{List of Figures}{vi}{chapter*.5}
+\contentsline {chapter}{List of Tables}{vii}{chapter*.6}
+\contentsline {chapter}{List of Abbreviations}{ix}{chapter*.8}
+\contentsline {chapter}{Physical Constants}{x}{chapter*.10}
+\contentsline {chapter}{List of Symbols}{xi}{chapter*.12}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.15}
-\contentsline {section}{\numberline {1.1}What is Image Segmentation}{1}{section.16}
-\contentsline {section}{\numberline {1.2}Energy Minimisation}{1}{section.17}
-\contentsline {section}{\numberline {1.3}Labelling Problems}{1}{section.18}
-\contentsline {section}{\numberline {1.4}Labelling Problems as Energy Minimisation}{2}{section.19}
-\contentsline {section}{\numberline {1.5}Energy Minimisation Algorithms and Special Cases}{2}{section.20}
-\contentsline {section}{\numberline {1.6}Thesis Overview}{2}{section.21}
-\contentsline {section}{\numberline {1.7}Other things to talk about}{2}{section.22}
-\contentsline {section}{\numberline {1.8}Other things to talk about 2}{2}{section.23}
-\contentsline {section}{\numberline {1.9}In Closing}{3}{section.24}
-\contentsline {chapter}{\numberline {2}Mathematical Background}{5}{chapter.25}
-\contentsline {section}{\numberline {2.1}Graph Theory and Flow Networks}{5}{section.26}
-\contentsline {section}{\numberline {2.2}Markov Random Fields}{10}{section.41}
-\contentsline {subsection}{\numberline {2.2.1}Markov Random Fields Theory and Concepts}{10}{subsection.42}
-\contentsline {subsection}{\numberline {2.2.2}Markov Random Fields in Image Modelling for Segmentation}{11}{subsection.43}
-\contentsline {subsection}{\numberline {2.2.3}MAP-MRF Approxiamtion via Graph Cuts}{11}{subsection.44}
-\contentsline {section}{\numberline {2.3}Max-Flow/Min-Cut Problem}{11}{section.45}
-\contentsline {section}{\numberline {2.4}Modelling Images as MRFs}{11}{section.46}
-\contentsline {subsection}{\numberline {2.4.1}Sub-modularity Conditions for Discrete Systems}{11}{subsection.47}
-\contentsline {subsection}{\numberline {2.4.2}Connectivity}{11}{subsection.48}
-\contentsline {subsection}{\numberline {2.4.3}Distance Metrics}{12}{subsection.49}
-\contentsline {subsubsection}{Euclidean Distance}{12}{section*.50}
-\contentsline {subsubsection}{Riemannian Distance}{12}{section*.51}
-\contentsline {subsubsection}{Learned Distance from Seeds}{12}{section*.52}
-\contentsline {section}{\numberline {2.5}Max-Flow/Min-Cut Algorithms}{13}{section.53}
-\contentsline {subsection}{\numberline {2.5.1}Ford-Fulkerson}{13}{subsection.54}
-\contentsline {subsection}{\numberline {2.5.2}Dinic/Edmond-Karp}{13}{subsection.56}
-\contentsline {subsection}{\numberline {2.5.3}Push-Relabel}{13}{subsection.57}
-\contentsline {subsubsection}{Push-Relabel Speed Optimisation Heuristics}{16}{section*.79}
-\contentsline {subsection}{\numberline {2.5.4}Alpha-Beta Swap}{18}{subsection.80}
-\contentsline {subsection}{\numberline {2.5.5}Alpha-Expansion}{18}{subsection.81}
-\contentsline {chapter}{\numberline {3}Interactive Segmentation on Single Channel Data}{19}{chapter.82}
-\contentsline {section}{\numberline {3.1}Seeding}{19}{section.83}
-\contentsline {section}{\numberline {3.2}Estimating Probability Distributions}{19}{section.84}
-\contentsline {subsection}{\numberline {3.2.1}Expectation Maximisation (Guassian Mixture Modelling)}{19}{subsection.85}
-\contentsline {subsubsection}{Fixed-Distribution Modelling}{19}{section*.86}
-\contentsline {subsubsection}{Automatically Determining the Optimal Number of Mixtures}{20}{section*.87}
-\contentsline {subsection}{\numberline {3.2.2}Naive Bayesian Classification}{20}{subsection.88}
-\contentsline {subsection}{\numberline {3.2.3}Supervised Learning for Multi-Layered Perceptron}{20}{subsection.89}
-\contentsline {chapter}{\numberline {4}Interactive Segmentation Extention to Multi-Channel Data}{21}{chapter.90}
-\contentsline {chapter}{\numberline {5}Automatic Graph Cut Segmentation}{23}{chapter.91}
-\contentsline {section}{\numberline {5.1}Determining FG and BG seeds/probability distributions}{23}{section.92}
-\contentsline {section}{\numberline {5.2}Determining Optimal Paramters Settings}{23}{section.93}
-\contentsline {chapter}{\numberline {6}Graph Cut Solution to Chan-Vese Segmentation}{25}{chapter.94}
-\contentsline {chapter}{\numberline {7}Pre-Processing and Post-Processing Techniques}{27}{chapter.95}
-\contentsline {section}{\numberline {7.1}Removal of Artifacts using Connected Components}{27}{section.96}
-\contentsline {section}{\numberline {7.2}Anisotropic Diffusion}{27}{section.97}
-\contentsline {subsection}{\numberline {7.2.1}Coherence Enhancing Diffusion}{27}{subsection.98}
-\contentsline {subsection}{\numberline {7.2.2}Coherence Enhancing Diffusion with Optimised Rotational Invariance}{27}{subsection.99}
-\contentsline {section}{\numberline {7.3}Poisson Denoising}{28}{section.100}
-\contentsline {subsection}{\numberline {7.3.1}Total-Variation Denoising}{28}{subsection.101}
-\contentsline {section}{\numberline {7.4}Contrast Enhancement}{28}{section.102}
-\contentsline {chapter}{\numberline {8}Case-Study: Flourescence Microscopy Cell Segmentation}{29}{chapter.103}
-\contentsline {section}{\numberline {8.1}Removal of Artifacts using Connected Components}{29}{section.104}
-\contentsline {section}{\numberline {8.2}Anisotropic Diffusion}{29}{section.105}
-\contentsline {subsection}{\numberline {8.2.1}Coherence Enhancing Diffusion}{29}{subsection.106}
-\contentsline {subsection}{\numberline {8.2.2}Coherence Enhancing Diffusion with Optimised Rotational Invariance}{29}{subsection.107}
-\contentsline {section}{\numberline {8.3}Poisson Denoising}{30}{section.108}
-\contentsline {subsection}{\numberline {8.3.1}Total-Variation Denoising}{30}{subsection.109}
-\contentsline {section}{\numberline {8.4}Contrast Enhancement}{30}{section.110}
-\contentsline {chapter}{\numberline {A}Proof of Maximum Flow - Minimum Cut Equivalence}{31}{appendix.111}
-\contentsline {chapter}{\numberline {B}Push-Relabel Algorithm Analysis and Proof of Correctness}{33}{appendix.112}
+\contentsline {section}{\numberline {1.1}Outline and Contributions}{1}{section.16}
+\contentsline {section}{\numberline {1.2}Thesis Overview}{1}{section.17}
+\contentsline {chapter}{\numberline {2}Fluorescence Microscopy}{2}{chapter.18}
+\contentsline {section}{\numberline {2.1}Physics of Fluorescence}{2}{section.19}
+\contentsline {section}{\numberline {2.2}Specimen Labelling}{2}{section.24}
+\contentsline {section}{\numberline {2.3}The Epifluorescence Microscope and Image Acquisition}{4}{section.28}
+\contentsline {section}{\numberline {2.4}Image Processing in FM}{6}{section.30}
+\contentsline {section}{\numberline {2.5}Measurements and Analysis in FM}{6}{section.31}
+\contentsline {chapter}{Bibliography}{7}{appendix*.32}

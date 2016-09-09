@@ -7,7 +7,7 @@
 %\citep{SpringDavisdson2016}
 %\citep{Rice2016}
 \citep{Nobel2016}
-\citep{AbramowitzDavidson2016}
+%\citep{AbramowitzDavidson2016}
 %\citep{ThermoFisher2016}
 %\citep{LichtmanConchello2005}
 %\citep{Spring2003}
@@ -30,12 +30,19 @@
 \citep{Petran1985}
 %\citep{Tsien1998}
 
+\textcolor{red}{What is fluorescence microscopy? What's it's purpose in the thesis?	Photoluminescence -> fluorescence and phosphorescence. Discovery of fluorescence: Brief history and evolution. Brief discussion on the remainder of the chapter.}
+Fluorescence microscopy has become an essential tool in diverse fields, such as petrology, semiconductors, etc, and has especially been established as a choice imaging technique in cellular and molecular biology for visualisation of cells and tissues \citep{Spring2003,Danek2012,Hubeny2008,Fatima2008,Matula2012}.
+In this thesis we confine our attention to its use in cellular biology.
 
-What is Fluorescence Microscopy?\\
-What's it's purpose in the thesis?\\
-Photoluminescence -> Fluorescence and Phosphorence\\
-Discovery of fluorescence: Brief History and evolution\\
-Brief discussion on the remainder of the chapter.
+Certain substances emit radiation when irradiated with a higher intensity light, such as ultraviolet (UV), blue or green, which is off a longer wavelength than that of the exciting light, this is known as \textit{Stokes' Law}.
+This phenomenon is known as \textit{photoluminescence} \citep{Koch1972,Vaughan2015,Sarder2006,AbramowitzDavidson2016}.
+There are two types of photoluminescence. If emission persists at an appreciable level after the exciting light is turned off, then we call this \textit{phosphorescence}.
+If emission persist only so long as the exciting light is on, then we call this \textit{fluorescence} \citep{Koch1972,SpringDavisdson2016}.
+
+The first observance and publishing of fluorescence is credited to Sir John Frederick William Herschel around 1852.
+In 1852, Sir John George Stokes published a 100 page treatise about this luminescent phenomenon and coined the term \textit{fluorescence}, over Herschel's \textit{dispersive reflection}, when he observed that the mineral \textit{fluorite} emitted red light when irradiated by ultraviolet (UV) light \citep{Dobrucki2013,Danek2012}.
+
+In the remainder of this chapter we present the underlying principles of fluorescence, how specimens are fluorescently marked, the optical principles of microscope design, image acquisition, image processing and common analysis in cellular biology. We only go so far in depth as to present a rudimentary understanding of fluorescence microscopy as is necessary for the comprehension of this thesis.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -45,7 +52,7 @@ Brief discussion on the remainder of the chapter.
 \label{sec:PhysicsOfFluorescence}
 
 Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Stoke's Shift
-\begin{figure}[!h]
+\begin{figure}[!t]
 	\centering
 	\includegraphics[width=\columnwidth]{Fluor532_ExcitationEmissionSpectrum.png}
 	\caption{Normalised Excitation and Emmision Spectra of the Alexa Fluor 532 flurophore. The emmission maximum is at $553nm$ which is a more yellow-green than excitation maximum at $528nm$. This image was generated using FluoScout\texttrademark\, web application by Leica Microsystems for determining the optimal fluorescence filter cube set. %\url{http://www.leica-microsystems.com/fluoscout/}
@@ -54,7 +61,7 @@ Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Sto
 	\label{fig:excitationandemissionspectra}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!t]
 	\centering
 	\subfigure[]
 	{
@@ -78,7 +85,7 @@ Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Sto
 \label{sec:SpecimenLabelling}
 
 \textcolor{red}{Why do specimens have to be stained? What is is staining?}
-Many of the components of interest, such as cell nuclei, cytoplasm, genes, chrosomes, proteins, do not possess a high degree of autofluorescence. 
+Many of the components of interest, such as cell nuclei, cytoplasm, genes, chrosomes, proteins, do not possess a high degree of, if not any,  autofluorescence. 
 In this scenario, these components can be marked with a fluorescent dye \citep{Tsien1998}, also known as a fluorophore or fluorochrome, a substance that can bind to a specific target whose excitation and emission spectra are well known. 
 This is known as staining \citep{Danek2012,Hubeny2008,Dobrucki2013}. 
 Once the specimen is stained it can be indirectly observed using a fluorescence microscope.
@@ -115,26 +122,7 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 	Derivatives of the \textit{green fluorescent protein} (GFP), isolated from the \textit{Aequorea victoria} jellyfish \citep{Tsien1998,LichtmanConchello2005,Fatima2008}, are used as it generates a strong photon emission and is non-toxic to living cells \citep{Danek2012,Hubeny2008,Dobrucki2013}.
 \end{definition}
 
-%\textcolor{red}{Important notes about fluorophores and the impact on image quality?}
-
-% IHC staining
-% Marker of gene expression and protein tagging \citep{Tsien1998}\\
-% Biological Fluorescence Stains, Immunofluorescence, Fluorescent Proteins\\
-
-
-%\begin{figure}[!h]
-%	\centering
-%	\includegraphics[width=0.5\columnwidth]{fish1.jpg}
-%	\caption{FISH (Fluorescent 'in-situ' Hybridization) in mouse chromosomes using a BAC clone labeled with Spectrum Orange. The picture shows two metaphases and one interphase with two signals in each exampling a homozygous mouse for a transgenic clone. The image is taken from "All About the Human Genome Project" Genetic and Genomic Image and Illustration Database: \url{https://unlockinglifescode.org/media/images/}}
-%	\label{fig:FISH}
-%\end{figure}
-%
-%\begin{figure}[!h]
-%	\centering
-%	\includegraphics[width=0.5\columnwidth]{ihc1.jpg}
-%	\caption{p53 Binding Protein 1 (53BP1) was detected in perfusion fixed frozen sections of rat kidney using Goat Anti-Human 53BP1 Antigen Affinity-purified Polyclonal Antibody (Catalog \# AF1877) at 15 $\mu$g/mL overnight at 4\degree C. Tissue was stained using the NorthernLights\texttrademark 557-conjugated Anti-Goat IgG Secondary Antibody (red; Catalog \# NL001) and counterstained with DAPI (blue). Specific staining was localized to nuclei of epithelial cells in convoluted tubules. The image is taken from R\&D Systems' IHC image database: \url{https://www.rndsystems.com/resources/ihc-images/53bp1}}
-%	\label{fig:IHC}
-%\end{figure}
+\textcolor{red}{Important notes about fluorophores and the impact on image quality?}
 
 \begin{figure}[!t]
 	\centering
@@ -166,20 +154,15 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=0.36\columnwidth]{Epifluorescence_Microscope.png}
+	\includegraphics[width=0.4\columnwidth]{Epifluorescence_Microscope.png}
 	\caption{The schematic of the epifluorescence microscope.}
 	\label{fig:epifluorescencemicroscope}
 \end{figure}
 
 \textcolor{red}{What is a fluorescent microscope? Schematic layout of a fluorescence microscope? Function and purpose of each component in the fluorescent microscope?}
 A fluorescence microscope is an optical microscope that is designed specifically to exploit the principle of fluorescence to allow for the observation of flourescently labelled specimens \citep{Hubeny2008,Sarder2006,Dobrucki2013,Andrews2002,Fatima2008}.
-There are many types of fluorescent micrcoscopes avaialble but the favoured type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016}.
+There are many types of fluorescent micrcoscopes avaialble but the favoured type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016,AbramowitzDavidson2016}.
 The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:epifluorescencemicroscope}.
-
-%Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence\\
-%Acquisition: CCD\\
-%Hardware setup effect on image quality.\\
-%Numerical Aperture, Sub-diffraction\\
 
 \begin{definition}[Light Source]
 	\textcolor{red}{What sort of light needs to be generated? What sort of lamps are used? Advantages and disadvantages of certain lamps.}
@@ -231,6 +214,9 @@ The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:e
 	The detector is usually a CCD (charge-coupled device) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
 	It is vital that an appropriate detector be chosen as this has direct influence of image quality \citep{Fatima2008}.
 \end{definition}
+
+\textcolor{red}{Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence, Acquisition: CCD, Hardware setup effect on image quality, Numerical Aperture, Sub-diffraction}
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
