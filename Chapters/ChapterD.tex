@@ -6,7 +6,7 @@
 
 %\citep{SpringDavisdson2016}
 %\citep{Rice2016}
-\citep{Nobel2016}
+%\citep{Nobel2016}
 %\citep{AbramowitzDavidson2016}
 %\citep{ThermoFisher2016}
 %\citep{LichtmanConchello2005}
@@ -52,15 +52,11 @@ We only go so far in depth as to present a rudimentary understanding of fluoresc
 \section{Physics of Fluorescence}
 \label{sec:PhysicsOfFluorescence}
 
-Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Stoke's Shift
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=\columnwidth]{Fluor532_ExcitationEmissionSpectrum.png}
-	\caption{Normalised Excitation and Emmision Spectra of the Alexa Fluor 532 flurophore. The emmission maximum is at $553nm$ which is a more yellow-green than excitation maximum at $528nm$. This image was generated using FluoScout\texttrademark\, web application by Leica Microsystems for determining the optimal fluorescence filter cube set. %\url{http://www.leica-microsystems.com/fluoscout/}
-	}
-	\addloflink{http://www.leica-microsystems.com/fluoscout/}
-	\label{fig:excitationandemissionspectra}
-\end{figure}
+\textcolor{red}{Why is it necessary to understand the principles of fluroescence? Simple description of the fluorescence process. A more in-depth explanation of the fluorescence process and why stuff goes wrong  e.g. phosphorescence, fading, etc.}
+Fluorescence microscopy is a cross-disciplinary field.
+It is encouraged, if not necessary, to have a photophysical understanding of the principles of fluorescence, for biologists and computer scientists.
+The knowledge of the "under the hood" mechanics of fluorescence empower computer scientists to make informed and directed research in terms of image processing.
+The aim here is to present an elementary introduction into the physics of fluorescence.
 
 \begin{figure}[!t]
 	\centering
@@ -75,7 +71,64 @@ Excitation and Emission, Fluorophores, Jablonski Diagram, Electronic States, Sto
 		\label{fig:jablonski}
 	}
 	\caption{\textbf{(a)} Simplified fluorescence process. \textbf{(b)} The Jab{\l}o{\'n}ski diagram depicting the electronics states from photon absorption to photo emission.}
-	\label{fig:thinkoflabel}
+	\label{fig:fluorescence_electron_states}
+\end{figure}
+
+The overall principle of fluorescence can be explained in three steps \citep{Nobel2016} as illustrated in \autoref{fig:molecularabsorption}: 
+(1) Energy is absorbed by an atom upon collision with a photon.
+(2) The atom becomes excited and an electron jumps to a higher energy level.
+(3) Shortly after jumping to the higher energy level the electron returns to the ground state and emits a photon.
+
+\begin{definition}[Excitation and emission]
+	One of the best ways to visualise the fluorescing process is using a Jab{\l}o{\'n}ski diagram.
+	A detailed Jab{\l}o{\'n}ski diagram is shown in \autoref{fig:jablonski}. 
+	When a photon collides with an atom, all its energy is transferred to the atom. The energy of the photon is inversely related to it's wavelength, $E = h \frac{c}{\lambda}$, where $h$ is Planck's constant and $c$ and $\lambda$ are the speed and wavelength of light in a vacuum respectively.
+	This increase in energy moves an electron from the ground state $S_0$ to a higher level energy state.
+	Depending on the energy of the photon and the number of photons absorbed by the photon the electron can move to different energy levels e.g. $S_1, S_2, etc$.
+	This process happens almost immediately in the order of femtoseconds($10^{-15}s$).
+	Before moving to the lowest next higher energy level ($S_1$), some energy is lost due to internal conversion and vibrational relaxation.
+	When the electron spontaneously decays from $S_1$ to $S_0$ it emits a photon of longer wavelength than the absorption photon.
+	This happens few nanoseconds ($10^{-9}s$) after excitation.
+	
+	The difference in wavelength of the emission photon and excitation photon is known as the \textit{Stokes' Shift} or \textit{Stokes' Law}.
+	The larger the Stokes' Shift the easier it is to separate the emission light from the excitation light \citep{Spring2003}.
+	The emission curve is often a mirror image and shifted to longer wavelengths than the excitation curve as illustrated in \autoref{fig:excitationandemissionspectra}.
+\end{definition}
+
+\begin{definition}[Fluorophores]
+	Substances that exhibit the fluorescent property are called fluorophores, also known as \textit{fluorochromes} or \textit{fluoresent dyes}.
+	Early investigations showed that many substance naturally posess fluorescent properties, such as minerals, crystals, resins, crude drugs, butter, chlorophyll, vitamins, etc \citep{Spring2003}.
+	This is known as \textit{autofluorescence}.
+	Substances that do not fluoresce must be \textit{stained} such that it can be observed through a fluorescent microscope, more on this later.
+\end{definition}
+
+%\begin{definition}[Jab{\l}o{\'n}ski diagrams]
+%	Stuff for this section.
+%\end{definition}
+
+%\begin{definition}[Excitation spectra]
+%	Stuff for this section. Electronic States
+%\end{definition}
+
+%\begin{definition}[Emission spectra]
+%	Stuff for this section. Electronic States
+%\end{definition}
+
+\begin{definition}[Intersystem crossing]
+	If the electron spin as the electron transfer between energy states is preserved then the energy states are known as \textit{singlet states}. It is also possible for the electron to reverse it's spin. This is very unlikely and is known as \textit{forbidden transition} in Quantum mechanics. When this happens the electron is said to be in a \textit{triplet state}, see \autoref{fig:jablonski}. The only way for the electron to reach the ground state is to again undergo another forbidden transition which is unlikely. When this does eventually happen the electron may emit a photon and this phenomenon is known as \textit{phosphorescence}. This process takes much longer, in the order of microseconds ($10^{-6}s$).
+\end{definition}
+
+%\begin{definition}[Quantum yield]
+%	Stuff for this section. Electronic States
+%\end{definition}
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=\columnwidth]{Fluor532_ExcitationEmissionSpectrum.png}
+	\caption{Normalised Excitation and Emmision Spectra of the Alexa Fluor 532 flurophore. The emmission maximum is at $553nm$ which is a more yellow-green than excitation maximum at $528nm$. This image was generated using FluoScout\texttrademark\, web application by Leica Microsystems for determining the optimal fluorescence filter cube set. %\url{http://www.leica-microsystems.com/fluoscout/}
+	}
+	\addloflink{http://www.leica-microsystems.com/fluoscout/}
+	\label{fig:excitationandemissionspectra}
 \end{figure}
 
 %----------------------------------------------------------------------------------------
@@ -165,20 +218,20 @@ A fluorescence microscope is an optical microscope that is designed specifically
 There are many types of fluorescent micrcoscopes avaialble but the favoured type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016,AbramowitzDavidson2016}.
 The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:epifluorescencemicroscope}.
 
-\begin{definition}[Light Source]
+\begin{definition}[Light source]
 	\textcolor{red}{What sort of light needs to be generated? What sort of lamps are used? Advantages and disadvantages of certain lamps.}
 	The light source is typically a high-luminance light source e.g. Mercury or Xenon arc lamps, LEDs, lasers, etc  \citep{Danek2012,Hubeny2008,Aswani2012,Rice2016,ThermoFisher2016}.
 	The primary criterion for choosing a light sources is that its characeristic peaks must coincide with the excitation spectrum of the fluorophores being used \citep{LichtmanConchello2005,Spring2003,Fatima2008}.
 	Wavelength coverage spans from near infra-red to UV. Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative is bright LEDs \citep{Fatima2008,Dobrucki2013,Aswani2012,Koch1972}.
 \end{definition}
 
-\begin{definition}[Excitation Filter]
+\begin{definition}[Excitation filter]
 	\textcolor{red}{What is an excitation filter? Why is it needed?}
 	The incoming light from the light source is typically mulispectral \citep{SpringDavisdson2016}. 
 	The excitation filter is a wavelength selection filter which is placed in the path of the incoming light and filters through only those wavelengths in the absorption spectrum of the fluorescent dye \citep{ThermoFisher2016,Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,CudeBurke2014,Fatima2008,Dobrucki2013}.
 \end{definition}
 
-\begin{definition}[Dichroic Mirror]
+\begin{definition}[Dichroic mirror]
 	\textcolor{red}{What is a dichroic mirror? Why is it needed?}
 	Also known as a \textit{dichroic beam splitter}.
 	This is placed at a 45$^{\circ}$ angle and reflects the short-wavelenght light filtered through the excitation filter at a 90$^{\circ}$ angle towards the specimen \citep{Danek2012,Hubeny2008,Spring2003,CudeBurke2014} and allows the long-wavelength light from the fluorescing specimen to pass through to the detector \citep{LichtmanConchello2005,Koch1972}, thus serving as a separation filter between the absorption and emission light \citep{Fatima2008,Dobrucki2013}.
@@ -197,7 +250,7 @@ The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:e
 	This is important since the light source and the interference filters are chosen using the peaks of these curves.
 \end{definition}
 
-\begin{definition}[Emission Filter]
+\begin{definition}[Emission filter]
 	\textcolor{red}{What is an emission filter? Why is it needed?}
 	Also known as a \textit{barrier filter} \citep{LichtmanConchello2005,Spring2003,Koch1972}.
 	The light coming from the specimen contains multiple wavelengths and the dichroic mirror is used to filter out the shorter wavelength light.
@@ -216,7 +269,7 @@ The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:e
 	It is vital that an appropriate detector be chosen as this has direct influence of image quality \citep{Fatima2008}.
 \end{definition}
 
-\textcolor{red}{Other Types of Fluorescence Microscopes: Confocal, TIRF, Epifluorescence, Acquisition: CCD, Hardware setup effect on image quality, Numerical Aperture, Sub-diffraction}
+\textcolor{red}{Other Types of Fluorescence Microscopes: Confocal, TIRF. Acquisition: CCD, Hardware setup effect on image quality, Numerical Aperture, Sub-diffraction}
 
 
 %----------------------------------------------------------------------------------------
@@ -243,7 +296,7 @@ Typically, these properties are quantitative measures.
 In this section we review some of the important quantitative measurements in digital image analysis.
 It is important to note that for some of the properties of interest, the accuracy of the measurements depend heavily on the accuracy on the segmentation.
 The properties of interest are application dependent, one might require just the object morphology of structure and hence properties like perimeter, area, shape, intensity, colour, etc are of significance.
-Alternatively, if one requires the colocalisation of cells, then distance discriminants, such as Euclidean distance, Manhattan distance, chessboard distance, etc, are of significance \citep{Fatima2008_2,Danek2012}.
+Alternatively, if one requires the colocalisation of cells, then distance discriminants, such as Euclidean distance, Manhattan distance, Chessboard distance, etc, are of significance \citep{Fatima2008_2,Danek2012}.
 
 Object measures can be loosely classified into four catergories: geometric measures, histogram-based measures, intensity based measures and temporal measures. One can also argue a fifth catergory statistical classifiers although this is generally used in higher level analysis.
 
@@ -289,6 +342,10 @@ Object measures can be loosely classified into four catergories: geometric measu
 \begin{definition}[Texture measures]
 	In image analysis texture refers to the spatial arrangement of gray level values \citep{Duda2001} and hence a texture feature quantifies some characteristic of the intensity variation within an object.
 	Common texture measures are statistical texture measures, gray-level co-occurrence matrix (GLCM) \citep{Atlamazoglou2001,Cicchi2010} and power spectrum features \citep{Erik1999,Xu1996}.
+\end{definition}
+
+\begin{definition}[Ratiometric measures]
+	Some fluorescent dye respond to the changes in Calcium and Hydrogen ion concentration by changing its spectral properties of the fluorescent emission bands. In this case, a ratio of the intensity can be used to calculate concentration of calcium of pH value \citep{Dobrucki2013}.
 \end{definition}
 
 \begin{definition}[Temporal measures]
