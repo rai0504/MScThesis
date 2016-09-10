@@ -24,7 +24,6 @@
 \citep{Matula2000}
 %\citep{Sarder2006}
 \citep{Vu2008}
-\citep{Kolmogorov2004}
 %\citep{Hubeny2008}
 \citep{Kozubek2001}
 \citep{Petran1985}
@@ -265,23 +264,29 @@ The schematic of the epifluorescent micrcoscope is illustrated in \autoref{fig:e
 \begin{definition}[Detector]
 	\textcolor{red}{What is the detector why is it needed?}
 	The dector is used to capture the emission light and can further digital form the image.
-	The detector is usually a CCD (charge-coupled device) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
-	It is vital that an appropriate detector be chosen as this has direct influence of image quality \citep{Fatima2008}.
+	The detector is usually a photodector such as a CCD (charge-coupled device) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
+	It is vital that an appropriate detector be chosen as this has direct impact on image quality \citep{Fatima2008}.
 \end{definition}
 
 \textcolor{red}{Other Types of Fluorescence Microscopes: Confocal, TIRF. Acquisition: CCD, Hardware setup effect on image quality, Numerical Aperture, Sub-diffraction}
-
+The type of fluorescence image data that needs to be captured is application dependant and this impacts the decision on which type of microscope to use.
+The \textit{widefield}, or conventional, microscope produces 2D image data.
+3D image data cannot be captured directly.
+Instead, a series od 2D images are captured to form a 2D stack. The 3D image is then constructed in software.
+In this scenario, the most common choice of micrscope is the \textit{confocal laser scanning microscope} (CLSM).
+This microscope system is expensive and acquisition is slower.
+An economical alternative is the \textit{confocal spinning disk miscroscope}.
+To detect single molecules, the favoured technique is \textit{total internal reflection fluorescence} (TIRF) which can be achieved by a modification of the epifluorescence micrcoscope.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
-\section{Image Processing in FM}
+\section{Image Processing}
 \label{sec:ImageProcessing}
 
-Limitations in Fluorescence Imaging\\
-Preprocessing: Point Spread Function deconvolution, etc\\
-Segmentation 
+\textcolor{red}{Limitations in Fluorescence Imaging. Preprocessing: Point Spread Function deconvolution, etc. Segmentation }
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
