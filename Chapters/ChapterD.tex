@@ -301,12 +301,40 @@ Here we present some of the commonly occuring factors that reduce image quality 
 \end{definition}
 
 \begin{definition}[Fading]
-	\textcolor{red}{What causes quenching and photobleaching? What techniques are done to reduce it's effect. Why is photobleaching worse?} 
+	\textcolor{red}{What causes quenching and bleaching? What techniques are done to reduce it's effect. Why is photobleaching worse?}
+	The reduction of emission intensity is called \textit{fading}, of which there are two types: \textit{quenching} and \textit{bleaching} .
+	
+	Quenching is a reversible loss of fluorescence owing to a variety of nonradiative energy-loss mechanisms such as collisions with nearby acceptor molecules, a phenomenon known as \textit{resonance energy transfer}. This phenomenon is useful in studying molelcular interactions below the lateral resolution of the light microscope through a technique called \textit{fluorescence resonance energy transfer} (FRET) \cite{Spring2003,Danek2012,LichtmanConchello2005}.
+	
+	Bleaching refers to all processes that cause a fluorescent signal to fade permanently \citep{LichtmanConchello2005}. From the fluorescence process presented in \Cref{sec:PhysicsOfFluorescence}, one may assume that, under the proper conditions, a fluorochrome has the ability to fluoresce indefinitely. However, this is not the case. There is a limit number of cycles before permanent bleaching \citep{LichtmanConchello2005}. \Cref{fig:bleaching} illustrates the effect of photobleaching. \textit{Photobleaching} is the most prominent form of bleaching. It is due the interaction of the fluorophore with an oxygen molecule. This can move the oxygen molecule to an excited singlet state, which then becomes a reactive molecule. When in this state, the oxygen molecule can participate in many chemically destructive reaction with organic molecules causing \textit{phototoxicity} \citep{Danek2012}. Photobleaching is used to study diffusion and motion through a technique called \textit{fluorescence recovery after photobleaching} (FRAP) \citep{LichtmanConchello2005,AbramowitzDavidson2016}.
+	
+	Photobleaching cannot be avoided but it be can pushed back. The aim in the measures to avoid photobleaching is to take a longer time to reach \textit{reciprocity failure} \citep{AbramowitzDavidson2016}. This is done by shortening exposure times and using less intensive excitation light. This, however, yields low contrast images. These images with low signal-to-noise ratio (SNR) are more difficult to segment hence contrast enhancement must be performed on the images prior to segmentation \citep{Boppart2005}.
+	\begin{figure}[!t]
+		\centering
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:label1}
+		}
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:label2}
+		}
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:label3}
+		}
+%		\includegraphics[width=\columnwidth]{placeholder_rect.png}
+		\caption{The effect of photobleaching.}
+		\label{fig:bleaching}
+	\end{figure}
 \end{definition}
 
 \begin{definition}[Image distortion]
 	\textcolor{red}{What causes image distortion (PSF)? What techniques are done to reduce it's effect.}
-	Image distortion occurs primarily due to two factors: The \textit{point spread function} (PSF) and noise \citep{Sarder2006}.
+	The major contributing factors to image distortion are: The \textit{point spread function} (PSF) and noise \citep{Sarder2006}.
 	Image formation can be approximated by 
 	\begin{equation}
 		O = n(s \otimes h),
@@ -330,7 +358,7 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	\begin{figure}[!t]
 		\centering
 		\includegraphics[width=\columnwidth]{placeholder_rect.png}
-		\caption{The image formation process}
+		\caption{The image formation process.}
 		\label{fig:imageformation}
 	\end{figure}
 	
