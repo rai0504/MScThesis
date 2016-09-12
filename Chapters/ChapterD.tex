@@ -286,9 +286,6 @@ To detect single molecules, the favoured technique is \textit{total internal ref
 \label{sec:ImageProcessing}
 
 \textcolor{red}{Limitations in Fluorescence Imaging. Preprocessing: Point Spread Function deconvolution, etc. Segmentation }
-
-%\subsection{Factors that reduce fluorescence image quality}
-
 Due to the physical nature of the fluorescence and image acquisition process, there are many factors that can degrade image quality.
 There are measures that can be taken to largely mitigate some problems but they can never be completely abated.
 The presence of these factors directly affect segmentation accuracy and subsequently higher level analysis.
@@ -296,19 +293,61 @@ Therefore, images are processed prior to segmentation to suppress the artefacts 
 \Cref{chap:Chapter7} takes a step in this vain.
 Here we present some of the commonly occuring factors that reduce image quality and the methods used to mitigate them.
 
-\begin{definition}[Uneven illumination]
-	\textcolor{red}{What causes uneven illumination? What techniques are done to reduce it's effect. Vignette effect, etc}
+\begin{definition}[Nonuniform illumination]
+	\textcolor{red}{What causes uneven illumination? What techniques are done to reduce it's effect. Vignette effect, etc.}
+	There are many factors that could contribute to nonuniform illumination.
+	The specimen layer will not be uniformly lit if the  arc lamp is not properly focussed on the black aperture.
+	To prevent this from happening, a liquid light guide-based light source, which provide even illumination may be used \citep{LichtmanConchello2005}.
+	If the light brightness diminished towards the edges of the image then this is known as the \textit{vignette effect}.
+	Common techniques to suppress this distortion is \textit{background correction}, also known as \textit{flat-field correction}, \textit{background flattening} or \textit{shading correction} \citep{Danek2012,Fatima2008,Murphy2001}.
+	Other causes of nonuniform illumination are inhomogenous detector sensitivity, autofluorescence, dirt particles in the optical system or nonspecific sample staining.
+	An example of the Vignette effect is illustrated in \autoref{fig:Vignette}.
+	Computational schemes to eliminate nonuniform illumination have been well researched, although recently it hasn't recived too much attention \citep{Young2001,Ghauharali1998,Model2001,Model2001_2}.
+	
+	\begin{figure}[!t]
+		\centering
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:ImageProcessingOriginal}
+		}
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:Vignette}
+		}
+		\subfigure[]
+		{
+			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\label{fig:PoissonCorrupted}
+		}
+		\caption{\textbf{(a)} Original image. \textbf{(b)} Nonuniformly illuminated image. The Vignette effect. \textbf{(c)} Image corrupted by Poisson noise.}
+		\label{fig:illumination}
+	\end{figure}
 \end{definition}
 
 \begin{definition}[Fading]
 	\textcolor{red}{What causes quenching and bleaching? What techniques are done to reduce it's effect. Why is photobleaching worse?}
-	The reduction of emission intensity is called \textit{fading}, of which there are two types: \textit{quenching} and \textit{bleaching} .
+	The reduction of emission intensity is called \textit{fading}, of which there are two types: \textit{quenching} and \textit{bleaching}.
 	
-	Quenching is a reversible loss of fluorescence owing to a variety of nonradiative energy-loss mechanisms such as collisions with nearby acceptor molecules, a phenomenon known as \textit{resonance energy transfer}. This phenomenon is useful in studying molelcular interactions below the lateral resolution of the light microscope through a technique called \textit{fluorescence resonance energy transfer} (FRET) \cite{Spring2003,Danek2012,LichtmanConchello2005}.
+	Quenching is a reversible loss of fluorescence owing to a variety of nonradiative energy-loss mechanisms such as collisions with nearby acceptor molecules, a phenomenon known as \textit{resonance energy transfer}.
+	This phenomenon is useful in studying molelcular interactions below the lateral resolution of the light microscope through a technique called \textit{fluorescence resonance energy transfer} (FRET) \cite{Spring2003,Danek2012,LichtmanConchello2005}.
 	
-	Bleaching refers to all processes that cause a fluorescent signal to fade permanently \citep{LichtmanConchello2005}. From the fluorescence process presented in \Cref{sec:PhysicsOfFluorescence}, one may assume that, under the proper conditions, a fluorochrome has the ability to fluoresce indefinitely. However, this is not the case. There is a limit number of cycles before permanent bleaching \citep{LichtmanConchello2005}. \Cref{fig:bleaching} illustrates the effect of photobleaching. \textit{Photobleaching} is the most prominent form of bleaching. It is due the interaction of the fluorophore with an oxygen molecule. This can move the oxygen molecule to an excited singlet state, which then becomes a reactive molecule. When in this state, the oxygen molecule can participate in many chemically destructive reaction with organic molecules causing \textit{phototoxicity} \citep{Danek2012}. Photobleaching is used to study diffusion and motion through a technique called \textit{fluorescence recovery after photobleaching} (FRAP) \citep{LichtmanConchello2005,AbramowitzDavidson2016}.
+	Bleaching refers to all processes that cause a fluorescent signal to fade permanently \citep{LichtmanConchello2005}.
+	From the fluorescence process presented in \Cref{sec:PhysicsOfFluorescence}, one may assume that, under the proper conditions, a fluorochrome has the ability to fluoresce indefinitely.
+	However, this is not the case. There is a limit number of cycles before permanent bleaching \citep{LichtmanConchello2005}.
+	\Cref{fig:bleaching} illustrates the effect of photobleaching.
+	\textit{Photobleaching} is the most prominent form of bleaching.
+	It is due the interaction of the fluorophore with an oxygen molecule.
+	This can move the oxygen molecule to an excited singlet state, which then becomes a reactive molecule.
+	When in this state, the oxygen molecule can participate in many chemically destructive reaction with organic molecules causing \textit{phototoxicity} \citep{Danek2012}.
+	Photobleaching is used to study diffusion and motion through a technique called \textit{fluorescence recovery after photobleaching} (FRAP) \citep{LichtmanConchello2005,AbramowitzDavidson2016}.
 	
-	Photobleaching cannot be avoided but it be can pushed back. The aim in the measures to avoid photobleaching is to take a longer time to reach \textit{reciprocity failure} \citep{AbramowitzDavidson2016}. This is done by shortening exposure times and using less intensive excitation light. This, however, yields low contrast images. These images with low signal-to-noise ratio (SNR) are more difficult to segment hence contrast enhancement must be performed on the images prior to segmentation \citep{Boppart2005}.
+	Photobleaching cannot be avoided but it be can pushed back.
+	The aim in the measures to avoid photobleaching is to take a longer time to reach \textit{reciprocity failure} \citep{AbramowitzDavidson2016}.
+	This is done by shortening exposure times and using less intensive excitation light.
+	This, however, yields low contrast images.
+	These images with low signal-to-noise \citep{Murphy2001} ratio (SNR) are more difficult to segment hence contrast enhancement must be performed on the images prior to segmentation \citep{Boppart2005}.
 	\begin{figure}[!t]
 		\centering
 		\subfigure[]
@@ -326,7 +365,6 @@ Here we present some of the commonly occuring factors that reduce image quality 
 			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
 			\label{fig:label3}
 		}
-%		\includegraphics[width=\columnwidth]{placeholder_rect.png}
 		\caption{The effect of photobleaching.}
 		\label{fig:bleaching}
 	\end{figure}
@@ -351,7 +389,7 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	Deconvolution seeks to reconstruct the original image given the PSF and certain assumptions about noise \citep{Keuper2012}.
 	This is an \textit{ill-posed problem} as little is known about the specific PSF or the noise model.
 	Additionally, if the image is corrupted by too much of noise, deconvolution might still produce unsatisfactory results.
-	The PSF is generally experimentally determined and so the true PSF is never attained.
+	The PSF is generally experimentally determined or theorectically modelled, and so the true PSF is never attained.
 	Hence, the original image can never be attained by deconvolving with an approximated PSF.
 	The image formation and restroration process is illustrated in \autoref{fig:imageformation}.
 	
@@ -373,10 +411,6 @@ Here we present some of the commonly occuring factors that reduce image quality 
 
 \begin{definition}[Noise]
 \textcolor{red}{What types of noise are most prevalent? How do they arise? What techniques are done to reduce it's effect.}
-\end{definition}
-
-\begin{definition}[Low signal-to-background contrast]
-	\textcolor{red}{What causes the background not to be as black? What techniques are done to reduce it's effect.}
 \end{definition}
 
 %----------------------------------------------------------------------------------------
