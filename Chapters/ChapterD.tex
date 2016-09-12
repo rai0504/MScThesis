@@ -287,6 +287,69 @@ To detect single molecules, the favoured technique is \textit{total internal ref
 
 \textcolor{red}{Limitations in Fluorescence Imaging. Preprocessing: Point Spread Function deconvolution, etc. Segmentation }
 
+%\subsection{Factors that reduce fluorescence image quality}
+
+Due to the physical nature of the fluorescence and image acquisition process, there are many factors that can degrade image quality.
+There are measures that can be taken to largely mitigate some problems but they can never be completely abated.
+The presence of these factors directly affect segmentation accuracy and subsequently higher level analysis.
+Therefore, images are processed prior to segmentation to suppress the artefacts and reconstruct the original data \citep{Danek2012} or better yet enhance it.
+\Cref{chap:Chapter7} takes a step in this vain.
+Here we present some of the commonly occuring factors that reduce image quality and the methods used to mitigate them.
+
+\begin{definition}[Uneven illumination]
+	\textcolor{red}{What causes uneven illumination? What techniques are done to reduce it's effect. Vignette effect, etc}
+\end{definition}
+
+\begin{definition}[Fading]
+	\textcolor{red}{What causes quenching and photobleaching? What techniques are done to reduce it's effect. Why is photobleaching worse?} 
+\end{definition}
+
+\begin{definition}[Image distortion]
+	\textcolor{red}{What causes image distortion (PSF)? What techniques are done to reduce it's effect.}
+	Image distortion occurs primarily due to two factors: The \textit{point spread function} (PSF) and noise \citep{Sarder2006}.
+	Image formation can be approximated by 
+	\begin{equation}
+		O = n(s \otimes h),
+	\end{equation}
+	where $O$ is the formed image, $n$ is the noise function, $s$ is the exact image and $h$ is the specific PSF of the optical system.
+	We discuss the PSF first.
+	The observed image isn't an exact representation of the real object.
+	Optical systems have an inherent property called the point spread function which is the systems optical response to a point light source \citep{Danek2012}.
+	The final image is dependant on the spatial position of a point, numerical aperture (NA) and furthermore differs for various emission wavelengths \citep{Hubeny2008,Keuper2012}.
+	The final image is a superposition of all points in the illuminated volume where the contribution of each is described by the PSF.
+	
+	Theoretically the exact image can be obtained by deconvolution of the observed image with the PSF.
+	However, there are secondary factors that prevent this.
+	Deconvolution seeks to reconstruct the original image given the PSF and certain assumptions about noise \citep{Keuper2012}.
+	This is an \textit{ill-posed problem} as little is known about the specific PSF or the noise model.
+	Additionally, if the image is corrupted by too much of noise, deconvolution might still produce unsatisfactory results.
+	The PSF is generally experimentally determined and so the true PSF is never attained.
+	Hence, the original image can never be attained by deconvolving with an approximated PSF.
+	The image formation and restroration process is illustrated in \autoref{fig:imageformation}.
+	
+	\begin{figure}[!t]
+		\centering
+		\includegraphics[width=\columnwidth]{placeholder_rect.png}
+		\caption{The image formation process}
+		\label{fig:imageformation}
+	\end{figure}
+	
+	%Image deconvolution is a well researched and still an ongoing research topic.
+	Deconvolution has recieved a lot of attention in the passed with very creative approaches \citep{Mukamel2012,Verveer2007,Periasamy1999,Swedlow2007,Rooi2014}.
+	Fluorescence microscopy deconvolution is still a very active field of research.
+	Bayesian methods have become popular in fluorescence microscopy image deconvolution, however noise in low SNR imaging conditions still poses a challenge \citep{Wong2015}.
+	Recent trends in 3D deconvolution in widefield microscopy use blind depth-invariant of the PSF \citep{Kim2015}.
+	Most PSF deconvolution systems na{\"i}vely assume depth-invariance however, the PSF changes significantly along the optical axis.
+	There are also deconvolution methods that can preserve detail and possibly enhance image quality in diffraction-limited/superresolution imaging modalilities \citep{Qin2016}.
+\end{definition}
+
+\begin{definition}[Noise]
+\textcolor{red}{What types of noise are most prevalent? How do they arise? What techniques are done to reduce it's effect.}
+\end{definition}
+
+\begin{definition}[Low signal-to-background contrast]
+	\textcolor{red}{What causes the background not to be as black? What techniques are done to reduce it's effect.}
+\end{definition}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
