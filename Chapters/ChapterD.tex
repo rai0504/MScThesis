@@ -298,7 +298,7 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	There are many factors that could contribute to nonuniform illumination.
 	The specimen layer will not be uniformly lit if the  arc lamp is not properly focussed on the black aperture.
 	To prevent this from happening, a liquid light guide-based light source, which provide even illumination may be used \citep{LichtmanConchello2005}.
-	If the light brightness diminished towards the edges of the image then this is known as the \textit{vignette effect}.
+	If the light brightness diminished towards the edges of the image then this is known as the \textit{Vignette effect}.
 	Common techniques to suppress this distortion is \textit{background correction}, also known as \textit{flat-field correction}, \textit{background flattening} or \textit{shading correction} \citep{Danek2012,Fatima2008,Murphy2001}.
 	Other causes of nonuniform illumination are inhomogenous detector sensitivity, autofluorescence, dirt particles in the optical system or nonspecific sample staining.
 	An example of the Vignette effect is illustrated in \autoref{fig:Vignette}.
@@ -319,9 +319,9 @@ Here we present some of the commonly occuring factors that reduce image quality 
 		\subfigure[]
 		{
 			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
-			\label{fig:PoissonCorrupted}
+			\label{fig:IlluminationSegmented}
 		}
-		\caption{\textbf{(a)} Original image. \textbf{(b)} Nonuniformly illuminated image. The Vignette effect. \textbf{(c)} Image corrupted by Poisson noise.}
+		\caption{The effect of nonuniform illumination on segmentation. \textbf{(a)} Original image. \textbf{(b)} Nonuniformly illuminated image. The Vignette effect. \textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
 		\label{fig:illumination}
 	\end{figure}
 \end{definition}
@@ -353,17 +353,17 @@ Here we present some of the commonly occuring factors that reduce image quality 
 		\subfigure[]
 		{
 			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
-			\label{fig:label1}
+			\label{fig:ImageProcessingOriginal2}
 		}
 		\subfigure[]
 		{
 			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
-			\label{fig:label2}
+			\label{fig:Photobleach1}
 		}
 		\subfigure[]
 		{
 			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
-			\label{fig:label3}
+			\label{fig:Photobleach2}
 		}
 		\caption{The effect of photobleaching.}
 		\label{fig:bleaching}
@@ -411,6 +411,48 @@ Here we present some of the commonly occuring factors that reduce image quality 
 
 \begin{definition}[Noise]
 \textcolor{red}{What types of noise are most prevalent? How do they arise? What techniques are done to reduce it's effect.}
+As previously stated, fluorescence imaging is a low light, low constrast and low SNR imaging technique to counter the effects of bleaching.
+For these reasons, noise becomes prominent. The three types of noise recorded by a camera is \textit{dark noise}, \textit{read noise} and \textit{photon noise} \citep{Dobrucki2013,Danek2012,Matula2012,Hubeny2008}.
+
+The electrons in a CCD of film are always in motion due to thermal energy.
+Dark current is due to the extraneous electrons which excited into the signal.
+This signal carries a statistical fluctuation known as dark noise.
+Dark current effects can be reduced by ground image subtraction or cooling the CCD.
+If there is a significant amount of dark noise then the background won't be as black as it should be.
+For this reason it is common to mistake dark noise for low-level autofluorescence \citep{Ryan2016,Dobrucki2013}.
+
+Read noise is a result of the conversion process from charge build-up to a voltage and then digitisation.
+
+Photon noise, also known as \textit{shot noise}, is the signal dependant statical variation of the counting of photons incident on the CCD or film.
+This is a naturally occuring phenomenon and cannot be reduced by camera design of system optimisation \cite{Ryan2016}.
+
+In low-light imaging techniques, such as is common in fluorescence imaging, the dominant form of noise is photon noise.
+Photon noise and dark noise are Poisson distributed \citep{Danek2012,Ryan2016,Kempen1999}.
+Noise is low-light images used to modelled using the Gaussian distribution but was found to be a poor description of the noise.
+The Poisson distribution provides a more physically accurate model especially in photon-limited recording \citep{Sarder2006}.
+We study deonising in \Cref{sec:PoissonDenoising}.
+The effect of noise on segementation accuracy is illustrated in \autoref{fig:Noise}.
+
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\label{fig:ImageProcessingOriginal3}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\label{fig:PoissonNoise}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\label{fig:NoiseSegmented}
+	}
+	\caption{The effect of noise on segmentation. \textbf{(a)} Original image. \textbf{(b)} Poisson noise corrupted image \textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
+	\label{fig:Noise}
+\end{figure}
 \end{definition}
 
 %----------------------------------------------------------------------------------------
