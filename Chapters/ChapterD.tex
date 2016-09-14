@@ -3,32 +3,17 @@
 \chapter{Fluorescence Microscopy} % Main chapter title
 
 \label{chap:Chapter2} % Change 2 to a consecutive number; for referencing this chapter elsewhere, use \ref{chap:Chapter2}
-
-%\citep{SpringDavisdson2016}
-%\citep{Rice2016}
-%\citep{Nobel2016}
-%\citep{AbramowitzDavidson2016}
-%\citep{ThermoFisher2016}
-%\citep{LichtmanConchello2005}
-%\citep{Spring2003}
-\citep{Biehlmaier2013}
-\citep{Svoboda2007}
-\citep{Svoboda2009}
-\citep{WuMerchantCastleman2008}
-\citep{GonzalezWoods2002}
-\citep{Pratt2001}
-\citep{Soile2004}
-%\citep{Murphy2001}
-\citep{Matula2006}
-\citep{Rohr2010}
-\citep{Matula2000}
-%\citep{Sarder2006}
-\citep{Vu2008}
-%\citep{Hubeny2008}
-\citep{Kozubek2001}
-\citep{Petran1985}
-%\citep{Tsien1998}
-
+%\citep{Biehlmaier2013}
+%\citep{Svoboda2007}
+%\citep{Svoboda2009}
+%\citep{GonzalezWoods2002}
+%\citep{Pratt2001}
+%\citep{Soile2004}
+%\citep{Matula2006}
+%\citep{Rohr2010}
+%\citep{Matula2000}
+%\citep{Kozubek2001}
+%\citep{Petran1985}
 \textcolor{red}{What is fluorescence microscopy? What's it's purpose in the thesis?	Photoluminescence -> fluorescence and phosphorescence. Discovery of fluorescence: Brief history and evolution. Brief discussion on the remainder of the chapter.}
 Fluorescence microscopy has become an essential tool in diverse fields, such as petrology, semiconductors, etc, and has especially been established as a choice imaging technique in cellular and molecular biology for visualisation of cells and tissues \citep{Spring2003,Danek2012,Hubeny2008,Fatima2008,Matula2012}.
 In this thesis we confine our attention to its use in cellular biology.
@@ -291,7 +276,10 @@ There are measures that can be taken to largely mitigate some problems but they 
 The presence of these factors directly affect segmentation accuracy and subsequently higher level analysis.
 Therefore, images are processed prior to segmentation to suppress the artefacts and reconstruct the original data \citep{Danek2012} or better yet enhance it.
 \Cref{chap:Chapter7} takes a step in this vain.
-Here we present some of the commonly occuring factors that reduce image quality and the methods used to mitigate them.
+Here we present some of the commonly occuring factors that reduce image quality and the methods used to mitigate them, and some of the techniques employed for segmentation.
+
+\subsection{Preprocessing}
+\textcolor{red}{Write a little something on preprocessing.}
 
 \begin{definition}[Nonuniform illumination]
 	\textcolor{red}{What causes uneven illumination? What techniques are done to reduce it's effect. Vignette effect, etc.}
@@ -450,9 +438,95 @@ The effect of noise on segementation accuracy is illustrated in \autoref{fig:Noi
 		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
 		\label{fig:NoiseSegmented}
 	}
-	\caption{The effect of noise on segmentation. \textbf{(a)} Original image. \textbf{(b)} Poisson noise corrupted image \textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
+	\caption{The effect of noise on segmentation. 
+		\textbf{(a)} Original image. 
+		\textbf{(b)} Poisson noise corrupted image.
+		\textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
 	\label{fig:Noise}
 \end{figure}
+\end{definition}
+
+\subsection{Segmentation}
+\textcolor{red}{Write a little something on segmentation in cell imaging. Basic historical track of cell segmentation. Focus on specfic segmentation techniques.}
+The primary aim of using fluorescence microscopy imaging is to make diagnoses and to study molecular behaviour and interaction.
+This means that biologists, geneticists and other professionals alike, not only have a superabundance of microscopic imaging techniques at their disposal, but also have an immense amount of image data to analyse since the outburst of image acquisition technology.
+The abundance, diversity, dimensionality and complexity of fluorescence image data obviates manual image processing as this isn't tractable, by any means, in terms of time or quality \citep{Meijering2012,Ryan2016}.
+Consequently, the task has fallen to computers to perform these tasks and has now become of essential in advancing these fields \citep{Alberts2007,Vonesch2006}.
+The crux of image analysis lies on the accuracy of image segmentation and has become the principle focus in many studies \citep{Bengtsson2004}.\\
+
+Anton van Leeuwenhoek, a Dutch draper and scientist, is credited with the invention of the first real compound microscope in the late 17th century.
+However, it wasn't until the mid-1950s that computers became involved when systems were developed to automate the classification of smears of exfoliated cells.
+These systems used simple thresholding rules on 1D scanning of microscopic lines \citep{Tolles1955}.
+In the 1960s, automated systems were developed to count leukocytes on 2D image data based on their colour and morphological measurements \citep{Prewitt1966}.
+In the 1980s the invention of the confocal microscope made it possible to study cells in 3D but it wasn't until the 1990s that computer became powerful enough to process 3D image data or complex 2D images \citep{Gurcan2009}.
+The trends of increased computing power has made possible the use of more sophisticated cell analysis techniques as well as the ability to use more computationally demanding segmentation methods.
+The literature on cell segmentation and analysis has experienced exponential growth in the last couple of decades.
+Many studies comparing segmentation algorithms for cells have been pubished \citep{Dima2011,Pincus2007,Coelho2009}.
+We review some of the common techniques used in fluorescence microscopy image segmentation.
+
+\begin{definition}[Intensity thresholding]
+	\textcolor{red}{Say something about this section.}
+	Intensity thresholding assumes a non-overlapping intensity levels between the objects and the background.
+	It is still one of the most common thresholding methods for cell segmentation \citep{WuMerchantCastleman2008,Meijering2004,Quanli2011}.
+	Locally adaptive thresholding techniques are used when illumination varies across the image.
+	Automated threshold segmentation techniques are usually based on global or local intensity using the histogram \citep{Bengtsson2004}.
+	Thresholding produces suboptimal results due to the na{\"i}ve assumption of mutually exclusive intensity levels.
+\end{definition}
+
+\begin{definition}[Morphological segmentation]
+	\textcolor{red}{Say something about this section.}
+	This method uses non-linear mathematical morphological operators like erosion, dilation, opening, closing, etc with geometrical and topological properties to segment the image \citep{GonzalezWoods2002,Meijering2004,Dorini2007,Anoraganingrum1999,Kumar2002}.
+	Generally, this method is used as a post-processing step to polish up coarse segmentation or a pre-processing step to suppress certain image structures \citep{Bengtsson2004}.
+\end{definition}
+
+\begin{definition}[Region accumulation]
+	\textcolor{red}{Say something about this section.}
+	This method starts with selected points, called seeds.
+	The idea is to iteratively add points neighboring previously labelled pixels based on some conformity measure, usually intensity.
+	The most common implementation is called \textit{region growing}.
+	Most cases assume an image model similar to that of thresholding and suffers the same segmented results problems.
+	Another approach is called the \textit{watershed method} which converts the image into an open 3D shape and "fills the shape with water".
+	The different regions are separated by those "filled with water" and those that aren't.
+	A common problem with this method is oversegmentation and usually requires post-processing methods, like \textit{region merging}, to get a meaningful result \citep{Jiang2003,Lin2003,Bengtsson2004}.
+\end{definition}
+
+\begin{definition}[Edge-based segmentation]
+	\textcolor{red}{Say something about this section.}
+	There are basically two types of edge-based segmentation: \textit{gradient based methods} and \textit{Laplacian based methods}.
+	
+	Gradient methods are based on the assumption that there is a rapid intensity gradient between the object and the background.
+	Edges are detected by searching for the maximum and minimum in the first derivative, e.g. Prewitt, Roberts and Sobel operators.
+	
+	Laplacian methods search for zero-crossings in the second derivative, e.g. Marr-Hildreth, Laplacian of Gaussian (LoG), Canny edge detection.
+	
+	These algorithms are very fast to compute but the drawback is when closed curves are desired \citep{Bengtsson2004}, which is a common criterion in biological and molecular segmentation.
+	A solution to this is to use snakes or active shape models.
+\end{definition}
+
+\begin{definition}[Energy minimisation]
+	\textcolor{red}{Two types: Deformable models and Graph cuts}
+	The most recent segmentation methods are based on energy minimisation.
+	Most current state-of-the-art techniques fall under this category.
+	This is due to their flexibility and robustness \citep{Danek2012}.
+	This group encompasses two main subgroups: \textit{deformable models} and \textit{discrete combinatorial optimisation}.
+	
+	The aim of deformable model techniques is to fit a deformable model, either a curve or a surface, to the image data.
+	They may be formulated either explicitely, as a parametric contour (2D) or a surface, e.g. snakes \citep{Kass1988} or active contours \citep{Caselles1997,Li2009,Cheng2009}, or implicitely as a zero-level of a function with one dimension higher than that of the image data, e.g. as a level set \citep{Osher2003}.
+	This technique widely used in fluorescence image segmentation \citep{Dzyubachyk2008,Ortiz2001,Dufour2005,Dzyubachyk2010,Boukari2014,Maska2007}.
+	
+	The aim discrete combinatorial optimisation is to search a finite countable solution space for the optimal solution.
+	Optimality is defined with respect to some energy function, which embeds one or more criteria, which is to be minimised.
+	The most common implementation exploits the graph cut framework.
+	Graph cut segmentation has recently gained a lot of popularity and momentum in medical image segmentation (MIS) \citep{Danek2009,Chen2008,Kofahi2010,Kong2011,Yang2009,Zhang2014,Liu2008,Vu2008}.
+\end{definition}
+
+\begin{definition}[Other miscellaneous techniques]
+	\textcolor{red}{Unsupervised clustering (k-means), Otsu binarization , dynamic programming , Voronoi diagrams , ellipse fitting, template matching, model matching, gradient flow tracking.}
+	The techniques presented are just a select few in a plethora segmentation techniques that have been used in microscopy image segmentation.
+	A few other common techniques are unsupervised clustering segmentation using the k-means \citep{Ng2006,Shrivastava2014,Dhanachandra2015}, Otsu binarization \citep{Chen2006}, dynamic programming \citep{Liu2007,Zhang2007}, Voronoi diagrams \citep{Cardenes2003,Jiang2005}, gradient flow tracking \citep{Li2007}, etc.
+	This is just a few more.
+	Instead of cell segmentation converging to a robust, flexible and unified solution, the number of available options is steadily increasing \citep{Meijering2012}.
+	There probably exists as many individual unique solutions for cell segmentation as there are problems.
 \end{definition}
 
 %----------------------------------------------------------------------------------------
