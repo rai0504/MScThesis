@@ -296,20 +296,21 @@ Here we present some of the commonly occuring factors that reduce image quality 
 		\centering
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{uneven_orig.jpg}
 			\label{fig:ImageProcessingOriginal}
 		}
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{uneven.jpg}
 			\label{fig:Vignette}
 		}
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{uneven_final.jpg}
 			\label{fig:IlluminationSegmented}
 		}
-		\caption{The effect of nonuniform illumination on segmentation. \textbf{(a)} Original image. \textbf{(b)} Nonuniformly illuminated image. The Vignette effect. \textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
+		\caption{The effect of nonuniform illumination on segmentation. \textbf{(a)} Original image. Image source: The Cell Image Library \citep{cil:21739}. \textbf{(b)} Nonuniformly illuminated image. The Vignette effect. \textbf{(c)} K-means clustering using the Euclidean distance metric and 2 clusters. The blue curve is from the original, the red curve is from the nonuniformly illuminated image. Notice that less of the object is recognised towards the edges.}
+		\addloflink{http://www.cellimagelibrary.org/images/2173}
 		\label{fig:illumination}
 	\end{figure}
 \end{definition}
@@ -340,20 +341,24 @@ Here we present some of the commonly occuring factors that reduce image quality 
 		\centering
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{canvas.png}
 			\label{fig:ImageProcessingOriginal2}
 		}
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{canvas10.png}
 			\label{fig:Photobleach1}
 		}
 		\subfigure[]
 		{
-			\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+			\includegraphics[width=0.315\columnwidth]{canvas20.png}
 			\label{fig:Photobleach2}
 		}
-		\caption{The effect of photobleaching.}
+		\caption{The effect of photobleaching. Image Source: Molecular Expressions \citep{MolecularExpressionsPhotobleaching}. 
+			\textbf{(a)} Original image at $t=0s$.
+			\textbf{(b)} Image after $t=10s$.
+			\textbf{(c)} Image after $t=20s$.
+			}
 		\label{fig:bleaching}
 	\end{figure}
 \end{definition}
@@ -383,7 +388,7 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	
 	\begin{figure}[!t]
 		\centering
-		\includegraphics[width=\columnwidth]{placeholder_rect.png}
+		\includegraphics[width=\columnwidth]{image_formation.png}
 		\caption{The image formation process.}
 		\label{fig:imageformation}
 	\end{figure}
@@ -425,23 +430,23 @@ The effect of noise on segementation accuracy is illustrated in \autoref{fig:Noi
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\includegraphics[width=0.315\columnwidth]{poisson2.png}
 		\label{fig:ImageProcessingOriginal3}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\includegraphics[width=0.315\columnwidth]{poisson.png}
 		\label{fig:PoissonNoise}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.3\columnwidth]{placeholder_square.png}
+		\includegraphics[width=0.315\columnwidth]{poisson_final.png}
 		\label{fig:NoiseSegmented}
 	}
 	\caption{The effect of noise on segmentation. 
 		\textbf{(a)} Original image. 
 		\textbf{(b)} Poisson noise corrupted image.
-		\textbf{(c)} X Segmentated output. The blue curve is from the original, the red curve is from the nonuniformly illuminated image.}
+		\textbf{(c)} ACWE Chan-Vese segmentated output. The red curve is from the original, the green curve is from the Poisson noise corrupted image. Notice that there are more artifacts and the segmented output is less accurate especially towards the bottom left from the green curve.}
 	\label{fig:Noise}
 \end{figure}
 \end{definition}
