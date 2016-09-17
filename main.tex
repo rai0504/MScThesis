@@ -24,7 +24,7 @@
 
 \documentclass[
 11pt, % The default document font size, options: 10pt, 11pt, 12pt
-oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
+%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
 english, % ngerman for German
 singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
 %draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
@@ -111,10 +111,10 @@ headsepline, % Uncomment to get a line under the header
 %----------------------------------------------------------------------------------------
 
 \geometry{
-	paper=letterpaper, % Change to letterpaper for US letter or a4paper
-	inner=2.5cm, % Inner margin
-	outer=2.5cm,%3.8cm, % Outer margin
-	bindingoffset=2cm, % Binding offset
+	paper=b5paper,%letterpaper, % Change to letterpaper for US letter or a4paper
+	inner=1.0cm,%2.5cm, % Inner margin
+	outer=1.5cm,%2.5cm,%3.8cm, % Outer margin
+	bindingoffset=1.5cm,%2cm, % Binding offset
 	top=1.5cm, % Top margin
 	bottom=1.5cm, % Bottom margin
 	%showframe,% show how the type block is set on the page
@@ -411,14 +411,14 @@ $\omega$ & angular frequency & \si{\radian} \\
 
 \include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
-%\include{Chapters/ChapterB} % Mathematical Background
+\include{Chapters/ChapterB} % Mathematical Background
 %%\include{Chapters/ChapterC} % Interactive Segmentation
 %\include{Chapters/ChapterE} % Automatic Segmentation
 %\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 %%\include{Chapters/ChapterI} % Texture Segmentation
 %%\include{Chapters/ChapterJ} % Intensity and Texture Segmentation
 \include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
-%\include{Chapters/ChapterH} % Conclusion and Future Work
+\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
