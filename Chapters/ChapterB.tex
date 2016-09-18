@@ -8,234 +8,67 @@
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Graph Theory and Flow Networks}
-\label{sec:GraphTheory}
+\section{Labelling Problems}
+\label{sec:LabellingProblems}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{MAP Estimation for Discrete Models}
+\label{sec:MAPEstimates}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 1
+%----------------------------------------------------------------------------------------
+
+\subsection{Random Fields}
+\label{sec:RandomFields}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 2
+%----------------------------------------------------------------------------------------
+
+\subsection{Markov Random Fields}
+\label{sec:MarkovRandomFields}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 3
+%----------------------------------------------------------------------------------------
+
+\subsection{Conditional Random Fields}
+\label{sec:ConditionalRandomFields}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 4
+%----------------------------------------------------------------------------------------
+
+\subsection{CRFs for Image Segmentation}
+\label{sec:ConditionalRandomFieldsForImageSegmentation}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 5
+%----------------------------------------------------------------------------------------
+
+\subsection{MAP-MRF Estimation}
+\label{sec:MAPMRFEstimation}
+
+%-------------------------------------------------------------------------------
+--------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Graph Cuts}
+\label{sec:GraphCuts}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 1
+%----------------------------------------------------------------------------------------
+
+\subsection{Network Theory and the Min-cut Problem}
+\label{sec:NetworkTheory}
 
 In this section we cover Graph Theory and specifically Flow Networks, which is a branch of Graph Theory, which is fundamental to the understanding of image segmentation via graph cuts. With it roots in Germany where Euler tried to find the solution to the Konigsberg bridge problem, graph theory has since blossomed into a rich field of Mathematics with seemingly endless amounts of application. Graph Theory is a huge topic in mathematics and can be applied to many other sciences. Graph theory is part of another more encompassing field of Mathematics known as Combinatronics. Graph theory and applications are more useful than the average person would recognise. They're used in Google Maps to find shortest routes to destinations, in Molecular Chemistry to model the structure of atoms, and the list goes on for quite a while. It is no surprise that it is also found to be useful in image segmentation.
-
-\begin{definition}[Graph]\label{def_graph}
-	A graph $G$ is a pair $(V,E)$, where $V$ is the set of nodes/vertices and $E$ is the set of edges consisting of pairs $(u,v)$ where $u,v \in V$. The graph is assumed to be finite i.e. $|V| = n$ and $|E| = m$.
-\end{definition}
-
-In an \textbf{undirected graph}, the edge $(u,v)$ and $(v,u)$ are not distinct. That is, they refer to the same edge. However, in a \textbf{directed graph}, the two edge are now distinct. In a directed graph with edge $(u,v)$, $u$ is known as the \textbf{tail} and $v$ is know as the \textbf{head}. In directed graphs, edges, also known as arcs, are depicted by placing arrowheads at the head of the edge. Given an edge $e = (u,v)$, $u$ and $v$ are said to be \textbf{incident} on $e$. A graph is said to be \textbf{simple} if it does not contain any self-loops. A \textbf{self-loop} is an edge with of its end points being the same vertex.
-
-\begin{definition}[Degree]
-	The degree of a vertex $v$ is the number of edges incident on it. $deg(v) = |\{(u,v), (v,u) \in E\}|$. A self-loop counts for 2.
-\end{definition}
-
-If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an \textbf{in-degree} $d_{in}(v)$ and an \textbf{out-degree} $d_{out}(v)$. A digraph is said to be \textbf{balanced} if $d_{in}(v) = d_{out}(v), \forall v \in V$.
-
-\tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,-]
-\tikzstyle{weight} = [font=\small]
-\begin{figure}[!h]
-	\centering
-	\resizebox {\columnwidth} {!} {
-		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};
-		% draw the vertices
-		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-			{(4,-1)/g}, {(1,-1)/f}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,d/b/7, e/b/9, e/c/7,e/d/5,
-			f/d/3,f/e/1, g/e/3,g/f/5}
-		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-		% info box
-		\draw[yshift=0cm,xshift=4.5cm]
-		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{G} = \{a,b,c,d,e,f,g\}$, \\
-			$|V_{G}| = 7$\\
-			$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
-			$|E_{G}| = 11$
-		};	
-		% degrees
-		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
-		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
-		\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(c)=2$};
-		\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
-		\draw[orange] node at (3.2,0.0) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
-		\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(f)=3$};
-		\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(g)=2$};
-		\end{tikzpicture}
-	}
-	\caption{Undirected weighted graph \textbf{G}. The degree of each node is shown next to the corresponding node. The graph is simple. The red box shows the vertex set, $V_{G}$, and edge set, $E_{G}$, and their corresponding norm.}
-\end{figure}
-
-\tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,<-]
-\tikzstyle{weight} = [font=\small]
-\begin{figure}[!h]
-	\centering
-	\resizebox {\columnwidth} {!} {
-		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle, >={Stealth[black!24]}]
-		\draw[black] node at (-0.2,3.1) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{D}$};
-		% draw the vertices
-		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-			{(4,-1)/g}, {(1,-1)/f}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/10,c/b/3,d/a/5,e/b/9,e/d/5,
-			f/d/3,f/e/1, g/e/3,g/f/5}
-		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
-		% bend edges
-		\path [edge] (b) edge[bend right=20] node {$7$} (d);
-		\path [edge] (d) edge[bend left=-20] node {$4$} (b);
-		\path [edge] (e) edge[bend right=20] node {$7$} (c); 
-		\path [edge] (c) edge[bend right=20] node {$2$} (e);
-		% info box
-		\draw[yshift=0cm,xshift=4.5cm]
-		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{D} = \{a,b,c,d,e,f,g\}$, \\
-			$|V_{D}| = 7$\\
-			$E_{D} = \{ab,ad,bc,bd,be,ce,db,de,df,$\\$ec,ef,eg,fg\}$, \\
-			$|E_{D}| = 13$
-		};
-		% degrees
-		% a	
-		\draw[orange] node at (-0.2,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
-		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
-		% b
-		\draw[orange] node at (1.8,2.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=5$};
-		% c
-		\draw[orange] node at (3.8,1.7) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (3.8,1.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-		% d
-		\draw[orange] node at (-0.3,-0.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (-0.3,-0.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
-		% e
-		\draw[orange] node at (3.2,0.08) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=3$};
-		\draw[orange] node at (3.2,-0.12) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=3$};
-		% f
-		\draw[orange] node at (0.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (0.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-		%g
-		\draw[orange] node at (3.8,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (3.8,-1.8) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
-		\end{tikzpicture}
-	}
-	\caption{Directed weighted graph (Digraph) \textbf{D}. The in-degree and out-degree is shown next to each node. The graph is simple and not balanced. The red box shows the vertex set, $V_{D}$, and edge set, $E_{D}$, and their corresponding norm.}
-\end{figure}
-
-\begin{definition}[Subgraph]
-	A graph $G' = (V', E')$ is said to be a sub-graph of $G = (V, E)$, denoted as $G' \subseteq G$, if $V' \subseteq V$ and $E' \subseteq E$.
-\end{definition}
-
-\tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,-]
-\tikzstyle{weight} = [font=\small]
-\begin{figure}[!h]
-	\centering
-	\resizebox {\columnwidth} {!} {
-		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{H}$};
-		% draw the vertices
-		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(0,0)/d}, {(3,0)/e}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/10,d/a/5,d/b/7,e/b/9,e/d/5}
-		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-		% info box
-		\draw[yshift=-1.6cm,xshift=0cm]
-		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{H} = \{a,b,d,e\} \subseteq V_{G}$, \\
-			$|V_{H}| = 4$\\
-			$E_{H} = \{ab,ad,bd,be,de\} \subseteq E_{G}$, \\ 
-			$|E_{H}| = 5$
-		};	
-		% degrees
-		\draw[orange] node at (-0.2,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(a)=2$};
-		\draw[orange] node at (1.8,2.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(b)=3$};
-		\draw[orange] node at (-0.2,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(d)=4$};
-		\draw[orange] node at (2.5,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d(e)=5$};
-		
-		
-		\draw[black] node at (4.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{I}$};
-		% draw the vertices
-		\foreach \pos/\name in {{(4.4,2)/a}, {(6.4,2)/b}, {(4.4,0)/d}, {(7.4,0)/e}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/10,d/a/5,e/b/9,e/d/5}
-		\path[draw=black!24, very thick,<-] (\source) -- node[weight] {$\weight$} (\dest);
-		% bends
-		\path [draw=black!24, very thick,<-] (d) edge[bend left=-20] node {$4$} (b);
-		% info box
-		\draw[yshift=-1.6cm,xshift=4.4cm]
-		node [right,text width=5cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{I} = \{a,b,d,e\} \subseteq V_{D}$, \\
-			$|V_{I}| = 4$\\
-			$E_{I} = \{ab,ad,bd,be,de\} \subseteq E_{D}$, \\ 
-			$|E_{I}| = 5$
-		};	
-		% degrees
-		% a	
-		\draw[orange] node at (4.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=0$};
-		\draw[orange] node at (4.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};	
-		% b
-		\draw[orange] node at (6.2,2.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=1$};
-		\draw[orange] node at (6.2,2.3) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=2$};
-		% d
-		\draw[orange] node at (4.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (4.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=1$};
-		% e
-		\draw[orange] node at (7.1,-0.4) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{in}=2$};
-		\draw[orange] node at (7.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
-		\end{tikzpicture}
-	}
-	\caption{Undirected weighted graph \textbf{H} is a subgraph of \textbf{G} in Figure XX, $\textbf{H} \subseteq \textbf{G}$. Directed weighted graph \textbf{I} is a subgraph of \textbf{D} in Figure XX, $\textbf{I} \subseteq \textbf{D}$. The degree of each node is shown next to the corresponding node. The red box shows the vertex set, the edge set and their corresponding norms.}
-\end{figure}
-
-
-\begin{definition}[Clique]
-	A clique is a maximal subgraph.
-\end{definition}
-
-\tikzstyle{vertex}=[circle,thick,draw]
-\tikzstyle{edge} = [draw=black!24, very thick,-]
-\tikzstyle{weight} = [font=\small]
-\begin{figure}[!h]
-	\centering
-	\resizebox {\columnwidth} {!} {
-		\begin{tikzpicture}[scale=1.5, auto, swap, background rectangle/.style={fill=blue!10}, show background rectangle]
-		\draw[black] node at (-0.2,2.8) [font=\large,right,rounded corners,inner sep=1ex] {$\textbf{G}$};	
-		% draw the vertices
-		\foreach \pos/\name in {{(0,2)/a}, {(2,2)/b}, {(4,1)/c},{(0,0)/d}, {(3,0)/e}, 
-			{(4,-1)/g}, {(1,-1)/f}}
-		\node[vertex] (\name) at \pos {$\name$};
-		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {b/a/{},c/b/{},d/a/{},d/b/{},e/b/{},e/c/{},e/d/{},
-			f/d/{},f/e/{}, g/e/{},g/f/{}}
-		\path[edge] (\source) -- node[weight] {$\weight$} (\dest);
-		
-		% hyperedges around cliques
-		% abd
-		\draw[red, thick, rounded corners=1pt] (a.north) -- (a.north west) -- (a.west) -- (d.west) -- (d.south west) -- (d.south) -- (d.south east) -- (b.south east) -- (b.east) -- (b.north east) -- (b.north) -- (a.north);
-		% bde
-		\draw[green, thick, rounded corners=1pt] (b.north) -- (b.north west) -- (d.north west) -- (d.west) -- (d.south west) -- (d.south) -- (e.south) -- (e.south east) -- (e.east) -- (e.north east) -- (b.north east) -- (b.north);
-		% def
-		\draw[blue, thick, rounded corners=1pt] (d.north) -- (d.north west) -- (d.west) -- (d.south west) -- (f.south west) -- (f.south) -- (f.south east) -- (e.south east) -- (e.east) -- (e.north east) -- (e.north) -- (d.north);
-		% efg
-		\draw[red, thick, rounded corners=1pt] (e.north) -- (e.north west) -- (f.north west) -- (f.west) -- (f.south west) -- (f.south) -- (g.south) -- (g.south east) -- (g.east) -- (g.north east) -- (e.north east) -- (e.north);
-		% bce
-		\draw[orange, thick, rounded corners=1pt] (b.north) -- (b.north west) -- (b.west) -- (b.south west) -- (e.south west) -- (e.south) -- (e.south east) -- (c.south east) -- (c.east) -- (c.north east) -- (b.north east) -- (b.north);
-		
-		% info box
-		\draw[yshift=2.5cm,xshift=3.0cm]
-		node [right,text width=7cm,rounded corners,fill=red!20,inner sep=1ex]
-		{
-			$V_{G} = \{a,b,c,d,e,f,g\}$, \\
-			$E_{G} = \{ab,ad,bc,bd,be,ce,de,df,ef,$\\$eg,fg\}$, \\ 
-			$C_{G} = V_G \cup E_G \cup \{abd, bce, efg, edf, bde\}$
-		};	
-		\end{tikzpicture}
-	}
-	\caption{Cliques of the undirected weighted graph \textbf{G}. The maximal cliques are shown by the hyperedges that encompass the nodes of that clique.}
-\end{figure}
 
 \begin{definition}[Network]
 	A network $N = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
@@ -580,107 +413,38 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
-
-\section{Markov Random Fields}
-\label{sec:MarkovRandomFields}
-
-In this section we review MRF's as a pure mathematical/statistical tool used used specifically for vision. That is, we only cover the necessary concepts related to understanding 
-the problem of modelling images for analysis and inference purposes. In sub-section 1 we cover the basics, in sub-section 2 we cover how to model an image using MRF, and 
-in sub-section 3 we cover how to find the MAP, or a close enough approximation, to the MRF.
-
-%-----------------------------------
-%	SUBSECTION 1
-%-----------------------------------
-
-\subsection{Markov Random Fields Theory and Concepts}
-
-MRF theory and concepts. Purely mathematical/statistical.
-Markov Properties\\
-Markov Blankets
-
-%-----------------------------------
 %	SUBSECTION 2
-%-----------------------------------
-
-\subsection{Markov Random Fields in Image Modelling for Segmentation}
-
-Modelling the joint probability of of image using MRFs.
-Nearby pixels exhibit high correlation in natural images. This is where we can take advantage of Markov Modelling.
-
-%-----------------------------------
-%	SUBSECTION 3
-%-----------------------------------
-
-\subsection{MAP-MRF Approxiamtion via Graph Cuts}
-
-How to make MAP estimates on the MRF. How does the graph-cut approach ensure an MAP solution.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 3
 %----------------------------------------------------------------------------------------
 
-\section{Max-Flow/Min-Cut Problem}
-\label{sec:MaxFlowMinCutProblem}
-
-Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
+\subsection{Image Segmentation Framework/Graph Construction Images}
+\label{sec:GraphCutFramework}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
-\section{Modelling Images as MRFs}
-\label{sec:MRFImageModelling}
+\section{Energy Minimisation}
+\label{sec:EnergyMinimisation}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
-
-%-----------------------------------
+%----------------------------------------------------------------------------------------
 %	SUBSECTION 1
-%-----------------------------------
-\subsection{Sub-modularity Conditions for Discrete Systems}
+%----------------------------------------------------------------------------------------
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+\subsection{General Form of Energy Functions}
+\label{sec:GeneralEnergyFunctions}
 
-%-----------------------------------
+%----------------------------------------------------------------------------------------
 %	SUBSECTION 2
-%-----------------------------------
-
-\subsection{Connectivity}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-%-----------------------------------
-%	SUBSECTION 3
-%-----------------------------------
-
-\subsection{Distance Metrics}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-%-----------------------------------
-%	SUBSUBSECTION 1
-%-----------------------------------
-
-\subsubsection{Euclidean Distance}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-%-----------------------------------
-%	SUBSUBSECTION 2
-%-----------------------------------
-
-\subsubsection{Riemannian Distance}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-%	SUBSUBSECTION 3
-%-----------------------------------
-
-\subsubsection{Learned Distance from Seeds}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 5
 %----------------------------------------------------------------------------------------
 
-\section{Max-Flow/Min-Cut Algorithms}
+\subsection{Submodular Functions}
+\label{sec:Submodular Functions}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\subsection{Energy Minimisation Algorithms}
 \label{sec:MaxFlowMinCutAlgoithms}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
@@ -688,7 +452,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacin
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
-\subsection{Ford-Fulkerson}
+\subsubsection{Ford-Fulkerson}
 
 Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
 
@@ -711,14 +475,14 @@ Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum an
 %	SUBSECTION 2
 %-----------------------------------
 
-\subsection{Dinic/Edmond-Karp}
+\subsubsection{Dinic/Edmond-Karp}
 Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
 
 %-----------------------------------
 %	SUBSECTION 3
 %-----------------------------------
 
-\subsection{Push-Relabel}
+\subsubsection{Push-Relabel}
 Originally developed by Andrew V. Goldberg and Robert E. Tarjan. Previous algorithms, such as Ford-Fulkerson, used the concept of residual networks and augmenting paths to determine max-flow.
 Push-Relabel used the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the Preflow-Push Algorithm.
 Preflow is a concept originally developed by A.V. Karzanov.
@@ -859,20 +623,20 @@ Once complete the algorithm repeatedly performs either a push or a relabel opera
 	\begin{algorithmic}[1]
 		\Procedure{Main}{$v$}
 		\ForAll {$(v,w) \in (V-\{s\})(V-\{s\})$}
-		\State $f(v,w) \coloneqq 0$
-		\State $f(w,v) \coloneqq 0$
+		\State $f(v,w) \gets 0$
+		\State $f(w,v) \gets 0$
 		\EndFor
 		\item[]
 		\ForAll {$v \in V$}
-		\State $f(s,v) \coloneqq r_f(s,v)$
-		\State $f(v,s) \coloneqq -r_f(s,v)$
+		\State $f(s,v) \gets r_f(s,v)$
+		\State $f(v,s) \gets -r_f(s,v)$
 		\EndFor
 		\item[]
-		\State $d(s) = |V|$
+		\State $d(s) \gets |V|$
 		\item[]
 		\ForAll {$v \in V-\{s\}$}
-		\State $d(v) \coloneqq 0$
-		\State $e_f(v) \coloneqq f(s,v)$
+		\State $d(v) \gets 0$
+		\State $e_f(v) \gets f(s,v)$
 		\EndFor
 		\item[]
 		\State While there exists an active vertex
