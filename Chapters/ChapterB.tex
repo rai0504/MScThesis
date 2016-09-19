@@ -2,7 +2,48 @@
 
 \chapter{Mathematical Background} % Main chapter title
 
-\label{chap:Chapter3} % Change 2 to a consecutive number; for referencing this chapter elsewhere, use \ref{chap:Chapter2}
+\label{chap:Chapter3} % Change to a consecutive number; for referencing this chapter elsewhere, use \ref{chap:Chapter2}
+
+\textcolor{red}{Optimisation approach in vision, "machinery/mechanics", literature review, ill-posed inverse problems.}
+
+Image segmentation falls under the mathemtical classification as being an \textit{ill-posed inverse problem} \citep{Poggio1985,Terzopoulos1986}.
+It is an inverse problem since we require a model from the observation, this simply means given the results, what are the causes.
+In image segmentation this translates to, given a 2D matrix of intensity values, which pixels belong to the object and which belong to the background.
+Image segmentation is also an ill-posed problem since their is a lack of uniqueness or stability of a solution \citep{Kabanikhin2008}, which are two of the three requirements for a solution to be \textit{well-posed}, the other being existence.
+Image segmentation is an ill-posed because immense amount of information is suppressed in the acquisition processed \citep{Tarantola2005,Bertero1998,Bertero2006}.
+Many tasks in vision are inherently or can be reformulated as ill-posed inverse problems e.g. scene reconstruction, stereo matching, image restoration, image deconvolution, etc.
+Computer vision is used heavily in industry, medicine and life science fields included, hence there is a need for robust, enviromentally resistant approach.
+The \textit{optimisation approach} is an elegant way to obtain a solution.
+In computer vision, a problem can be posed as an optimisation problem as follows: We are given a coarse, discrete and noisy, approximation of the visual data, $d$, we aim to infer some hidden quantities $x$, labels, depth, probable pixel intensty, etc, based on it.
+We then have to design an \textit{objective function}, also known as an \textit{energy function} or \textit{cost function},
+
+\begin{equation}
+	E:(x,d) \rightarrow \Re,
+\end{equation}
+
+which has to be optimised such that the optimsation of the function provides a solution to the problem.
+$E(x,d)$ assigns an energy or a cost to each combination $(x,d)$ of the input and hidden quantities.
+$E$ provides a measure of goodness to how well the candidate solution $x$ fits the expectation given the data $d$.
+In optimisation of this function we seek a minimum energy,
+
+\begin{equation}
+	x^{*} = \argmin_{x}E(x,d),
+\end{equation}
+
+which has roots in Statistical Physics where lower energies correspond to more stable solutions.
+This gives us a general idea of how we should assign energies to solutions; better a solution, the lower an energy we should assign to it.
+In this case, a huge number of inference problems in vision can be solved by minimising the associated energy.
+A solution is only as good as the energy model and the optimisation technique. Once a precice energy and minimising algorithm are found, the problem is essentially solved \citep{Delong2011}. 
+
+Early attempts in computer vision would solve problems like these using iteration or relaxation methods \citep{Waltz1975,Rosenfeld1976}.
+In these attempts the problems are solved in a Calculus of variations framework, this is still a popular approach to optimisation in vision since Poggio et al. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
+Many important advancements in computer vision are proposals for a better energy, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
+In this thesis we focus on discrete energy optimisation using graph cuts for image segmentation.
+
+\textcolor{red}{Plan for the chapter.}
+Image segmentation falls under a broader catergory of problems known as \textit{labelling problems}.
+The aim is to find the best label, foregound/object or background, for each pixel.
+In \Cref{sec:LabellingProblems} we briefly discuss labelling problems and its formulation as an energy minimisation problem.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -10,6 +51,56 @@
 
 \section{Labelling Problems}
 \label{sec:LabellingProblems}
+
+Among the many computer vision problems, image segmentation is the most easy to understand labelling problem.
+A labelling problem is simply assigning, to an observation, a label that most accurately explains it.
+An observation can be anything that we wish to classify e.g. pixels, features, salient points, depth measurement, etc.
+A label is a description of that observation.
+There are two types of labels: \textit{semantic labelling} (person, car, tree, sky, face, eye, etc) or \textit{pixel-wise labelling} (texture, shape, colour, background/object, etc) \citep{Delong2011,Athanasiadis2007}.
+
+To formulate a labelling problem we need a set of \textit{cites}, intuitively known as observations, and a set of \textit{labels}, a set of explanations.
+The goal is to find the best explanation given the observations.
+In computer vision, the observations, can be features, image segments, etc.
+However, they will typically represent pixels in an image with some natual structure or ordering.
+Let 
+
+\begin{equation*}
+	\mathcal{P} = \{1, 2, \ldots, n\}
+\end{equation*}
+
+be the set of $n$ cites and 
+
+\begin{equation*}
+\mathcal{L} = \{l_1, l_2, \ldots, l_k\}
+\end{equation*}
+
+be the set of $k$ labels.
+A discrete labelling is a map $f: \mathcal{P} \rightarrow \mathcal{L}$ that assigns each discrete variable $f_p$ one value from $\mathcal{L}$ and $f=\{f_p\}_{p \in \mathcal{P}}$ which is known as a \textit{configuration}.
+We are interested in binary segmentation, also known as \textit{binarization}, which implies we have two explanations in our label set, $k=2$.
+The labels of interest are the \textit{background} and the \textit{object}.
+Although the solution space is finite, it is very large and grows exponentially as the image size increases or as the number of labels increases.
+The number of possible configurations is given by $|\mathcal{L}|^{|\mathcal{P}|}$.
+Table \ref{tab:configuration} shows the largeness of the solution space even for very small images and a few labels.
+In pratice, the image sizes used in Table \ref{tab:configuration} is too small, hence finding a solution is not easy.
+Most often we have to settle for an approximate solution, one that is "good enough".
+
+\def\arraystretch{1.2}
+\begin{table}[ht]
+	\caption{The impact of the number of cites and labels on the solution space}
+	\label{tab:configuration}
+	\begin{tabular}{|c|c|c|c|}
+		\hline 
+		Image ($\mathcal{P}$) & Number of cites ($|\mathcal{P}|$) & Number of labes ($|\mathcal{L}|$) & Number of configurations $|\mathcal{L}|^{|\mathcal{P}|}$ \\ 
+		\hline 
+		$64 \times 64$ & $2^{12}=4096$ & $2$ & $2^{2^{12}} = 2^{4096}=n$ \\
+		\hline 
+		$128 \times 128$ & $2^{14}=16384$ & $2$ & $2^{2^{14}} = 2^{16384} = n^4$ \\ 
+		\hline 
+		$64 \times 64$ & $2^{12}=4096$ & $3$ & $3^{2^{12}} = 3^{4096} \approx n^{1.585}$ \\ 
+		\hline 
+	\end{tabular}
+\end{table}
+ 
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
@@ -53,8 +144,7 @@
 \subsection{MAP-MRF Estimation}
 \label{sec:MAPMRFEstimation}
 
-%-------------------------------------------------------------------------------
---------
+%----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
