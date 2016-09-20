@@ -28,6 +28,7 @@ In optimisation of this function we seek a minimum energy,
 
 \begin{equation}
 	x^{*} = \argmin_{x}E(x,d),
+	\label{eq:gibbsenergy}
 \end{equation}
 
 which has roots in Statistical Physics where lower energies correspond to more stable solutions.
@@ -82,7 +83,7 @@ Although the solution space is finite, it is very large and grows exponentially 
 The number of possible configurations is given by $|\mathcal{L}|^{|\mathcal{P}|}$.
 Table \ref{tab:configuration} shows the largeness of the solution space even for very small images and a few labels.
 In pratice, the image sizes used in Table \ref{tab:configuration} is too small, hence finding a solution is not easy.
-Most often we have to settle for an approximate solution, one that is "good enough".
+Most often, settling for an approximate solution is "good enough".
 
 \def\arraystretch{1.2}
 \begin{table}[ht]
@@ -106,39 +107,105 @@ Most often we have to settle for an approximate solution, one that is "good enou
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
-\section{MAP Estimation for Discrete Models}
+\section{Maximum A Posteriori Estimation for Discrete Models}
 \label{sec:MAPEstimates}
+
+As previously mentioned, image segmentation is can be viewed as a labelling problem. The problem is the huge search space in which the solution exists, or possibly more than one. We need a metric that is able to appropriately weight a configuration $f$. \textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems. \textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks. We focus on the discrete image representation provided by MRFs in which we can embed the properties of a desired segmentation solution. MRFs are pivotal in designing, weighting and structuring graphs, so we give a brief introduction into the concepts needed to understand the probabilistic make-up for graph cut image segmentation.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 1
 %----------------------------------------------------------------------------------------
 
-\subsection{Random Fields}
-\label{sec:RandomFields}
-
-%----------------------------------------------------------------------------------------
-%	SUBSECTION 2
-%----------------------------------------------------------------------------------------
-
 \subsection{Markov Random Fields}
 \label{sec:MarkovRandomFields}
 
-%----------------------------------------------------------------------------------------
-%	SUBSECTION 3
-%----------------------------------------------------------------------------------------
+A \textit{random field} (RF) is a stochastic process where each random variable is indexed by a spatial variable \citep{Adler2007,Gikhman1996}. A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of sites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables. In vision, random variables which correspond to neighbouring or nearby pixels are linked. These links model interdependency and in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}. Common connectivity arrangements in 2D images are 4- and 8-connectivity. Similarly, higher dimensional data can be represented using graph. For 3D images, common connectivity arrangements are 6- and 26-connectivity. Connectedness is illustrated in \autoref{fig:connectedness} for 4-connectivity for 2D image data and 6-connectivity for 3D image data. In this thesis we are concerned with 2D images only. Two sites, $p$ and $q$, are neighbours if edge $(p,q) \bigcup (q,p) \in \mathcal{E}_{RF}$. The set of neighbours of $p$ are denoted $\mathcal{N}_p$. The RF associated with $\mathcal{P}$ is denoted as $\mathbf{Y} = \{Y_p:p \in \mathcal{P}\}$, where each $Y_p$ can be assigned one of $k$ labels from $\mathcal{L}$. A 4-connected RF is illustrated in \autoref{fig:randomfield}. A \textit{clique} $c$ is a fully connected subgraph; it is defined as $\forall p,q \in c, p \in \mathcal{N}_q$ and $q \in \mathcal{N}_p$. In a clique, each site is connected to all other sites.
 
-\subsection{Conditional Random Fields}
-\label{sec:ConditionalRandomFields}
+The joint event $\{Y_1=y_1, \ldots, Y_n=y_n\}$ where $y_p \in \mathcal{L}$ in called a \textit{realisation} or \textit{configuration} for the random field $\mathbf{Y}$.
+For readability we simplify the joint event notation to $\mathbf{Y}=\mathbf{y}$ where $\mathbf{y}=\{y_p : p \in \mathcal{P}\}$.
+The image segmentation problem is now in the form of an inference problem where the image $\mathbf{x}$ is the observation of a hidden random field $\mathbf{Y}$ and the solution is given by the \textit{maximum a posteriori} (MAP), i.e. the solution is given by
+
+\begin{equation}
+	\mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}),
+	\label{eq:mrfprobability}
+\end{equation}
+
+where $\mathcal{Y}$ denotes the set of all possible labellings. $\mathbf{Y}$ is said to be a \textit{Markov random field} (MRF) if:
+
+\begin{align}
+	&\Pr(\mathbf{Y}=y) > 0&  &\forall y \in \mathbf{Y},& &(Positivity),&\\
+	&\Pr(Y_p=y_p | x_{\mathcal{P}\setminus \{p\}}) = \Pr(Y_p=y_p | y_{\mathcal{N}_p})&  &\forall p \in \mathcal{P},& &(Markovianity),&
+\end{align}
+
+The positivity property constrains all configurations to have non-zero probability and is needed to ensure that the joint probability can be uniquely determined by the local conditional probabilities \citep{Smith1997}. The Markovinatity property states that a site is conditionally independant of all other sites given it's neighbours.
+
+MRFs are on of the most popular probabilistic modelling tools and was introduced to the computer vision community by Geman and Geman \citep{Geman1984} and Besag \citep{Besag1986}. MRFs allow us to model local contextual constraints, such as spatial interactions between pixels. According to Baye's rule, the posterior probability relation is:
+
+\begin{equation}
+	\Pr(\mathbf{y}|\mathbf{x}) \propto \Pr(\mathbf{x}|\mathbf{y})\Pr(\mathbf{y}),
+\end{equation}
+
+$\Pr(\mathbf{x}|\mathbf{y})$ encapsulates the depenency ofthe labels on the observation, it is the likelihood of observing $\mathbf{x}$ given $\mathbf{y}$. $\Pr(\mathbf{y})$ is the probability of that specific labelling among all labellings $\mathcal{Y}$. The joint distribution can be specified as a \textit{Gibb's Random Field} (GRF) \citep{Lafferty2001,HammersleyClifford1971}:
+
+\begin{equation}
+	\Pr(x|y) = \frac{1}{Z}\prod_{c \in \mathcal{C}}\exp(-\phi_c(\mathbf{x}_c)),
+	\label{eq:gibbs}
+\end{equation}
+
+where $\mathcal{C}$ is the set of cliques. \autoref{fig:n4} shows a simple MRF construction. This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$ However, cliques of orders higher than two are ignored for computational reasons. In \autoref{eq:gibbs} the term $\phi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$. The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one. The conditional distribution of a pairwise MRF is:
+
+\begin{equation}
+\Pr(x|y) = \frac{1}{Z}\prod_{i \in \mathcal{V}}\exp(-\phi_i(x_i))\prod_{(i,j) \in \mathcal{E}}\exp(-\phi_{ij}(x_i,x_j)),
+\label{eq:gibbs2}
+\end{equation}
+
+where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise edges, $\phi_i$ is the unary potential function and $\phi_{ij}$ is the pairwise potential function. The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \autoref{eq:mrfprobability} is equivalent to minimising \autoref{eq:gibbsenergy} \citep{Winkler2006}:
+
+\begin{equation}
+	\mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}) = \argmin_{\mathbf{y} \in \mathcal{Y}}E(\mathbf{y},\mathbf{x}),
+\end{equation}
+
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.48\columnwidth]{2dn4_lattice.png}
+		\label{fig:lattice2dn4}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.48\columnwidth]{3dn6_lattice.png}
+		\label{fig:lattice3dn6}
+	}
+	\caption{Common lattice structure for 2D and 3D image data. \textbf{(a)} Simplest connection of neighbouring pixels for 2D images. Each non-edge pixel is connected to 4 pixels. This is 4-connectedness. \textbf{(b)} Simplest connection of neighbouring voxels for 3D images. Each non-edge voxel is connected to 6 voxles. This is 6-connectedness.}
+	\label{fig:connectedness}
+\end{figure}
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.35\columnwidth]{randomfield.png}
+	\caption{4-connected random field $\mathbf{Y}$ over the sites $\mathcal{P}$.}
+	\label{fig:randomfield}
+\end{figure}
+
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.35\columnwidth]{N4.png}
+		\label{fig:n4}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.35\columnwidth]{N8.png}
+		\label{fig:n8}
+	}
+	\caption{Caption. \textbf{(a)} Caption. \textbf{(b)} Caption.}
+	\label{fig:cliques}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
-%	SUBSECTION 4
-%----------------------------------------------------------------------------------------
-
-\subsection{CRFs for Image Segmentation}
-\label{sec:ConditionalRandomFieldsForImageSegmentation}
-
-%----------------------------------------------------------------------------------------
-%	SUBSECTION 5
+%	SUBSECTION 2
 %----------------------------------------------------------------------------------------
 
 \subsection{MAP-MRF Estimation}
