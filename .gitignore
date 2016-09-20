@@ -8,3 +8,7 @@ main-blx.bib
 *.log
 *.gz
 *.out
+*.toc
+main.run.xml
+*.blg
+main.bbl

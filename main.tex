@@ -110,6 +110,9 @@ headsepline, % Uncomment to get a line under the header
 
 \hyphenation{mo-le-cu-lar ful-le-ro-pyr-ro-li-di-ne ful-le-ro-pyr-ro-li-di-nes his-to-grams his-to-gram pla-te-aus}
 
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max} 
+
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
 %----------------------------------------------------------------------------------------
@@ -313,6 +316,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \textbf{GFP} & \textbf{G}reen \textbf{F}luorescent \textbf{P}rotein\\
 \textbf{GLCM} & \textbf{G}ray \textbf{L}evel \textbf{C}o-occurrence \textbf{M}atrix\\
 \textbf{GMM} & \textbf{G}uassian \textbf{M}ixture \textbf{M}odelling\\
+\textbf{GRF} & \textbf{G}ibb's \textbf{R}andom \textbf{F}ield\\
 
 % H
 % I
@@ -348,6 +352,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 % Q
 % R
+\textbf{RF} & \textbf{R}andom \textbf{F}ield\\
 \textbf{RNA} & \textbf{R}ibo\textbf{n}ucleic \textbf{A}cid\\
 
 % S
@@ -416,11 +421,11 @@ $\omega$ & angular frequency & \si{\radian} \\
 \include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
 \include{Chapters/ChapterB} % Mathematical Background
+\include{Chapters/ChapterJ} % Literature Review
 %%\include{Chapters/ChapterC} % Interactive Segmentation
 %\include{Chapters/ChapterE} % Automatic Segmentation
 %\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
-%%\include{Chapters/ChapterI} % Texture Segmentation
-%%\include{Chapters/ChapterJ} % Intensity and Texture Segmentation
+%%\include{Chapters/ChapterI} % Texture Segmentation (and Intensity)
 \include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 \include{Chapters/ChapterH} % Conclusion and Future Work
 
