@@ -148,22 +148,24 @@ MRFs are on of the most popular probabilistic modelling tools and was introduced
 $\Pr(\mathbf{x}|\mathbf{y})$ encapsulates the depenency ofthe labels on the observation, it is the likelihood of observing $\mathbf{x}$ given $\mathbf{y}$. $\Pr(\mathbf{y})$ is the probability of that specific labelling among all labellings $\mathcal{Y}$. The joint distribution can be specified as a \textit{Gibb's Random Field} (GRF) \citep{Lafferty2001,HammersleyClifford1971}:
 
 \begin{equation}
-	\Pr(x|y) = \frac{1}{Z}\prod_{c \in \mathcal{C}}\exp(-\phi_c(\mathbf{x}_c)),
-	\label{eq:gibbs}
+	\Pr(x|y) = \frac{1}{Z}\prod_{c \in \mathcal{C}}\exp(-\Psi_c(\mathbf{x}_c)),
+	\label{eq:gibbs1}
 \end{equation}
 
-where $\mathcal{C}$ is the set of cliques. \autoref{fig:n4} shows a simple MRF construction. This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$ However, cliques of orders higher than two are ignored for computational reasons. In \autoref{eq:gibbs} the term $\phi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$. The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one. The conditional distribution of a pairwise MRF is:
+where $\mathcal{C}$ is the set of cliques. \autoref{fig:n4} shows a simple MRF construction. This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$ However, cliques of orders higher than two are ignored for computational reasons. In \autoref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$. The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one. After expanding \autoref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
 
 \begin{equation}
-\Pr(x|y) = \frac{1}{Z}\prod_{i \in \mathcal{V}}\exp(-\phi_i(x_i))\prod_{(i,j) \in \mathcal{E}}\exp(-\phi_{ij}(x_i,x_j)),
+\Pr(x|y) = \frac{1}{Z}\prod_{i \in \mathcal{V}}\exp(-\Psi_i(x_i))\prod_{(i,j) \in \mathcal{E}}\exp(-\Psi_{ij}(x_i,x_j)),
 \label{eq:gibbs2}
 \end{equation}
 
 where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise edges, $\phi_i$ is the unary potential function and $\phi_{ij}$ is the pairwise potential function. The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \autoref{eq:mrfprobability} is equivalent to minimising \autoref{eq:gibbsenergy} \citep{Winkler2006}:
 
 \begin{equation}
-	\mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}) = \argmin_{\mathbf{y} \in \mathcal{Y}}E(\mathbf{y},\mathbf{x}),
+	\mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}) = \argmin_{\mathbf{y} \in \mathcal{Y}}E(\mathbf{y},\mathbf{x});
 \end{equation}
+
+the most probable labelling yields the lowest energy.
 
 \begin{figure}[!t]
 	\centering
