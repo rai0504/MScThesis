@@ -247,14 +247,10 @@ The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means t
 \label{eq:mrf_grf_equivaleance}
 \end{equation}
 
-<<<<<<< HEAD
 the most probable labelling yields the lowest energy.
 Obtaining the optimal labelling from \autoref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good.
 The design of a good energy function, that captures all constraints and priors, is not easy.
 However, optimisation is harder still.
-=======
-the most probable labelling yields the lowest energy. Obtaining the optimal labelling from \autoref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good. The design of a good energy function, that captures all constraints and priors, is not easy. However, optimisation is harder still.
->>>>>>> origin/master
 
 From \autoref{eq:gibbs1}, if we take the negative log we get:
 
@@ -262,49 +258,36 @@ From \autoref{eq:gibbs1}, if we take the negative log we get:
 	-\log(\Pr(x|y)) = \log(Z) + \sum_{i \in \mathcal{V}}\Psi(x_i) + \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j),
 \end{equation}
 
-<<<<<<< HEAD
 the constant $Z$ is not need as it does not affect the final labelling.
 In this form, the equation is a sum of potentials, i.e. a sum of energies.
 The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$.
 In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$.
 The general form of the energy equation is:
-=======
-the constant $Z$ is not need as it does not affect the final labelling. In this form, the equation is a sum of potentials, i.e. a sum of energies. The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$. In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$. The general form of the energy equation is:
->>>>>>> origin/master
 
 \begin{equation}
 	E(f) = E_{data}(f) + \lambda E_{prior}(f),
 	\label{eq:generalform}
 \end{equation}
 
-<<<<<<< HEAD
 where $f$ is a particular labelling.
 The factor $\lambda$ encodes our belief in the prior i.e. the larger $\lambda$ is, the more we believe in the prior infomation.
 The data energy takes on the following form:
-=======
-where $f$ is a particular labelling. The factor $\lambda$ encodes our belief in the prior i.e. the larger $\lambda$ is, the more we believe in the prior infomation. The data energy takes on the following form:
->>>>>>> origin/master
 
 \begin{equation}
 	E_{data}(f) = \sum_{i \in \mathcal{V}} \Psi(x_i) =  \sum_{p \in \mathcal{P}}D_p(f_p).
 	\label{eq:dataenergy}
 \end{equation}
 
-<<<<<<< HEAD
 $D_p$ measures the level of agreement between the label $f_p$ and the pixel $p$.
 A common approximation is to assume independency observations, and this makes designing $D_p$ relatively straightforward.
 The only restriction is  $D_p(f_p) \in \Re^{+}$.
 The prior energy takes on the following form:
-=======
-$D_p$ measures the level of agreement between the label $f_p$ and the pixel $p$. A common approximation is to assume independency observations, and this makes designing $D_p$ relatively straightforward. The only restriction is  $D_p(f_p) \in \Re^{+}$. The prior energy takes on the following form:
->>>>>>> origin/master
 
 \begin{equation}
 	E_{prior}(f) = \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j) = \sum_{\{p,q\} \in \mathcal{N}}V_{\{p,q\}}(f_p,f_q).
 	\label{eq:priorenergy}
 \end{equation}
 
-<<<<<<< HEAD
 $V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction function}.
 The aim of this function is to encourage neighbouring random variables to take on the same label, i.e. it penalises neighbouring pixels $p$ and $q$ if they have different labels.
 The form of $V_{\{p,q\}}(f_p,f_q)$ is application dependant and is more tricky to design.
@@ -371,19 +354,6 @@ The general form in \autoref{eq:generalform} can be rewritten as:
 	Graph cut optimisation is the technique of focus in this thesis.
 \end{definition}
   
-=======
-$V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction function}. The aim of this function is to encourage neighbouring random variables to take on the same label, i.e. it penalises neighbouring pixels $p$ and $q$ if they have different labels. The form of $V_{\{p,q\}}(f_p,f_q)$ is application dependant and is more tricky to design. In image segmentation, the most common prior is taht of smoothness. The general form in \autoref{eq:generalform} can be rewritten as:
-
-\begin{equation}
-	E(f) = \sum_{p \in \mathcal{P}}D_p(f_p) + \lambda \sum_{\{p,q\} \in \mathcal{N}}V_{\{p,q\}}(f_p,f_q).
-		\label{eq:generalformexpanded}
-\end{equation}
- 
- When we say MAP-MRF estimation we generally mean energy minimisation. Energy minimisation is a non-trivial task given the intractability of the search in the solution space. Energy minimisation can be catergorised into \textit{global energy minimisation} and \textit{local energy minimisation}.
- 
- \textcolor{red}{Briefly discuss the various for energy minimisation. Leave graph cuts to the next section.}
- 
->>>>>>> origin/master
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
