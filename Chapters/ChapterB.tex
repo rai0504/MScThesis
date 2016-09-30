@@ -37,7 +37,7 @@ In this case, a huge number of inference problems in vision can be solved by min
 A solution is only as good as the energy model and the optimisation technique. Once a precice energy and minimising algorithm are found, the problem is essentially solved \citep{Delong2011}. 
 
 Early attempts in computer vision would solve problems like these using iteration or relaxation methods \citep{Waltz1975,Rosenfeld1976}.
-In these attempts the problems are solved in a Calculus of variations framework, this is still a popular approach to optimisation in vision since Poggio et al. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
+In these attempts the problems are solved in a Calculus of variations framework, this is still a popular approach to optimisation in vision since Poggio \textit{et al.}. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
 Many important advancements in computer vision are proposals for a better energy, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
 In this thesis we focus on discrete energy optimisation using graph cuts for image segmentation.
 
@@ -110,7 +110,13 @@ Most often, settling for an approximate solution is "good enough".
 \section{Maximum A Posteriori Estimation for Discrete Models}
 \label{sec:MAPEstimates}
 
-As previously mentioned, image segmentation is can be viewed as a labelling problem. The problem is the huge search space in which the solution exists, or possibly more than one. We need a metric that is able to appropriately weight a configuration $f$. \textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems. \textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks. We focus on the discrete image representation provided by MRFs in which we can embed the properties of a desired segmentation solution. MRFs are pivotal in designing, weighting and structuring graphs, so we give a brief introduction into the concepts needed to understand the probabilistic make-up for graph cut image segmentation.
+As previously mentioned, image segmentation is can be viewed as a labelling problem.
+The problem is the huge search space in which the solution exists, or possibly more than one.
+We need a metric that is able to appropriately weight a configuration $f$.
+\textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems.
+\textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks.
+We focus on the discrete image representation provided by MRFs in which we can embed the properties of a desired segmentation solution.
+MRFs are pivotal in designing, weighting and structuring graphs, so we give a brief introduction into the concepts needed to understand the probabilistic make-up for graph cut image segmentation.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 1
@@ -119,7 +125,21 @@ As previously mentioned, image segmentation is can be viewed as a labelling prob
 \subsection{Markov Random Fields}
 \label{sec:MarkovRandomFields}
 
-A \textit{random field} (RF) is a stochastic process where each random variable is indexed by a spatial variable \citep{Adler2007,Gikhman1996}. A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of sites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables. In vision, random variables which correspond to neighbouring or nearby pixels are linked. These links model interdependency and in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}. Common connectivity arrangements in 2D images are 4- and 8-connectivity. Similarly, higher dimensional data can be represented using graph. For 3D images, common connectivity arrangements are 6- and 26-connectivity. Connectedness is illustrated in \autoref{fig:connectedness} for 4-connectivity for 2D image data and 6-connectivity for 3D image data. In this thesis we are concerned with 2D images only. Two sites, $p$ and $q$, are neighbours if edge $(p,q) \bigcup (q,p) \in \mathcal{E}_{RF}$. The set of neighbours of $p$ are denoted $\mathcal{N}_p$. The RF associated with $\mathcal{P}$ is denoted as $\mathbf{Y} = \{Y_p:p \in \mathcal{P}\}$, where each $Y_p$ can be assigned one of $k$ labels from $\mathcal{L}$. A 4-connected RF is illustrated in \autoref{fig:randomfield}. A \textit{clique} $c$ is a fully connected subgraph; it is defined as $\forall p,q \in c, p \in \mathcal{N}_q$ and $q \in \mathcal{N}_p$. In a clique, each site is connected to all other sites.
+A \textit{random field} (RF) is a stochastic process where each random variable is indexed by a spatial variable \citep{Adler2007,Gikhman1996}.
+A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of sites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables.
+In vision, random variables which correspond to neighbouring or nearby pixels are linked.
+These links model interdependency and in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}.
+Common connectivity arrangements in 2D images are 4- and 8-connectivity.
+Similarly, higher dimensional data can be represented using graph.
+For 3D images, common connectivity arrangements are 6- and 26-connectivity.
+Connectedness is illustrated in \autoref{fig:connectedness} for 4-connectivity for 2D image data and 6-connectivity for 3D image data.
+In this thesis we are concerned with 2D images only.
+Two sites, $p$ and $q$, are neighbours if edge $(p,q) \bigcup (q,p) \in \mathcal{E}_{RF}$.
+The set of neighbours of $p$ are denoted $\mathcal{N}_p$.
+The RF associated with $\mathcal{P}$ is denoted as $\mathbf{Y} = \{Y_p:p \in \mathcal{P}\}$, where each $Y_p$ can be assigned one of $k$ labels from $\mathcal{L}$.
+A 4-connected RF is illustrated in \autoref{fig:randomfield}.
+A \textit{clique} $c$ is a fully connected subgraph; it is defined as $\forall p,q \in c, p \in \mathcal{N}_q$ and $q \in \mathcal{N}_p$.
+In a clique, each site is connected to all other sites.
 
 The joint event $\{Y_1=y_1, \ldots, Y_n=y_n\}$ where $y_p \in \mathcal{L}$ in called a \textit{realisation} or \textit{configuration} for the random field $\mathbf{Y}$.
 For readability we simplify the joint event notation to $\mathbf{Y}=\mathbf{y}$ where $\mathbf{y}=\{y_p : p \in \mathcal{P}\}$.
@@ -137,22 +157,33 @@ where $\mathcal{Y}$ denotes the set of all possible labellings. $\mathbf{Y}$ is 
 	&\Pr(Y_p=y_p | x_{\mathcal{P}\setminus \{p\}}) = \Pr(Y_p=y_p | y_{\mathcal{N}_p})&  &\forall p \in \mathcal{P},& &(Markovianity),&
 \end{align}
 
-The positivity property constrains all configurations to have non-zero probability and is needed to ensure that the joint probability can be uniquely determined by the local conditional probabilities \citep{Smith1997}. The Markovinatity property states that a site is conditionally independant of all other sites given it's neighbours.
+The positivity property constrains all configurations to have non-zero probability and is needed to ensure that the joint probability can be uniquely determined by the local conditional probabilities \citep{Smith1997}.
+The Markovinatity property states that a site is conditionally independant of all other sites given it's neighbours.
 
-MRFs are on of the most popular probabilistic modelling tools and was introduced to the computer vision community by Geman and Geman \citep{Geman1984} and Besag \citep{Besag1986}. MRFs allow us to model local contextual constraints, such as spatial interactions between pixels. According to Baye's rule, the posterior probability relation is:
+MRFs are on of the most popular probabilistic modelling tools and was introduced to the computer vision community by Geman and Geman \citep{Geman1984} and Besag \citep{Besag1986}.
+MRFs allow us to model local contextual constraints, such as spatial interactions between pixels.
+According to Baye's rule, the posterior probability relation is:
 
 \begin{equation}
 	\Pr(\mathbf{y}|\mathbf{x}) \propto \Pr(\mathbf{x}|\mathbf{y})\Pr(\mathbf{y}),
 \end{equation}
 
-$\Pr(\mathbf{x}|\mathbf{y})$ encapsulates the depenency ofthe labels on the observation, it is the likelihood of observing $\mathbf{x}$ given $\mathbf{y}$. $\Pr(\mathbf{y})$ is the probability of that specific labelling among all labellings $\mathcal{Y}$. The joint distribution can be specified as a \textit{Gibb's Random Field} (GRF) \citep{Lafferty2001,HammersleyClifford1971}:
+$\Pr(\mathbf{x}|\mathbf{y})$ encapsulates the depenency ofthe labels on the observation, it is the likelihood of observing $\mathbf{x}$ given $\mathbf{y}$.
+$\Pr(\mathbf{y})$ is the probability of that specific labelling among all labellings $\mathcal{Y}$.
+The joint distribution can be specified as a \textit{Gibbs Random Field} (GRF) \citep{Lafferty2001,HammersleyClifford1971}:
 
 \begin{equation}
 	\Pr(x|y) = \frac{1}{Z}\prod_{c \in \mathcal{C}}\exp(-\Psi_c(\mathbf{x}_c)),
 	\label{eq:gibbs1}
 \end{equation}
 
-where $\mathcal{C}$ is the set of cliques. \autoref{fig:n4} shows a simple MRF construction. This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$ However, cliques of orders higher than two are ignored for computational reasons. In \autoref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$. The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one. After expanding \autoref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
+where $\mathcal{C}$ is the set of cliques.
+\autoref{fig:n4} shows a simple MRF construction.
+This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$.
+However, cliques of orders higher than two are ignored for computational reasons.
+In \autoref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
+The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one.
+After expanding \autoref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
 
 \begin{equation}
 \Pr(x|y) = \frac{1}{Z}\prod_{i \in \mathcal{V}}\exp(-\Psi_i(x_i))\prod_{(i,j) \in \mathcal{E}}\exp(-\Psi_{ij}(x_i,x_j)),
@@ -173,7 +204,9 @@ where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise 
 		\includegraphics[width=0.48\columnwidth]{3dn6_lattice.png}
 		\label{fig:lattice3dn6}
 	}
-	\caption{Common lattice structure for 2D and 3D image data. \textbf{(a)} Simplest connection of neighbouring pixels for 2D images. Each non-edge pixel is connected to 4 pixels. This is 4-connectedness. \textbf{(b)} Simplest connection of neighbouring voxels for 3D images. Each non-edge voxel is connected to 6 voxles. This is 6-connectedness.}
+	\caption{Common lattice structure for 2D and 3D image data. 
+	\textbf{(a)} Simplest connection of neighbouring pixels for 2D images. Each non-edge pixel is connected to 4 pixels. This is 4-connectedness.
+	\textbf{(b)} Simplest connection of neighbouring voxels for 3D images. Each non-edge voxel is connected to 6 voxles. This is 6-connectedness.}
 	\label{fig:connectedness}
 \end{figure}
 
@@ -204,7 +237,7 @@ where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise 
 %	SUBSECTION 2
 %----------------------------------------------------------------------------------------
 
-\subsection{MAP-MRF Estimation}
+\subsection{MAP-MRF Estimation as Energy Minimisation}
 \label{sec:MAPMRFEstimation}
 
 The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \autoref{eq:mrfprobability} is equivalent to minimising \autoref{eq:gibbsenergy} \citep{Winkler2006}:
@@ -214,7 +247,14 @@ The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means t
 \label{eq:mrf_grf_equivaleance}
 \end{equation}
 
+<<<<<<< HEAD
+the most probable labelling yields the lowest energy.
+Obtaining the optimal labelling from \autoref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good.
+The design of a good energy function, that captures all constraints and priors, is not easy.
+However, optimisation is harder still.
+=======
 the most probable labelling yields the lowest energy. Obtaining the optimal labelling from \autoref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good. The design of a good energy function, that captures all constraints and priors, is not easy. However, optimisation is harder still.
+>>>>>>> origin/master
 
 From \autoref{eq:gibbs1}, if we take the negative log we get:
 
@@ -222,27 +262,116 @@ From \autoref{eq:gibbs1}, if we take the negative log we get:
 	-\log(\Pr(x|y)) = \log(Z) + \sum_{i \in \mathcal{V}}\Psi(x_i) + \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j),
 \end{equation}
 
+<<<<<<< HEAD
+the constant $Z$ is not need as it does not affect the final labelling.
+In this form, the equation is a sum of potentials, i.e. a sum of energies.
+The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$.
+In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$.
+The general form of the energy equation is:
+=======
 the constant $Z$ is not need as it does not affect the final labelling. In this form, the equation is a sum of potentials, i.e. a sum of energies. The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$. In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$. The general form of the energy equation is:
+>>>>>>> origin/master
 
 \begin{equation}
 	E(f) = E_{data}(f) + \lambda E_{prior}(f),
 	\label{eq:generalform}
 \end{equation}
 
+<<<<<<< HEAD
+where $f$ is a particular labelling.
+The factor $\lambda$ encodes our belief in the prior i.e. the larger $\lambda$ is, the more we believe in the prior infomation.
+The data energy takes on the following form:
+=======
 where $f$ is a particular labelling. The factor $\lambda$ encodes our belief in the prior i.e. the larger $\lambda$ is, the more we believe in the prior infomation. The data energy takes on the following form:
+>>>>>>> origin/master
 
 \begin{equation}
 	E_{data}(f) = \sum_{i \in \mathcal{V}} \Psi(x_i) =  \sum_{p \in \mathcal{P}}D_p(f_p).
 	\label{eq:dataenergy}
 \end{equation}
 
+<<<<<<< HEAD
+$D_p$ measures the level of agreement between the label $f_p$ and the pixel $p$.
+A common approximation is to assume independency observations, and this makes designing $D_p$ relatively straightforward.
+The only restriction is  $D_p(f_p) \in \Re^{+}$.
+The prior energy takes on the following form:
+=======
 $D_p$ measures the level of agreement between the label $f_p$ and the pixel $p$. A common approximation is to assume independency observations, and this makes designing $D_p$ relatively straightforward. The only restriction is  $D_p(f_p) \in \Re^{+}$. The prior energy takes on the following form:
+>>>>>>> origin/master
 
 \begin{equation}
 	E_{prior}(f) = \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j) = \sum_{\{p,q\} \in \mathcal{N}}V_{\{p,q\}}(f_p,f_q).
 	\label{eq:priorenergy}
 \end{equation}
 
+<<<<<<< HEAD
+$V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction function}.
+The aim of this function is to encourage neighbouring random variables to take on the same label, i.e. it penalises neighbouring pixels $p$ and $q$ if they have different labels.
+The form of $V_{\{p,q\}}(f_p,f_q)$ is application dependant and is more tricky to design.
+In image segmentation, the most common prior is that of smoothness, i.e intra-object pixel intensities are assumed to be the same or vary gradually within some range, it is at edges or boundaries where this assumption is violated.
+The general form in \autoref{eq:generalform} can be rewritten as:
+
+\begin{equation}
+	E(f) = \sum_{p \in \mathcal{P}}D_p(f_p) + \lambda \sum_{\{p,q\} \in \mathcal{N}}V_{\{p,q\}}(f_p,f_q).
+	\label{eq:generalformexpanded}
+\end{equation}
+ 
+ When we say MAP-MRF estimation we generally mean energy minimisation.
+ Energy minimisation is a non-trivial task given the intractability of the search in the solution space.
+ Energy minimisation can be catergorised into \textit{global energy minimisation} and \textit{local energy minimisation}.
+ We briefly discuss some of the energy minimisation techniques.
+ 
+\begin{definition}[Iterated Conditional Modes (ICM)]
+	This is a deterministic method that converges to a local minimum \citep{Cassisa2010}.
+	It a greedy technique that was introduced into vision by Besag \citep{Besag1986,Veksler1999}.
+	The algorithm iteratively chooses the label that results in the largest decrease in energy at each site until convergence.
+	It is extremely sensitive to initialisation as the dimensionality of the space increases with non-convex energies.
+\end{definition}
+ 
+\begin{definition}[Simulated Annealing]
+	This is a stochastic optimisation method that simulates the annealing of a material.
+	It is one of the only general-purpose energy minimisation methods.
+	It was devloped and published independantly by \v{C}ern{\'y} \citep{Cerny1985} and Kirkpatrick \textit{et al.} \citep{Kirkpatrick1983} and was introduced into computer vision by Geman and Geman \citep{Geman1984}.
+	The algorithm is initialised with a random labelling.
+	Each pixel is then visited and a local random change is made.
+	If the change results in a lower energy then it is accepted, else the change is accepted based on a probability parameter, i.e. the temperature.
+	With certain cooling schedules the global minimum can be obtained however, this is horrendously slow in practise so sub-optimal schedules are used instead \citep{Geman1984}.
+\end{definition}
+
+\begin{definition}[Genetic Algorithms (GAs)]
+ 	GAs have been succesfully employed in energy minimisation for image segmentation \citep{MacEachern1998,Ballerini1999,Ballerini2001,Zeipelt2001,Ibanez2009}.
+ 	GAs work by performing simultaneous local searches that optimise the energy function via a random walk in the search space.
+ 	The algorithm terminates by choosing the search that found the lowest energy for the energy functional.
+ 	Their drawback is their inability to guarantee a global optimum \citep{McIntosh2013}.
+\end{definition}
+
+\begin{definition}[Gradient Descent]
+	Explicit differentiation under the Euler-Lagrange equations can be used to obtain a solution \citep{McIntosh2013}.
+	Each modified energy functional must be accompanied by derivation of obtaining a minimum \citep{Terzopoulos1987,Kass1988,Caselles1997,Chan2001}.
+	With an artificial time step, this algorithm deforms a shape, using the gradient descent process, which is equated to the set of Euler-Lagrange equations.
+	When the deformable models come to rest the equations are satisified.
+	There are two common drawbacks with this method: Firstly, image noise can severely hinder the gradient descent process and this could lead to instability of the  deformation process.
+	Secondly, increasing the number of dependant variables increases the complexity of the search space and time to converge to an optimal solution as there are more derivatives to calculate \citep{McIntosh2013}.
+\end{definition}
+
+\begin{definition}[Loopy Belief Propagation (LBP)]
+	The belief propagation algorithm was initially designed to be used on acyclic graphs  where it able to obtain a global minimum \citep{Pearl1988}.
+	However, the same algorithm has been succesfully applied on cyclic graphs firstly for error-correcting code problems \citep{Frey1998} and then later on in vision \citep{Freeman2000}.
+	Convergence is not guaranteed as the algorithm might get stuck alternating between two labels \citep{Pearl1988}.
+\end{definition}
+  
+\begin{definition}[Graph Cuts]
+	Graph cuts have become an indespensable tool in computer vision.
+	For a restrictive class of energy functions, \textit{submodular functions}, it is able to obtain a global minimum \citep{Kolmogorov2004,Boykov2001_2,Boykvo2001_3,Kolmogorov2007}.
+	For non-submodular energy functions it is able to find approximate solutions with strong local optimality \citep{Boykov2001,Kohli2009,Komodakis2007,Kumar2009}.
+	Greig \textit{et al.} was the first to use graph cuts in vision to find an exact solution to a certain energy function for the binary image restoration problem \citep{Greig1989}.
+	However, it did recieve much attention and remained buried for almost ten years primarily because of the disinterest in binary image restoration and that, at the time, it's optimisation was notoriously slow which made it an unappealing technique when compared to stochastic optimisation methods, like simulated annealing, which was popular at the time.
+	In the last two decades graph cut optimisation has been a major focus as a key tool in optimisation since Roy and Cox \citep{Roy1998} used it to solve more interesting problems in multi-camera stereo.
+	Shortly after, Boykov \textit{et al.} generalised the method for determining the MAP estimate of MRFs \citep{Boykov1998}.
+	Graph cut optimisation is the technique of focus in this thesis.
+\end{definition}
+  
+=======
 $V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction function}. The aim of this function is to encourage neighbouring random variables to take on the same label, i.e. it penalises neighbouring pixels $p$ and $q$ if they have different labels. The form of $V_{\{p,q\}}(f_p,f_q)$ is application dependant and is more tricky to design. In image segmentation, the most common prior is taht of smoothness. The general form in \autoref{eq:generalform} can be rewritten as:
 
 \begin{equation}
@@ -254,12 +383,15 @@ $V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction functio
  
  \textcolor{red}{Briefly discuss the various for energy minimisation. Leave graph cuts to the next section.}
  
+>>>>>>> origin/master
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
 \section{Graph Cuts}
 \label{sec:GraphCuts}
+
+Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \autoref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as \textit{Push-Relabel} \citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 1
@@ -268,10 +400,11 @@ $V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction functio
 \subsection{Network Theory and the Min-cut Problem}
 \label{sec:NetworkTheory}
 
-In this section we cover Graph Theory and specifically Flow Networks, which is a branch of Graph Theory, which is fundamental to the understanding of image segmentation via graph cuts. With it roots in Germany where Euler tried to find the solution to the Konigsberg bridge problem, graph theory has since blossomed into a rich field of Mathematics with seemingly endless amounts of application. Graph Theory is a huge topic in mathematics and can be applied to many other sciences. Graph theory is part of another more encompassing field of Mathematics known as Combinatronics. Graph theory and applications are more useful than the average person would recognise. They're used in Google Maps to find shortest routes to destinations, in Molecular Chemistry to model the structure of atoms, and the list goes on for quite a while. It is no surprise that it is also found to be useful in image segmentation.
+In this section we briefly cover the foundation aspects to understanding graph cuts. We cover \textit{Flow networks}, a branch of Graph Theory also known as \textit{Transportation networks}, and introduce the \textit{Min-cut problem}. For a solid understanding in Graph Theory and Flow Networks see \citep{Deo1974,Bondy1976,Steen2010,Newman2010}. A brief introduction is given in \Cref{AppendixB}.
 
 \begin{definition}[Network]
-	A network $N = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
+	A network $\textbf{N} = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
+	The \textbf{source node} only has out-going edges, $d_{in}(s) = 0$ and $d_{out}(s) \geq 0$. The \textbf{sink node} only has incoming edges, $d_{in} \geq 0$ and $d_{out} = 0$. An example of a network is illustrated in \Cref{fig:network}.
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -312,9 +445,8 @@ In this section we cover Graph Theory and specifically Flow Networks, which is a
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with no flow. The in-degree and out-degree for the source, \textbf{s}, and the sink, \textbf{t}, are shown next to the corresponding node.}
+	\label{fig:network}
 \end{figure}
-
-The \textbf{source node} only has out-going edges, $d_{in}(s) = 0$ and $d_{out}(s) \geq 0$. The \textbf{sink node} only has incoming edges, $d_{in} \geq 0$ and $d_out = 0$.
 
 \begin{definition}[Flow]
 	A flow $f : V^2 \longrightarrow \Re^{+}$ is associated with each edge $e = (u,v)$ such that:
@@ -323,12 +455,12 @@ The \textbf{source node} only has out-going edges, $d_{in}(s) = 0$ and $d_{out}(
 		
 		\item for each intermediate node $v \in V\setminus \{s,t\}$ the in- and out-flow of that node $\sum_{u \in V^-(v)} f(u,v) = \sum_{u \in V^+(v)} f(v,u)$.
 	\end{enumerate}
+	The \textbf{total flow} $F$ of a network is then what leaves the source $s$ or reaches the sink $t$:
+	\begin{equation}
+	F(\textbf{N}) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \sum_{u \in V}f(t,u)
+	\end{equation}
+	An example of a network with non-zero flow is illustrated in \Cref{fig:networkwithflow}.
 \end{definition}
-
-The \textbf{total flow} $F$ of a network is then what leave the source $s$ or reaches the sink $t$:
-\begin{equation}
-F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \sum_{u \in V}f(t,u)
-\end{equation}
 
 \tikzstyle{vertex}=[circle,thick,draw]
 \tikzstyle{edge} = [draw=black!24, very thick,->]
@@ -342,30 +474,36 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
 		\draw[dashed,draw=red!24,very thick] (2.65,1.25) -- (4,1.5);
 		\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
-		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (5.5,-1.5);
 		% draw the vertices
 		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
 		\node[vertex] (\name) at \pos {$\name$};
 		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {s/a/{5/7},s/c/{2/2},a/b/{},c/d/{1/2},b/t/{4/5},d/t/{3/3}}
+		\foreach \source/ \dest /\weight in {s/a/{7/5},s/c/{2/2},a/b/{},c/d/{2/1},b/t/{5/4},d/t/{3/3}}
 		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
 		% bends
-		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$1/3$} (d);
-		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$2/3$} (b);
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3/1$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3/2$} (b);
 		% info box		
-		\draw node[rounded corners,right,fill=red!20] at (2.65,1.25) {$3/5$};
-		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$flow/capacity$};
+		\draw node[rounded corners,right,fill=red!20] at (2.65,1.25) {$5/3$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4,1.5){$capacity/flow$};
 		% s	
 		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(s,u)=7$};
 		% t
-		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=7$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4.6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=7$};
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with flow. The flow out of the source node, \textbf{s}, is equal to the flow into the sink node, \textbf{t}. For all other nodes, the flow-in is equal to the flow-out. This is the conservation of flow principle. This is only part of the network. The remaining part is the residual graph which shows the amount of reverse flow is available on an edge.}
+	\label{fig:networkwithflow}
 \end{figure}
 
 \begin{definition}[Cut]
-	A cut of a network $N = (V,E)$ is a partitioning of the vertex set $V = P \bigcup \bar{P}$ into two disjoint sets $P$ containining the source node $s$ and $\bar{P}$ containing the sink node $t$. $P \bigcap \bar{P} = \emptyset$.
+	A cut of a network $\textbf{N} = (V,E)$ is a partitioning of the vertex set $V = P \bigcup \bar{P}$ into two disjoint sets $P$ containining the source node $s$ and $\bar{P}$ containing the sink node $t$. $P \bigcap \bar{P} = \emptyset$.
+	The \textbf{cost} of a cut is the sum of the capacity of the edges $(u,v) \in V$ where $u \in P$ and $v \in \bar{P}$:
+	\begin{equation}
+	\kappa (P, \bar{P}) = \sum_{u \in P; v \in \bar{P}} c(u,v)
+	\end{equation}
+	A network with a valid cut is illustrated in \Cref{fig:validcut}. Invalid cuts are shown for the same network in \Cref{fig:invalidcut1} and \Cref{fig:invalidcut2}.
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -416,6 +554,7 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with with a valid cut \textbf{C}. The nodes within the red region are reachable from the source and the nodes within the blue region are able to reach the sink. The cut set, \textbf{C}, is show in the orange filled block.}
+	\label{fig:validcut}
 \end{figure}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -466,6 +605,7 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with with a invalid cut \textbf{C}. The cut does not partition source node \textbf{s} and sink node \textbf{t} into distinct sets.}
+	\label{fig:invalidcut1}
 \end{figure}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -519,15 +659,11 @@ F(N) := \sum_{u \in V} f(s,u) - \sum_{u \in V}f(u,s) = \sum_{u \in V} f(u,t) - \
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with with a invalid cut \textbf{C}. The cut partition partitions the graph into more than two sets and the cut intersects the edges $ab$ and $ad$ twice.}
+	\label{fig:invalidcut2}
 \end{figure}
 
-The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \in P$ and $v \in \bar{P}$:
-\begin{equation}
-\kappa (P, \bar{P}) = \sum_{u \in P; v \in \bar{P}} c(u,v)
-\end{equation}
-
 \begin{definition}[Maximal Flow]
-	The largest amount of flow that can be sent through the source that is able to reach the sink is known as the maximal flow.
+	The largest amount of flow that is able to reach the sink from the source is known as the maximal flow.  A network with a maximal flow, also known as a \textit{max-flow}, is illustrated in \Cref{fig:maxflow}.
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -541,28 +677,29 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 		\draw node[circle,thick,right,fill=red!20,text=red!20] at (-0.2,0) {$s$};
 		\draw node[circle,thick,right,fill=red!20,text=red!20] at (5.8,0) {$t$};
 		\draw[dashed,draw=red!24,very thick] (0.0,0) -- (0.5,-1.5);
-		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (6.5,-1.5);
+		\draw[dashed,draw=red!24,very thick] (6.0,0) -- (5.5,-1.5);
 		% draw the vertices
 		\foreach \pos/\name in {{(0,0)/s},{(2,1)/a},{(4,1)/b},{(2,-1)/c},{(4,-1)/d}, {(6,0)/t}}
 		\node[vertex] (\name) at \pos {$\name$};
 		% connect vertices with edges and draw weights
-		\foreach \source/ \dest /\weight in {s/a/{6/7},s/c/{2/2},a/b/{5/5},c/d/{2/2},b/t/{5/5},d/t/{3/3}}
+		\foreach \source/ \dest /\weight in {s/a/{7/6},s/c/{2/2},a/b/{5/5},c/d/{2/2},b/t/{5/5},d/t/{3/3}}
 		\path[edge] (\source) edge node[weight] {$\weight$} (\dest);
 		% bends
-		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$0/3$} (d);
-		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$1/3$} (b);
+		\path [draw=black!24, very thick,->] (a) edge[bend left=-30] node {$3/0$} (d);
+		\path [draw=black!24, very thick,->] (c) edge[bend left=30] node {$3/1$} (b);
 		%info
 		% s	
 		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (0,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(s,u)=8$};
 		% t
-		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=8$};
+		\draw node[right,rounded corners,fill=red!20,inner sep=1ex] at (4.6,-1.5) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$\sum\limits_{u \in V_N} f(u,t)=8$};
 		\end{tikzpicture}
 	}
-	\caption{Network \textbf{N} with maximum flow. There is no way to push more flow out of the source into the sink without breaking the rules for conservation of flow.}
+	\caption{Network \textbf{N} with maximum flow. There is no way to push more flow out of the source into the sink without breaking the rules for the conservation of flow.}
+	\label{fig:maxflow}
 \end{figure}
 
 \begin{definition}[Minimal Cut]
-	A cut $C$ on a network $N = (V,E)$ is a minimal cut if there exists no other cut $C'$ where $\kappa (C') < \kappa(C)$.
+	A cut $C$ on a network $\textbf{N} = (V,E)$ is a minimal cut if there exists no other cut $C'$ where $\kappa (C') < \kappa(C)$. A network with a minimal cut, also known as a \textit{min-cut}, is illustrated in \Cref{fig:mincut}.
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -608,9 +745,12 @@ The \textbf{capacity} of a cut is the sum of the edges $(u,v) \in V$ where $u \i
 		\end{tikzpicture}
 	}
 	\caption{Network \textbf{N} with minimal cut \textbf{C}. The sum of the capacity of all the edges in the cut set is the minimum of all possible valid cuts on the network \textbf{N}.}
+	\label{fig:mincut}
 \end{figure}
 
-In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
+\textcolor{red}{Talk about the max-flow/min-cut duality, non-uniqueness.}
+%In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
+In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut yield the same answer. This is not a coincidence, in fact the two problems are duals of each other, known as the \textit{max-flow min-cut duality}. This was proven by P. Elias, A. Feinstein, and C.E. Shannon \citep{Elias1956} and by Ford and Fulkerson \citep{Ford1956} independently in 1956. This duality is immensely helpful in developing machine algorithms to compute the minimum, since it is easier to find a maximum flow. It is important to realise that there maybe many cuts that can be minimum cut and many flow configurations that can yield the maximum flow, hence the solution is not guaranteed to be unique only an optimum.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 2
