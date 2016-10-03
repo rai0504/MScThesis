@@ -358,7 +358,7 @@ The general form in \autoref{eq:generalform} can be rewritten as:
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
-\section{Graph Cuts}
+\section{Introduction to Graph Cuts}
 \label{sec:GraphCuts}
 
 Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \autoref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as \textit{Push-Relabel} \citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
@@ -774,12 +774,12 @@ In graph cut image segmentation the energy function, defined by the image, has t
 %----------------------------------------------------------------------------------------
 
 \subsection{Submodular Functions}
-\label{sec:Submodular Functions}
+\label{sec:SubmodularFunctions}
 
 In the previous section we talked about representing the energy function as a graph. However, not all energy functions can be represented as a graph. Moreover, minimising an arbitrary energy function, even if the energy is binary, is NP-hard \citep{Shimony1994}. There does exist a class of functions which is graph representable and is able to be minimised in polynomial time, i.e. an exact global minimum can be obtained in a single graph cut. These energy functions are known as \textit{submodular functions}. They are sometimes referred to as "discrete analog of convex functions" since they're the easiest to minimise, much like convex functions. For an energy to be submodular, it must satisfy the submodularity constraint:
 
 \begin{align}
-&f^p(a,b) + f^p(a+1,b+1) \leq f^p(a,b+l) + f^p(a+1,b+1),&  &\forall a,b \in \mathcal{L},&
+&f^p(a,b) + f^p(a+1,b+1) \leq f^p(a,b+l) + f^p(a+1,b),&  &\forall a,b \in \mathcal{L},&
 \end{align}
 
 where $\mathcal{L}$ is an ordered label set. The type of energies we are concerned with are second order binary energies, and enforcing the submodularity constraint means that the energy function must to satisfy:
@@ -795,30 +795,58 @@ where $\mathcal{L}=\{0,1\}$. It is necessary and sufficient for an energy functi
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
-\section{Energy Minimisation Algorithms}
+\section{Graph Cut Algorithms for Energy Minimisation}
 \label{sec:MaxFlowMinCutAlgoithms}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+Image segmentation via graph cuts can be seen as three main stages. Firstly the problem is modelled and a suitable energy function is designed. Generally, this is a trade-off between accuracy and constraining to the submodularity constraint. Secondly, a graph is constructed which represents the energy function. Thirdly, and finally, the energy function is minimised by using a max-flow/min-cut algorithm. In this section we discuss the last stage. The minimisation algorithms are either general or specific to the energy functions. We briefly discuss some of the most common max-flow algorithms.
 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
-\subsubsection{Ford-Fulkerson}
+\subsection{Ford-Fulkerson}
+\label{sec:FordFulkerson}
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+The Ford-Fulkerson max-flow algorithm \citep{Ford1956} is designed to on an arbitrary network with one source and one sink. Ford and Fulkerson proved that the max-flow and min-cut problems are duals of each other, hence solving one means that you've obtained the solution to the other. Augmenting path algorithms iteratively search for open path from the source to the sink. When a path is found, the maximum flow that can be pushed in that path is pushed through that path by incrementing the flow on each edge of that path. The path is said to be \textit{augmented}. If there are no available paths which can be augmented, the solution has been found and the algorithm terminates. The maximum flow is then obtained by the flow leaving the source or the flow entering the sink. A Ford-Fulkerson max-flow algorithm is shown in \Cref{alg:fordfulkerson}. The min-cut, and segmentation, problem can be solved using \Cref{alg:graphsegmentation}. In image segementation we only require the sets $\mathcal{V}_S$ and $\mathcal{V}_T$, so the last step is not necessary. The Ford-Fulkerson algorithm exhibit very poor performance. The primary cause is that each new augmenting path has to be found from scratch. In \citep{Boykvo2001_3}, they countered this by reusing as much information as possible from the existing path.
+\textcolor{red}{Running time, complexity, properties for network flow, etc of Ford-Fulkerson}.
 
-\begin{algorithm}
-	\caption{Euclid’s algorithm}\label{alg:euclid}
+\begin{algorithm}[!t]
+	\caption{Ford-Fulkerson Max-flow}\label{alg:fordfulkerson}
 	\begin{algorithmic}[1]
-		\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
-		\State $r\gets a\bmod b$
-		\While{$r\not=0$}\Comment{We have the answer if r is 0}
-		\State $a\gets b$
-		\State $b\gets r$
-		\State $r\gets a\bmod b$
-		\EndWhile\label{euclidendwhile}
-		\State \textbf{return} $b$\Comment{The gcd is b}
+		\Procedure{MaxFlow}{$G$}\Comment{The maximum flow on graph $G$}
+			\While{$p = findPath(s,t)$}\Comment{Find an open path $p$ between $s$ and $t$}
+				\If{$p = \emptyset$}\Comment{See if a solution has been found}
+					\State break
+				\EndIf
+				\newline
+				\State $maxflow_p = 0$
+				\For{\textbf{each} edge $e \in p$}\Comment{Find max-flow on path $p$}
+					\State $maxflow_p \gets min(maxflow_p,c(e)-f(e))$\Comment{Residual capacity on edge $e$}
+				\EndFor
+				\newline
+				\For {\textbf{each} $e \in p$}\Comment{Push max-flow on path $p$}
+					\State $f(e) \gets f(e) + maxflow_p$\Comment{Augment each path on path $p$ with flow $maxflow_p$}
+				\EndFor
+			\EndWhile\label{fordfulkersonwhile}
+%			\State \textbf{return} $b$\Comment{The gcd is b}
 		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!t]
+	\caption{Min-cut from Max-flow}\label{alg:graphsegmentation}
+	\begin{algorithmic}[1]
+		\State Calculate max-flow on $\mathcal{G}$
+		\State Partition $\mathcal{V}$ into $\mathcal{V}_S$ and $\mathcal{V}_T$
+		\State $\mathcal{C} = \{ (u,v) \in \mathcal{E} | u \in \mathcal{V}_s \wedge v \in \mathcal{V}_T \}$
+	%	\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+	%	\State $r\gets a\bmod b$
+	%	\While{$r\not=0$}\Comment{We have the answer if r is 0}
+	%	\State $a\gets b$
+	%	\State $b\gets r$
+	%	\State $r\gets a\bmod b$
+	%	\EndWhile\label{euclidendwhile}
+	%	\State \textbf{return} $b$\Comment{The gcd is b}
+	%	\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
@@ -826,48 +854,75 @@ Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum an
 %	SUBSECTION 2
 %-----------------------------------
 
-\subsubsection{Dinic/Edmond-Karp}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+\subsection{Dinic/Edmonds-Karp}
+\label{sec:Dinic}
+
+The Ford-Fulkerson max-flow algorithm is a very inefficient method to finding the max-flow. In practice the runtime is too high making it unfavourable. An improvement on this augmenting path based algorithm was designed by Dinic\citep{Dinic1970} in 1970 and independently by Edmonds and Karp\citep{Edmonds1972} in 1972. The improvement is a change in searching for a path which can be augmented. The Edmonds-Karp algorithm finds the shortest path from the source to the sink by defining the lenght of all edges to be one and using a breadth first search form the source. The amount of flow to be augmented into each path is the minimal residual capacity of the edges in the path. This ensure that on each augmentation atleast one path is \textit{saturated}. The edges that become saturated are said to be \textit{critical}. The Edmonds-Karp max-flow algorithm is shown in \Cref{alg:dinic}. The worst-case complexity is $O(|\mathcal{V}|,|\mathcal{E}|^2)$. Depending on the graph structure other searching strategies may be more efficient, eg. depth first search (DFS) \citep{Cormen2009}, etc.
+
+\begin{algorithm}[!t]
+	\caption{Edmonds-Karp Max-flow}\label{alg:dinic}
+	\begin{algorithmic}[1]
+		\Procedure{MaxFlow}{$G$}\Comment{The maximum flow on graph $G$}
+			\While{$p = BFS(s,t)$}\Comment{Find the shortest and open path $p$ between $s$ and $t$}
+			\If{$length(p) = 0$}\Comment{See if a solution has been found}
+			\State \textbf{break}
+			\EndIf
+			\newline
+			\State $minrescap_p = \infty$
+			\For{\textbf{each} edge $e \in p$}\Comment{Find augmenting flow to saturate an edge}
+			\State $minrescap_p \gets min(minrescap_p,c(e)-f(e))$\Comment{Residual capacity on edge $e$}
+			\EndFor
+			\newline
+			\For {\textbf{each} $e \in p$}\Comment{Push flow on path $p$}
+			\State $f(e) \gets f(e) + minrescap_p$\Comment{Augment each edge with flow $minrescap_p$}
+			\EndFor
+			\EndWhile\label{dinicwhile}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
 
 %-----------------------------------
 %	SUBSECTION 3
 %-----------------------------------
 
-\subsubsection{Push-Relabel}
-Originally developed by Andrew V. Goldberg and Robert E. Tarjan. Previous algorithms, such as Ford-Fulkerson, used the concept of residual networks and augmenting paths to determine max-flow.
-Push-Relabel used the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the Preflow-Push Algorithm.
+\subsection{Push-Relabel}
+\label{sec:PushRelabel}
+
+Originally developed by Andrew V. Goldberg and Robert E. Tarjan \cite{Goldberg1988}. Previous algorithms, such as Ford-Fulkerson, used the concept of residual networks and augmenting paths to determine max-flow.
+Push-Relabel used the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the \textit{Preflow-Push Algorithm}.
 Preflow is a concept originally developed by A.V. Karzanov.
 
 The algorithm works at converting a preflow, $f$, into a normal flow and then terminates. This flow also turns out to be the maximum flow. Goldberg and Tarjan defined a generic Push-Relabel algorithm  which solves the maximum flow problem.
 
 \begin{definition}[Preflow]
 	A preflow is a real-valued function, $f$, on vertice pairs. The total flow into a vertex can exceed the flow out of a vertex but not vice versa.
+	
+	A preflow where all $v \in V-\{s, t\}$ has a flow excess of zero, $e_f(v) = 0$, is a normal flow. The preflow function is also referred to as the \textbf{s-t preflow}.
+	
+	Preflow must satisfy:
+	\begin{enumerate}
+		\item Capacity Constraint\\
+		$\forall u,v \in V, f(u,v) \leq c(u,v)$
+		
+		\item Antisymmetry/Skew Symmetry\\
+		$\forall u, v, \in V, f(u,v) = -f(v,u)$
+		
+		\item Nonnegative Constrain\\
+		The flow into $v \in V-\{s\}$ must be greater than or equal to the flow out of $v$. $\forall u \in V, v \in V-\{s\}, \sum f(u,v)>0$
+	\end{enumerate}
 \end{definition}
-A preflow where all $v \in V-\{s, t\}$ has a flow excess of zero, $e_f(v) = 0$, is a normal flow. The preflow function is also referred to as the \textbf{s-t preflow}.
-
-Preflow must satisfy:
-\begin{enumerate}
-	\item Capacity Constraint\\
-	$\forall u,v \in V, f(u,v) \leq c(u,v)$
-	
-	\item Antisymmetry/Skew Symmetry\\
-	$\forall u, v, \in V, f(u,v) = -f(v,u)$
-	
-	\item Nonnegative Constrain\\
-	The flow into $v \in V-\{s\}$ must be greater than or equal to the flow out of $v$. $\forall u \in V, v \in V-\{s\}, \sum f(u,v)>0$
-\end{enumerate}
 
 \begin{definition}[Flow Excess]
 	Flow excess, $e_f(v)$, is the net flow into $v$ where $v \in V$ for some preflow $f$.
+	
+	\[
+	e_f(v) =
+	\begin{cases} 
+	\hfill \infty \hfill & \text{ if $v=s$} \\
+	\hfill \sum_{u \in V}f(u,v) \hfill & \text{ if $v \in V-\{s\}$} \\
+	\end{cases}
+	\]
 \end{definition}
-
-\[
-e_f(v) =
-\begin{cases} 
-\hfill \infty \hfill & \text{ if $v=s$} \\
-\hfill \sum_{u \in V}f(u,v) \hfill & \text{ if $v \in V-\{s\}$} \\
-\end{cases}
-\]
 
 \begin{definition}[Active Vertex]
 	An active vertex/node is a vertex $v$ which satisfies all of the properties:
@@ -878,7 +933,7 @@ e_f(v) =
 	\end{enumerate}
 \end{definition}
 
-Push-Relabel also uses the concept of a residual graph, $G_f=(V, E_f)$.
+Push-Relabel also uses the concept of a residual graph, $G^*_f=(V, E_f)$.
 
 \begin{definition}[Residual Capacity]
 	The residual capacity of a preflow is defined as $r_f(v,w) = c(v,w)-f(v,w)$.
@@ -890,19 +945,20 @@ Push-Relabel also uses the concept of a residual graph, $G_f=(V, E_f)$.
 
 \begin{definition}[Labelling]
 	Push-Relabel also use a valid labelling function, $d$, to determine which vertex pairs should be selected for the push operation.
+	
+	A valid labelling , $d$, is a nonnegative integer function applied to all vertices to denote a label. The labelling is often referred as the height or distance from the sink node, $t$. This function is sometimes compared to the physical intuition that liquids naturally flow downhill.
+	
+	A valid labelling for a preflow consists of:
+	\begin{enumerate}
+		\item For $v \in V, 0 \leq d(v) \leq \infty$
+		\item $d(s) = |V| \text{ (source condition)}$
+		\item $d(t) = 0 \text{ (sink condition)}$
+		\item $d(v) = d(w) + 1$ for every residual edge $(v,u) \in E_f$
+	\end{enumerate}
+	A labelling $d$ and a preflow $f$ are said to be compatible id $d$ adheres to the properties above.
+	
+	The algorithm pushes flow excess starting at the source, $s$, along all vertices towards the sink, $t$. The algorithm maintains a compatible vertex labelling function, $d$, to the preflow, $f$. The labelling is usedto determine where to puch the flow excess. The algorithm repeatedly performs either a push or a relabel operation so long as there is an active vertex in $G^*_f$.
 \end{definition}
-A valid labelling , $d$, is a nonnegative integer function applied to all vertices to denote a label. The labelling is often referred as the height or distance from the sink node, $t$. This function is sometimes compared to the physical intuition that liquids naturally flow downhill.
-
-A valid labelling for a preflow consists of:
-\begin{enumerate}
-	\item For $v \in V, 0 \leq d(v) \leq \infty$
-	\item $d(s) = |V| \text{ (source condition)}$
-	\item $d(t) = 0 \text{ (sink condition)}$
-	\item $d(v) = d(w) + 1$ for every residual edge $(v,u) \in E_f$
-\end{enumerate}
-A labelling $d$ and a preflow $f$ are said to be compatible id $d$ adheres to the properties above.
-
-The algorithm pushes flow excess starting at the source, $s$, along all vertices towards the sink, $t$. The algorithm maintains a compatible vertex labelling function, $d$, to the preflow, $f$. The labelling is usedto determine where to puch the flow excess. The algorithm repeatedly performs either a push or a relabel operation so long as there is an active vertex in $G_f$.
 
 \begin{definition}[Push Operation]
 	The push operation is used to move flow from one vertex to another. The transfer of excess can be performed across the vertex pair $(v,w) \in E_f$ if:
@@ -911,118 +967,138 @@ The algorithm pushes flow excess starting at the source, $s$, along all vertices
 		\item the edge has positive residual capacity, $r_f(v,w)>0$
 		\item the label distance $d(v) = d(w)+1$
 	\end{enumerate}
+	
+	This allows the algorithm to move $\delta$ excess flow: $\delta = min (e_f(v), r_f(v,w))$ from $v$ to $w$. A push is considered \textit{saturating} if no more flow can be sent over the edge, $\delta = r_f(v,w)$. A push is considered to be \textit{non-saturating} if all the excess from $v$ the push over the edge and the edge still has some capacity, $\delta = e_f(v)$. The push operation is shown in \Cref{alg:push}.
 \end{definition}
-This allows the algorithm to move $\delta$ excess flow: $\delta = min (e_f(v), r_f(v,w))$ from $v$ to $w$. A push is considered \textbf{saturating} if no more flow can be sent over the edge, $\delta = r_f(v,w)$. A push is considered to be \textbf{non-saturating} if all the excess from $v$ the push over the dge and the edge still has some cpacity, $\delta = e_f(v)$.
 
-\begin{algorithm}
+\begin{algorithm}[!t]
 	\caption{Push Operation}\label{alg:push}
 	\textbf{Input:} Preflow $f$, labels $d$, and $(v,w)$ where $v,w \in V$\\
 	\textbf{Output:} Preflow $f$\\
 	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$, $r_f(v,w)>0$ and $d(v)=d(w)+1$
 	\begin{algorithmic}[1]
-		\Procedure{Push}{$v,w$}
-		\State $\delta \coloneqq min(e_f(v), r_f(v,w)$
-		\State $f(v,w) \coloneqq f(v,w) + \delta$
-		\State $f(w,v) \coloneqq f(w,v) - \delta$
-		\State $e_f(v) \coloneqq e_f(v) - \delta$
-		\State $e_f(w) \coloneqq e_f(w) + \delta$
-		\State \textbf{return} $f$
+		\Procedure{Push}{$G,G^*,v,w$}
+		\State $\delta \gets min(e_f(v), r_f(v,w)$\Comment{Find the maximum flow can be pushed from $v$}
+		\State $f_G(v,w) \gets f(v,w) + \delta$\Comment{Push flow and update residual graph}
+		\State $f_{G^*}(w,v) \gets f(w,v) - \delta$
+		\State $e_{G}(v) \gets e_f(v) - \delta$\Comment{Update excess on $G$ and its residual graph $G^*$}
+		\State $e_{G^*}(w) \gets e_f(w) + \delta$
+		\State \textbf{return} $\delta$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 	
 \begin{definition}[Relabel Operation]
 	The relabel operation is used to increase the label value of a single active vertex so that excess flow can be pushed out of the active vertex. The relabel operation is performed when all the residual edges of the active vertex have positive residual capacity, $r_f(v,w)>0$. This implies that $v$'s label is less than or equal to all vertices, $d(v) \leq d(w)$, meaning that no push operation across the edges is possible given the push condition $d(v) = d(w)+1$.
+	
+	The relabel operation for some vertex $v$ selects the smallest label for the vertices with positive residual edges, $r_f(v,w)>0$. The active vertex is then assigned the smallest label value $+1$ such that $d(v) := min\{d(v)+1 | (v,w) \in E_f\}$. This will alow the vertex $v$ to potentially push its excess flow to atleast one of the othe vertices during the algorithm's next iteration. The relabel operation is shown in \Cref{alg:relabel}.
 \end{definition}
-The relabel operation for some vertex $v$ selects the smallest label for the vertices with positive residual edges, $r_f(v,w)>0$. The active vertex is then assigned the smallest label value $+1$ such that $d(v) := min{d(v)+1 | (v,w) \in E_f}$. This will alow the vertex $v$ to potentially push its excess flow to atleast one of the othe vertices during the algorithm's next iteration.
 
-\begin{algorithm}
+\begin{algorithm}[!t]
 	\caption{Relabel Operation}\label{alg:relabel}
 	\textbf{Input:} Preflow $f$, labels $d$, and $v \in V-\{s,t\}$\\
 	\textbf{Output:} Labels $d$\\
 	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$, and $\forall w \in V, r_f(v,w)>0$ which implies $d(v) \leq d(w)$
 	\begin{algorithmic}[1]
 		\Procedure{Relabel}{$v$}
-		\If {$\{(v,w) \in E_f\} \neq 0$}
-		\State $d(v) \coloneqq min(d(w)+1 | (v,w) \in E_f)$
-		\Else 
-		\State $d(v) \coloneqq \infty$
+		\State $d(v) \gets \infty$
+		\For{\textbf{each} vertex $w \in \mathcal{N}_v$}\Comment{Consider all the nighbours of $v$}
+		\If {$\{(v,w) \in E_f\} \neq 0$}\Comment{Is $w$ reachable from $v$}
+		\State $d(v) \gets min(d(v),d(w)+1)$
 		\EndIf
+		\EndFor
 		\State \textbf{return} $d$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
-The algorithm initialises the following values in the residual graph before the push andrelabel operations in the main loop.
-\begin{enumerate}
-	\item Initialise the preflow of all edges in the  residual graph
-	
-	\item Initialise the labellings such that:
-	\begin{enumerate}
-		\item $d(s) = |V|$
-		\item $d(v) = 0 \text{for } v \in V-\{s\}$
-	\end{enumerate}
-	
-	\item Performs saturation, pushes along all residual edges out of the source $(s,v) \in E_f$ and $v \in V$.
-\end{enumerate}
-Once complete the algorithm repeatedly performs either a push or a relabel operation against all vertices. The algorithm continues until no operation can be performed. The algorithm terminates when there are no more active vertices.
 
-\begin{algorithm}
-	\caption{Push-Relabel Main-loop}\label{alg:main_no_optimisation}
-	\textbf{Input:} Network flow graph $G=(V,E)$, $s$, $t$ and $c$\\
-	\textbf{Output:} Maximum flow $f$
+\begin{definition}[Discharge Operation]
+	The coordination of pushing excess flow from and relabelling a vertex is handled in a discharge operation. The idea is to push as much excess flow, from the currently picked active vertex, to its neighbours. If no more flow can be pushed but the node is still active then relabel it. The discharge operation is shown in \Cref{alg:discharge}.
+\end{definition}
+
+\begin{algorithm}[!t]
+	\caption{Discharge Operation}\label{alg:discharge}
+	\textbf{Input:} $v \in V-\{s,t\}$\\
+	\textbf{Output:} State of node\\
+	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$
 	\begin{algorithmic}[1]
-		\Procedure{Main}{$v$}
-		\ForAll {$(v,w) \in (V-\{s\})(V-\{s\})$}
-		\State $f(v,w) \gets 0$
-		\State $f(w,v) \gets 0$
-		\EndFor
-		\item[]
-		\ForAll {$v \in V$}
-		\State $f(s,v) \gets r_f(s,v)$
-		\State $f(v,s) \gets -r_f(s,v)$
-		\EndFor
-		\item[]
-		\State $d(s) \gets |V|$
-		\item[]
-		\ForAll {$v \in V-\{s\}$}
-		\State $d(v) \gets 0$
-		\State $e_f(v) \gets f(s,v)$
-		\EndFor
-		\item[]
-		\State While there exists an active vertex
-		\While {$\exists v \in V-\{s,t\}$} \Comment{with either applicable PUSH() or RELABEL() operation}
-		\State Perform either a PUSH or a RELABEL operation on $v$
+		\Procedure{Discharge}{$v$}
+		\State $i \gets v.current\_neighbour$\Comment{index of the current neighbour under consideration}
+		\While{($e(v) > 0$) $\wedge$ ($i<\text{size}(v.neighbour)$)}\Comment{$neighbour$ is the list of neighbours}
+		\If{($d(v) == d(v.neighbour[i])+1$) $\wedge$ ($r_f(v,v.neighbour[i])>0$)}
+		\State push($v$,$v.neighbour[i]$)
+		\State $i \gets (i+1)$
+		\EndIf
+		\If{$e(v)>0$}
+		\State relabel($v$)
+		\EndIf
+		\State $v.current\_neighbour \gets i$\Comment{Pick up from this neighbour on the next discharge}
+		\State \textbf{return} $e(v)>0$ \Comment{Is node still active}
 		\EndWhile
-		\item[]
-		\State \textbf{return} $f$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
-The analaysis and the proof of correctness of the Push-Relabel algorithm can be found in \autoref{AppendixB}.
+The algorithm also maintains a list of active nodes to dischage. The complete Push-Relabel algorithm is shown in \Cref{alg:pushrelabelcomplete}. The algorithm repeatedly pushes flow between nodes until their are no more active nodes.
+\textcolor{red}{Worst-case Complexity, etc.}
+
+\begin{algorithm}[!t]
+	\caption{Push-Relabel Maxflow Algorithm}\label{alg:pushrelabelcomplete}
+	\textbf{Input:} $\mathcal{G}=(\mathcal{V},\mathcal{E})$\\
+	\textbf{Output:} Maximum flow, $f$
+%	\textbf{Applicable:} if $v \in V-\{s,t\}$, $d(v) < \infty$, $e_f(v)>0$
+	\begin{algorithmic}[1]
+		\Procedure{MaxFlow}{$\mathcal{G}$}
+		% initialise the heights of all the nodes
+		\State $d(s) \gets |\mathcal{V}|$\Comment{Initilise the height of all nodes}
+		\State $d(t) \gets 0$
+		\For{$\forall v \in \mathcal{V}-\{s,t\}$}
+		\State $d(v) \gets 0$
+		\EndFor
+		% saturate all out-going edges from the source and build the active_node list
+		\For{$\forall v \in \mathcal{N}_s$}\Comment{Saturate all outgoing edges from the source}
+		\State $d(v) \gets 1$
+		\State $f_{G}(s,v) \gets c(edge (s,v))$
+		\State $f_{G^*}(v,s) \gets -c(edge (s,v))$
+		\State $e_G(s) \gets -c(edge (s,v))$
+		\State $e_G(v) \gets c(edge (s,v))$
+		\State Append $v$ to $Active\_node$\Comment{Build the active node list}
+		\EndFor
+		% while there are active_nodes, discharge them
+		\While{\text{size(}$Active\_node$\text{)} $>0$}\Comment{While there are active nodes, discharge them}
+		\State $current\_node \gets$ pop\_front($Active\_node$)\Comment{Get the first active node}
+		\State $state \gets$ discharge($current\_node$)
+		\If{$state == ACTIVE$}\Comment{If node is still active then put it at the end of the list}
+		\State push($Active\_node$,$current\_node$)
+		\EndIf
+		\EndWhile
+		% return the maximum flow
+		\State \textbf{return} $e(t)$\Comment{Final flow is equal to the flow entering the sink node}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+There are many variations of the push-relabel algorithm \citep{Cherkassky1997,Goldberg1988}. Most of these are heuristic implementations to reduce execution time. One such heuristic is the \textit{First-in First-out} (FIFO) \citep{Goldberg1988}. With this implementation the theoretical run-time is shown to be $O(|\mathcal{V}|^3)$. Cubic complexities are unaccpetable in practice, however in practice this heuristic displays a great boost in speed optimisation. Emperical runtime over theoretical runtime is accepted in practice. 
+
+Instead of discharging nodes in the order that they entered the $Active\_node$ list, a better heuristic is to disharge nodes in descending order of node level/height. This heurustic is known as \textit{Highest level first} (HLF). Flow is pushed from higher level nodes to lower level nodes first. This allows a greater dissipation of flow.
+
+Another popular heuristic is \textit{Global relabel}. In this heuristic, all nodes are periodically labelled from the distance of the node to the sink. This is can be done by runnig a BFS from the sink node $t$ in the residual graph $G^*$. When used in conjuction with the FIFO heuristic, there's a huge performance speedup. The Global relabel heuristic is expensive to perform so it is only run after every $|\mathcal{V}|$ relabel operations. 
+
+The final heuristic we discuss is known as the \textit{Gap relabel}. This heuristic is based on an important observation, nodes can only push to other nodes that are one level lower. Hence, if there are no noded of a certain level, $d$, then it is not possible for higher nodes, at level $d+1$, to send their flow to the nodes at the next lowest level, $d-1$, hence this gap in the levels allows us to relabel all nodes that are higher than level $d$ to $|\mathcal{V}|$. These relabelled nodes will no more be considered in further \textsf{push} or \textsf{relabel} operations. When the max-flow is determined, graph partitioning can be easily obtained. All nodes that are equal to or higher than the source are part of the source set, i.e $\mathcal{V}_S=\{v \in \mathcal{V} | d(v)\geq |\mathcal{V}|\}$ and $\mathcal{V}_T = \mathcal{V}-\mathcal{V}_S$.
+%
+%The analaysis and the proof of correctness of the Push-Relabel algorithm can be found in \autoref{AppendixB}.
 
 %-----------------------------------
-%	SUBSUBSECTION 1
+%	SUBSECTION 4
 %-----------------------------------
 
-\subsubsection{Push-Relabel Speed Optimisation Heuristics}
-\begin{definition}[Discharge]
-	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
-\end{definition}
+\subsection{Move Making Algorithms}
+\label{sec:movemaking}
 
-\begin{definition}[FIFO]
-	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
-\end{definition}
+Modern move making algorithms based on combinatorial graph cuts outperform previous move making methods, such as simulated annealing and ICM, as well as message passing algorithms because of their increased accuracy and efficiency \cite{Szeliski2008}. Specifically, the $\alpha$-expansion and $\alpha\beta$-swap \cite{Boykov2001} has become very popular and gained a large acceptance in the vision community \citep{Vu2008_2}.
 
-\begin{definition}[Highest Label First]
-	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
-\end{definition}
+In the $\alpha$-expansion, the algorithm iteratively makes the move to expand the $\alpha$-label set. The label that provides the largest decrease in energy for all labels is kept. When no further label changes can be made, then  the algorithm has reachde convergence and terminates.
+In the $\alpha\beta$-swap, the algorithm iteratively chooses two pixel sets with labels $\alpha$ and $\beta$ and swaps the labels of the pixels within these sets. The swap between the pair of labels that results in the largest decrease in energy is chosen. Similarly, when no more swap moves can be made, the algorithm has reached convergence and terminates. For binary segmentation, both of these algorithms require just one iteration to reach convergence and the optimal move is determined by using graph cuts.
 
-\begin{definition}[Global Relabel]
-	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
-\end{definition}
-
-\begin{definition}[Gap Relabel]
-	Push-Relabel also use a valid labelling function ,$d$, to determine which vertex pairs should be selected for the push operation.
-\end{definition}
+\textcolor{red}{Conclude this chapter? Comparison of Running times for these algorithms?}
