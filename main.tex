@@ -50,6 +50,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{mathtools}
 
 \usepackage{algorithm}
@@ -317,6 +318,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 % G
 \textbf{GA} & \textbf{G}enetic \textbf{A}lgorithm \\
+\textbf{GCBLS} & \textbf{G}raph \textbf{C}ut \textbf{B}ased \textbf{L}evel \textbf{S}et\\
 \textbf{GFP} & \textbf{G}reen \textbf{F}luorescent \textbf{P}rotein\\
 \textbf{GLCM} & \textbf{G}ray \textbf{L}evel \textbf{C}o-occurrence \textbf{M}atrix\\
 \textbf{GMM} & \textbf{G}uassian \textbf{M}ixture \textbf{M}odelling\\
@@ -384,31 +386,31 @@ The acknowledgments and the people to thank go here, don't forget to include you
 %	PHYSICAL CONSTANTS/OTHER DEFINITIONS
 %----------------------------------------------------------------------------------------
 
-\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
-
-% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
-
-	Speed of Light & $c$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
-	Planck's Constant & $h$ & \SI{6.62607004e-34}{\meter\squared\kilogram\per\second} (exact)\\
-%Constant Name & $Symbol$ & $Constant Value$ with units\\
-
-\end{constants}
+%\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
+%
+%% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
+%
+%	Speed of Light & $c$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
+%	Planck's Constant & $h$ & \SI{6.62607004e-34}{\meter\squared\kilogram\per\second} (exact)\\
+%%Constant Name & $Symbol$ & $Constant Value$ with units\\
+%
+%\end{constants}
 
 %----------------------------------------------------------------------------------------
 %	SYMBOLS
 %----------------------------------------------------------------------------------------
 
-\begin{symbols}{lll} % Include a list of Symbols (a three column table)
-
-$a$ & distance & \si{\meter} \\
-$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
-%Symbol & Name & Unit \\
-
-\addlinespace % Gap to separate the Roman symbols from the Greek
-
-$\omega$ & angular frequency & \si{\radian} \\
-
-\end{symbols}
+%\begin{symbols}{lll} % Include a list of Symbols (a three column table)
+%
+%$a$ & distance & \si{\meter} \\
+%$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
+%%Symbol & Name & Unit \\
+%
+%\addlinespace % Gap to separate the Roman symbols from the Greek
+%
+%$\omega$ & angular frequency & \si{\radian} \\
+%
+%\end{symbols}
 
 %----------------------------------------------------------------------------------------
 %	DEDICATION
@@ -428,14 +430,14 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Uncomment the lines as you write the chapters
 
 \include{Chapters/ChapterA} % Introduction
-\include{Chapters/ChapterD} % Fluorescence Microscopy
-\include{Chapters/ChapterB} % Mathematical Background
-%\include{Chapters/ChapterJ} % Literature Review
-%\include{Chapters/ChapterC} % Interactive Segmentation
-%\include{Chapters/ChapterE} % Automatic Segmentation
+%\include{Chapters/ChapterD} % Fluorescence Microscopy
+%\include{Chapters/ChapterB} % Mathematical Background
+%%\include{Chapters/ChapterJ} % Literature Review
+%%\include{Chapters/ChapterC} % Interactive Segmentation
+%%\include{Chapters/ChapterE} % Automatic Segmentation
 \include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 %\include{Chapters/ChapterI} % Texture Segmentation (and Intensity)
-\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
+%\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
