@@ -4,15 +4,52 @@
 
 \label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
 
-This dataset is compiled to represent the type of variations of cell images obtained in fluorescence microscopy.
+The dataset is composed of two subsets. One as the sample set and one as the test set. The sample set is used for tuning parameters and testing theories or predictions. This dataset is composed of images that are relatively simple but still try to maintain some of the variation of images obtained in fluorescence microscopy. The other dataset is the test set. This dataset is contains more complex images and is used to test the robustness of the segmentation schemes or techniques. We aim for a larger coverage of the types of images that are frequently obtained in fluorescence microscopy.
 
-\section{Test Data}
+\section{Sample Set}
+\begin{figure}[!h]
+	\centering
+	\subfigure[\citep{cil:9233}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/1gray.jpg}
+		\label{fig:1gray}
+	}
+	\subfigure[\citep{cil:11996}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/2gray.jpg}
+		\label{fig:2gray}
+	}
+	\subfigure[\citep{cil:13902}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/3gray.jpg}
+		\label{fig:3gray}
+	}
+	\subfigure[\citep{cil:13903}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/4gray.jpg}
+		\label{fig:4gray}
+	}
+	\subfigure[\citep{cil:13904}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/5gray.jpg}
+		\label{fig:5gray}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/6gray.jpg}
+		\label{fig:6gray}
+	}
+	\caption{Sample set.}
+	\label{fig:sampleset}
+\end{figure}
+
+\section{Test Set}
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:12627}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/12627gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/12627gray.jpg}
 		\label{fig:12627}
 	}
 	\caption{Uneven Illumination}
@@ -21,19 +58,19 @@ This dataset is compiled to represent the type of variations of cell images obta
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:13899}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13899gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13899gray.jpg}
 		\label{fig:13899_2}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:13901}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13901gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13901gray.jpg}
 		\label{fig:13901_2}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:40217}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/40217gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/40217gray.jpg}
 		\label{fig:40217}
 	}
 	\caption{High cell density}
@@ -42,40 +79,50 @@ This dataset is compiled to represent the type of variations of cell images obta
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:195}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/195gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/195gray.jpg}
 		\label{fig:195}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:10102}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/10102gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/10102gray.jpg}
 		\label{fig:10102}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:10104}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/10104gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/10104gray.jpg}
 		\label{fig:10104}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:12294}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/12294gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/12294gray.jpg}
 		\label{fig:12294}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:13899}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13899gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13899gray.jpg}
 		\label{fig:13899}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:13901}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13901gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13901gray.jpg}
 		\label{fig:13901}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:21749}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/21749gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/21749gray.jpg}
 		\label{fig:21749}
+	}
+	\subfigure[\citep{cil:21759}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/21759gray.jpg}
+		\label{fig:21759}
+	}
+	\subfigure[\citep{cil:42451}]
+	{
+		\includegraphics[width=0.3\columnwidth]{cell_database/42451gray.jpg}
+		\label{fig:42451}
 	}
 
 	\caption{Multi-modal (non-bi-modal)}
@@ -84,34 +131,34 @@ This dataset is compiled to represent the type of variations of cell images obta
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:188}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/188gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/188gray.jpg}
 		\label{fig:188}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:10093}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/10093gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/10093gray.jpg}
 		\label{fig:10093}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:32140}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/32140gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/32140gray.jpg}
 		\label{fig:32140}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:40968}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/40968gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/40968gray.jpg}
 		\label{fig:40968}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:1057}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/1057gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/1057gray.jpg}
 		\label{fig:1057}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:1265}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/1265gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/1265gray.jpg}
 		\label{fig:1265}
 	}
 	\caption{Hazy/Glowing Edges}
@@ -120,24 +167,24 @@ This dataset is compiled to represent the type of variations of cell images obta
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:12294}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/12294gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/12294gray.jpg}
 		\label{fig:12294_2}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:195}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/195gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/195gray.jpg}
 		\label{fig:195_2}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:35278}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/35278gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/35278gray.jpg}
 		\label{fig:35278}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:38974}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/38974gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/38974gray.jpg}
 		\label{fig:38974}
 	}
 	\caption{Thin Tentacles}
@@ -146,55 +193,36 @@ This dataset is compiled to represent the type of variations of cell images obta
 
 \begin{figure}[!h]
 	\centering
-	\subfigure[]
+	\subfigure[\citep{cil:228}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/228gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/228gray.jpg}
 		\label{fig:228}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:41066}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/41066gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/41066gray.jpg}
 		\label{fig:41066}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:37338}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/37338gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/37338gray.jpg}
 		\label{fig:37338}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:37339}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/37339gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/37339gray.jpg}
 		\label{fig:37339}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:13432}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13432gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13432gray.jpg}
 		\label{fig:13432}
 	}
-	\subfigure[]
+	\subfigure[\citep{cil:13438}]
 	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/13438gray.jpg}
+		\includegraphics[width=0.3\columnwidth]{cell_database/13438gray.jpg}
 		\label{fig:13438}
 	}
 	\caption{Bright Spots and Speckles}
 	\label{fig:peckles}
-\end{figure}
-
-\begin{figure}[!h]
-	\centering
-
-	\subfigure[]
-	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/21759gray.jpg}
-		\label{fig:21759}
-	}
-
-	\subfigure[]
-	{
-		\includegraphics[width=0.317\columnwidth]{cell_database/42451gray.jpg}
-		\label{fig:42451}
-	}
-
-	\caption{To ben categorised}
-	\label{fig:label7}
 \end{figure}
