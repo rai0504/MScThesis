@@ -1243,6 +1243,7 @@ When defining the values for $p_e$ and $h$ implicitely and $k_p$ and $k_h$ respe
 Therefore, given $k_p$, the equation to calculate $\alpha$ is
 \begin{equation}
 	\alpha = \left( \frac{1-k_p}{k_p} \right)^2
+	\label{eq:alphafromkp}
 \end{equation}
 
 \begin{equation}\begin{split}
@@ -1266,12 +1267,27 @@ Following from \Cref{eq:lambda1approximation}...
 
 \begin{equation}
 	\lambda_1 = \frac{\mu \left( 2\sqrt{2}+4\right)}{(c_1-c_0)^2\left( \left( \frac{1-2k_p}{k_p^2} \right)k_h^2 +2k_h -1 \right)}
+	\label{eq:lambda1fromkpandkh}
 \end{equation}
 
 \section{Experimental Results}
 \label{sec:cvgc_experimentalresults}
 
-\textcolor{red}{Present and analyse the experimental results.} The parameters $\alpha$ and $\lambda_1$, in the proposed parameter estimation method, depend greatly on predicting good final means, $c_0$ and $c_1$, for the ideal segmentation. It is rarely the case where this is known or can be calculated, if ever at all. Instead, we use the results from three popular unsupervised clustering algorithms and compare the final segmented result against a ground truth. The algorithms chosen to generate an initial mask, from which we calculate $c_0$ and $c_1$ are: \textit{Otsu} [cite otsu here], $k$-means with $k=2$ [cite k-means here] and Expectation Maximisation Gaussian Mixture Modelling (\textbf{EMGMM}) [cite EMGMM here]. From observations we see that these algorithms tend to generate over-segmented results. In light of this, we generate a fourth mask which is an EMGMM output with dilation. For dilation we used an elliptical shape with a radius of $3px$. We also compare our results  to two previously published parameter settings.
+\textcolor{red}{Present and analyse the experimental results.} The parameters $\alpha$ and $\lambda_1$, in the proposed parameter estimation method, depend greatly on predicting good final means, $c_0$ and $c_1$, as well as $p_e$ and $h$ for the ideal segmentation. For determining $\alpha$ we find the average of all $k_p$ in \Cref{tab:manualresults} for all good segmentations. This is calculated to be
+\begin{equation*}
+	k_p = 0.154494.
+\end{equation*}
+From this we can calculate the value for $\alpha$ immediately using \Cref{eq:alphafromkp}. This turns out to be
+\begin{equation}
+\alpha = 29.9509.
+\end{equation}
+Similarly, to determine $h$ we find the average of all $k_h$ in \Cref{tab:manualresults} for all good segmentations. This is calculated to be
+\begin{equation*}
+	k_h = 0.412737.
+\end{equation*}
+It is rarely the case where this is known or can be calculated, if ever at all. Instead, we use the results from three popular unsupervised clustering algorithms and compare the final segmented result against a ground truth. The algorithms chosen to generate an initial mask, from which we calculate $c_0$ and $c_1$ are: \textit{Otsu} \citep{Otsu1979}, $k$-means \citep{Kanungo2002} with $k=2$ and Expectation Maximisation Gaussian Mixture Modelling (\textbf{EMGMM}) \citep{Figueiredo2002} with $k=2$. From observations we see that these algorithms tend to generate over-segmented results. In light of this, we generate a fourth mask which is an EMGMM output with dilation. For dilation we used an elliptical shape with a radius of $3px$. Once we have the initial mask and have calculated the initial $c_0$ and $c_1$ from this initial mask, we calculate $\lambda_1$ using \Cref{eq:lambda1fromkpandkh}. Now that we have $\alpha$ and $\lambda_1$ we calculate $\lambda_0$ using \Cref{eq:l0l1dependancy}. We set the termination criterion at $\epsilon=1 \times 10^{-3}$.
+
+We also compare our results  to two previously published parameter settings.
 The first is the parameter settings used in \citep{ElZehiry2007}, by El Zehiry \textit{et al.}, which is where this technique was first published. Their results showed excellent segmentation ouptput on synthetic images and mammography images with very high robustness against noise. They do not specify the noise type.
 The second parameter setting which we test against is presented in \citep{Maska2013}, by Masaka \textit{et al.}. Their parameter setting where based on a timelapse series of fluorescence images. Their scheme is a hybrid of algorithms design to segmente whole fluorescent cells, however, we use the parameters settings they've presented for segmentation only. Their parameters were obtained by minimising the Jaccard coefficient over the timelapse series. Their results show a greater area of cell detection and smoother boundaries. Although, the smoother contours are a result of CED-ORI [cite cedori] which is part of the scheme before segmentation.
 
@@ -1292,10 +1308,10 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \begin{enumerate}
 	\item [\textbf{n}] - using parameter setting presented in \citep{ElZehiry2007}.
 	\item [\textbf{m}] - using parameter setting presented in \citep{Maska2013}.
-	\item [\textbf{o}] - Propsed method with parameters estimated from an initial Otsu segmentation.
-	\item [\textbf{k}] - Propsed method with parameters estimated from an initial K-means segmentation with $k=2$.
-	\item [\textbf{e}] - Propsed method with parameters estimated from an initial EMGMM segmentation with $k=2$.
-	\item [\textbf{d}] - Propsed method with parameters estimated from an initial EMGMM segmentation with $k=2$ and an elliptical dilation of $3px$.
+	\item [\textbf{o}] - Proposed method with parameters estimated from an initial Otsu segmentation.
+	\item [\textbf{k}] - Proposed method with parameters estimated from an initial K-means segmentation with $k=2$.
+	\item [\textbf{e}] - Proposed method with parameters estimated from an initial EMGMM segmentation with $k=2$.
+	\item [\textbf{d}] - Proposed method with parameters estimated from an initial EMGMM segmentation with $k=2$ and an elliptical dilation of $3px$.
 \end{enumerate}
 
 \clearpage
