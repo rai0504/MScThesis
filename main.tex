@@ -259,8 +259,15 @@ headsepline, % Uncomment to get a line under the header
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
 
-The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
+For multiple fields, from biosciences and pharmaceutical drug development to semiconductor and geology research and beyond, fluorescence microscopy has been established as an essential tool which allows for the visualisation of the diminutive organisms and objects that escape visibility with the naked eye. The consequent insight into this world has allowed us to view the world from an indispensably unique perspective which has since played in vital role in enriching the livelihood of mankind.
 
+Fluorescence microscopy isn’t the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and use this information to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
+
+We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image procurement stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme such by defining a weighting process and parameter relations. We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for segmentation on the image of interest specifically. We compare this scheme with other well-known parameter estimation schemes and parameter settings.
+
+The results exhibit a significant boost in segmentation correctness and consistency. It is also supersedes previous schemes in terms of being applicable over a wider range of images. It also boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
+
+The methods and techniques presented herein will greatly improve the results and stability of higher level decision making as well as removing the need to manually fine-tune segmentation results.
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
@@ -441,8 +448,8 @@ The acknowledgments and the people to thank go here, don't forget to include you
 % Uncomment the lines as you write the chapters
 
 %%\include{Chapters/ChapterA} % Introduction
-%\include{Chapters/ChapterD} % Fluorescence Microscopy
-%\include{Chapters/ChapterB} % Mathematical Background
+\include{Chapters/ChapterD} % Fluorescence Microscopy
+\include{Chapters/ChapterB} % Mathematical Background
 %\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterJ} % Literature Review
 %%\include{Chapters/ChapterC} % Interactive Segmentation
@@ -460,7 +467,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-%\include{Appendices/AppendixB}
+\include{Appendices/AppendixB}
 \include{Appendices/AppendixA}
 %\include{Appendices/AppendixC}
 
