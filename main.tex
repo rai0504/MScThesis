@@ -57,6 +57,16 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{algpseudocode}
 \usepackage{pifont}
 
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{tabu}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{color, colortbl}
+\definecolor{bad}{rgb}{1,0.5,0.5}
+\definecolor{acceptable}{rgb}{1,0.8,0.4}
+\definecolor{closest}{rgb}{0.8,0.8,1}
+
 
 
 %\usepackage[usenames,x11names,dvipsnames,svgnames]{xcolor}
@@ -109,7 +119,7 @@ headsepline, % Uncomment to get a line under the header
 %	\vrule height0.75em width0.5em depth0.25em\fi}
 
 
-\hyphenation{mo-le-cu-lar ful-le-ro-pyr-ro-li-di-ne ful-le-ro-pyr-ro-li-di-nes his-to-grams his-to-gram pla-te-aus}
+\hyphenation{mo-le-cu-lar ful-le-ro-pyr-ro-li-di-ne ful-le-ro-pyr-ro-li-di-nes his-to-grams his-to-gram pla-te-aus cell-image-library}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max} 
@@ -132,7 +142,7 @@ headsepline, % Uncomment to get a line under the header
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Discrete Energy Minimisation Optimisation using Graph Cuts for Fluorescence Microscopy} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\thesistitle{A Fluorescent Image Segmentation Model Based on Improved Discrete Active Contours} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
 \supervisor{Dr. Jules-Raymond \textsc{Tapamo}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Master of Science in Engineering} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
@@ -345,6 +355,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 % M
 \textbf{MAP} & \textbf{M}aximum \textbf{A} \textbf{P}osteriori\\
+\textbf{MCC} & \textbf{M}atthews \textbf{C}orrelation \textbf{C}oefficient\\
 \textbf{MIS} & \textbf{M}edical \textbf{I}mage \textbf{S}egmentation\\
 \textbf{MLP} & \textbf{M}ulti-\textbf{L}ayered \textbf{P}erceptron\\
 \textbf{MRF} & \textbf{M}arkov \textbf{R}andom \textbf{F}ield\\
@@ -432,12 +443,12 @@ The acknowledgments and the people to thank go here, don't forget to include you
 %%\include{Chapters/ChapterA} % Introduction
 %\include{Chapters/ChapterD} % Fluorescence Microscopy
 %\include{Chapters/ChapterB} % Mathematical Background
+%\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterJ} % Literature Review
 %%\include{Chapters/ChapterC} % Interactive Segmentation
 %%\include{Chapters/ChapterE} % Automatic Segmentation
 \include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 %%\include{Chapters/ChapterI} % Texture Segmentation (and Intensity)
-%\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
@@ -449,7 +460,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-\include{Appendices/AppendixB}
+%\include{Appendices/AppendixB}
 \include{Appendices/AppendixA}
 %\include{Appendices/AppendixC}
 
