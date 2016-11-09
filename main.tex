@@ -128,15 +128,15 @@ headsepline, % Uncomment to get a line under the header
 %	MARGIN SETTINGS
 %----------------------------------------------------------------------------------------
 
-%\geometry{
-%	paper=b5paper,%letterpaper, % Change to letterpaper for US letter or a4paper
-%	inner=1.0cm,%2.5cm, % Inner margin
-%	outer=1.5cm,%2.5cm,%3.8cm, % Outer margin
-%	bindingoffset=1.5cm,%2cm, % Binding offset
-%	top=1.5cm, % Top margin
-%	bottom=1.5cm, % Bottom margin
-%	%showframe,% show how the type block is set on the page
-%}
+\geometry{
+	paper=a4paper,%letterpaper, % Change to letterpaper for US letter or a4paper
+	inner=1.0cm,%2.5cm, % Inner margin
+	outer=1.5cm,%2.5cm,%3.8cm, % Outer margin
+	bindingoffset=1.5cm,%2cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe,% show how the type block is set on the page
+}
 
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION
@@ -248,9 +248,13 @@ headsepline, % Uncomment to get a line under the header
 
 \vspace*{0.2\textheight}
 
-\noindent\enquote{\itshape Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism.}\bigbreak
+%\noindent\enquote{\itshape Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism.}\bigbreak
 
-\hfill Dave Barry
+%\hfill Dave Barry
+
+\noindent\enquote{\itshape If any of you is deficient in wisdom, let him ask of the giving God [Who gives] to everyone liberally and ungrudgingly, without reproaching or faultfinding, and it will be given him.}\bigbreak
+
+\hfill James 1.5 AMPC
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
@@ -449,12 +453,12 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 %%\include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
-\include{Chapters/ChapterB} % Mathematical Background
-%\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
+%\include{Chapters/ChapterB} % Mathematical Background
+\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterJ} % Literature Review
 %%\include{Chapters/ChapterC} % Interactive Segmentation
 %%\include{Chapters/ChapterE} % Automatic Segmentation
-\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
+%\include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 %%\include{Chapters/ChapterI} % Texture Segmentation (and Intensity)
 %%\include{Chapters/ChapterH} % Conclusion and Future Work
 
@@ -467,9 +471,9 @@ The acknowledgments and the people to thank go here, don't forget to include you
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-\include{Appendices/AppendixB}
-\include{Appendices/AppendixA}
-%\include{Appendices/AppendixC}
+%\include{Appendices/AppendixB}
+%\include{Appendices/AppendixA}
+%%\include{Appendices/AppendixC}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
