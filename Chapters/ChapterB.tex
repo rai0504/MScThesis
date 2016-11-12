@@ -4,7 +4,7 @@
 
 \label{chap:Chapter3} % Change to a consecutive number; for referencing this chapter elsewhere, use \ref{chap:Chapter2}
 
-\textcolor{red}{Optimisation approach in vision, "machinery/mechanics", literature review, ill-posed inverse problems.}
+%\textcolor{red}{Optimisation approach in vision, "machinery/mechanics", literature review, ill-posed inverse problems.}
 
 Image segmentation falls under the mathemtical classification as being an \textit{ill-posed inverse problem} \citep{Poggio1985,Terzopoulos1986}.
 It is an inverse problem since we require a model from the observation, this simply means given the results, what are the causes.
@@ -41,7 +41,7 @@ In these attempts the problems are solved in a Calculus of variations framework,
 Many important advancements in computer vision are proposals for a better energy, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
 In this thesis we focus on discrete energy optimisation using graph cuts for image segmentation.
 
-\textcolor{red}{Plan for the chapter.}
+%\textcolor{red}{Plan for the chapter.}
 Image segmentation falls under a broader catergory of problems known as \textit{labelling problems}.
 The aim is to find the best label, foregound/object or background, for each pixel.
 In \Cref{sec:LabellingProblems} we briefly discuss labelling problems and its formulation as an energy minimisation problem.
@@ -725,7 +725,7 @@ In this section we briefly cover the foundation aspects to understanding graph c
 	\label{fig:mincut}
 \end{figure}
 
-\textcolor{red}{Talk about the max-flow/min-cut duality, non-uniqueness.}
+%\textcolor{red}{Talk about the max-flow/min-cut duality, non-uniqueness.}
 %In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
 In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut yield the same answer. This is not a coincidence, in fact the two problems are duals of each other, known as the \textit{max-flow min-cut duality}. This was proven by P. Elias, A. Feinstein, and C.E. Shannon \citep{Elias1956} and by Ford and Fulkerson \citep{Ford1956} independently in 1956. This duality is immensely helpful in developing machine algorithms to compute the minimum, since it is easier to find a maximum flow. It is important to realise that there maybe many cuts that can be minimum cut and many flow configurations that can yield the maximum flow, hence the solution is not guaranteed to be unique only an optimum.
 
@@ -736,7 +736,7 @@ In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut
 \subsection{Image Segmentation Graph Structure}
 \label{sec:GraphCutFramework}
 
-\textcolor{red}{Graph construction. Special terminology: n-links, t-links, etc. Undirected to directed conversion. Labels as terminals. Construction with and withtout seeds. Edge weighting -> leave submodular functions to their own section.}
+%\textcolor{red}{Graph construction. Special terminology: n-links, t-links, etc. Undirected to directed conversion. Labels as terminals. Construction with and withtout seeds. Edge weighting -> leave submodular functions to their own section.}
 In graph cut image segmentation the energy function, defined by the image, has to be represented as a graph, specifically a network. We now look at how to 2D binary segmentation energy is constructed as a graph. The graph that is constructed uses the MRF, \Cref{sec:MarkovRandomFields}, model of the image as its base. Each pixel is a node in the graph. The connections between "pixel nodes" are bi-directional, which is generally decomposed into two uni-directional edges, and are known as \textit{n-links} which is synonymous with \textit{neighbour-links}. Additionally, each label is also represented as a node. Each "pixel node" is attached to all "label nodes". In binary, segmentation, there are two labels i.e. object and background. The edges that connect "label nodes" to "pixel nodes" are called \textit{t-links} which is synonymous with \textit{terminal-links}. In keeping with network construction, one label will be the source and the other will be the sink. The t-link weights are generally learned from user input seeds or automatically generated seeds. Seeds mark which type of pixels belong to the object and which belong to the background, an illustration is shown in \Cref{fig:graph_image}. With the seed data and the neighbourhood interaction, we can construct a graph representation of the energy to be minimised over the image as illustrated in \Cref{fig:graph_graph}. Once a graph has been constructed, we then call upon a max-flow/min-cut method which will minimise the energy function by partitioning the graph into two subgraphs, as shown in \Cref{fig:graph_graphcut}. All pixels are classified according to which "label node" they're still attached to after the max-flow/min-cut algorithm has run, this is illustrated in \Cref{fig:graph_mask}.
 
 \begin{figure}[!t]
@@ -807,7 +807,7 @@ Image segmentation via graph cuts can be seen as three main stages. Firstly the 
 \label{sec:FordFulkerson}
 
 The Ford-Fulkerson max-flow algorithm \citep{Ford1956} is designed to on an arbitrary network with one source and one sink. Ford and Fulkerson proved that the max-flow and min-cut problems are duals of each other, hence solving one means that you've obtained the solution to the other. Augmenting path algorithms iteratively search for open path from the source to the sink. When a path is found, the maximum flow that can be pushed in that path is pushed through that path by incrementing the flow on each edge of that path. The path is said to be \textit{augmented}. If there are no available paths which can be augmented, the solution has been found and the algorithm terminates. The maximum flow is then obtained by the flow leaving the source or the flow entering the sink. A Ford-Fulkerson max-flow algorithm is shown in \Cref{alg:fordfulkerson}. The min-cut, and segmentation, problem can be solved using \Cref{alg:graphsegmentation}. In image segementation we only require the sets $\mathcal{V}_S$ and $\mathcal{V}_T$, so the last step is not necessary. The Ford-Fulkerson algorithm exhibit very poor performance. The primary cause is that each new augmenting path has to be found from scratch. In \citep{Boykvo2001_3}, they countered this by reusing as much information as possible from the existing path.
-\textcolor{red}{Running time, complexity, properties for network flow, etc of Ford-Fulkerson}.
+%\textcolor{red}{Running time, complexity, properties for network flow, etc of Ford-Fulkerson}.
 
 \begin{algorithm}[!t]
 	\caption{Ford-Fulkerson Max-flow}\label{alg:fordfulkerson}
@@ -1041,7 +1041,7 @@ Push-Relabel also uses the concept of a residual graph, $G^*_f=(V, E_f)$.
 \end{algorithm}
 
 The algorithm also maintains a list of active nodes to dischage. The complete Push-Relabel algorithm is shown in \Cref{alg:pushrelabelcomplete}. The algorithm repeatedly pushes flow between nodes until their are no more active nodes.
-\textcolor{red}{Worst-case Complexity, etc.}
+%\textcolor{red}{Worst-case Complexity, etc.}
 
 \begin{algorithm}[!t]
 	\caption{Push-Relabel Maxflow Algorithm}\label{alg:pushrelabelcomplete}
@@ -1101,4 +1101,4 @@ Modern move making algorithms based on combinatorial graph cuts outperform previ
 In the $\alpha$-expansion, the algorithm iteratively makes the move to expand the $\alpha$-label set. The label that provides the largest decrease in energy for all labels is kept. When no further label changes can be made, then  the algorithm has reachde convergence and terminates.
 In the $\alpha\beta$-swap, the algorithm iteratively chooses two pixel sets with labels $\alpha$ and $\beta$ and swaps the labels of the pixels within these sets. The swap between the pair of labels that results in the largest decrease in energy is chosen. Similarly, when no more swap moves can be made, the algorithm has reached convergence and terminates. For binary segmentation, both of these algorithms require just one iteration to reach convergence and the optimal move is determined by using graph cuts.
 
-\textcolor{red}{Conclude this chapter? Comparison of Running times for these algorithms?}
+%\textcolor{red}{Conclude this chapter? Comparison of Running times for these algorithms?}
