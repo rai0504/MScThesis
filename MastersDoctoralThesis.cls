@@ -181,9 +181,7 @@
 
 \RequirePackage{geometry}
 %\usepackage[left=3.15cm,right=2.55cm,top=1.8cm,bottom=0.89cm,includefoot,includehead,headheight=13.6pt]{geometry}
-\geometry{
-	left=3.15cm,right=2.55cm,top=1.8cm,bottom=0.89cm,includefoot,includehead,headheight=13.6pt
-}
+\geometry{	left=3.15cm,right=2.55cm,top=1.8cm,bottom=0.89cm,includefoot,includehead,headheight=13.6pt}
 
 \raggedbottom
 
