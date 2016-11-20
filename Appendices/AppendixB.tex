@@ -47,12 +47,13 @@
 		\end{tikzpicture}
 	}
 	\caption{Undirected weighted graph \textbf{G}. The degree of each node is shown next to the corresponding node. The graph is simple. The red box shows the vertex set, $V_{G}$, and edge set, $E_{G}$, and their corresponding norm.}
+	\label{fig:appG}
 \end{figure}
 
 \begin{definition}[Degree]
 	The degree of a vertex $v$ is the number of edges incident on it. $deg(v) = |\{(u,v), (v,u) \in E\}|$. A self-loop counts for 2.
 	
-	If a graph is directed, also known as a \textbf{digraph}, then a node $v$ has an \textbf{in-degree} $d_{in}(v)$ and an \textbf{out-degree} $d_{out}(v)$. A digraph is said to be \textbf{balanced} if $d_{in}(v) = d_{out}(v), \forall v \in V$.
+	If a graph is directed, it is also known as a \textbf{digraph}, then a node $v$ has an \textbf{in-degree} $d_{in}(v)$ and an \textbf{out-degree} $d_{out}(v)$. A digraph is said to be \textbf{balanced} if $d_{in}(v) = d_{out}(v), \forall v \in V$.
 \end{definition}
 
 \tikzstyle{vertex}=[circle,thick,draw]
@@ -111,6 +112,7 @@
 		\end{tikzpicture}
 	}
 	\caption{Directed weighted graph (Digraph) \textbf{D}. The in-degree and out-degree is shown next to each node. The graph is simple and not balanced. The red box shows the vertex set, $V_{D}$, and edge set, $E_{D}$, and their corresponding norm.}
+	\label{fig:appD}
 \end{figure}
 
 \begin{definition}[Subgraph]
@@ -181,7 +183,7 @@
 		\draw[orange] node at (7.1,-0.6) [font=\footnotesize,right,rounded corners,inner sep=1ex] {$d_{out}=0$};
 		\end{tikzpicture}
 	}
-	\caption{Undirected weighted graph \textbf{H} is a subgraph of \textbf{G} in Figure XX, $\textbf{H} \subseteq \textbf{G}$. Directed weighted graph \textbf{I} is a subgraph of \textbf{D} in Figure XX, $\textbf{I} \subseteq \textbf{D}$. The degree of each node is shown next to the corresponding node. The red box shows the vertex set, the edge set and their corresponding norms.}
+	\caption{Undirected weighted graph \textbf{H} is a subgraph of \textbf{G} in \Cref{fig:appG}, $\textbf{H} \subseteq \textbf{G}$. Directed weighted graph \textbf{I} is a subgraph of \textbf{D} in Figure \Cref{fig:appD}, $\textbf{I} \subseteq \textbf{D}$. The degree of each node is shown next to the corresponding node. The red box shows the vertex set, the edge set and their corresponding norms.}
 \end{figure}
 
 
