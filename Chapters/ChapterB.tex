@@ -178,12 +178,12 @@ The joint distribution can be specified as a \textit{Gibbs Random Field} (GRF) \
 \end{equation}
 
 where $\mathcal{C}$ is the set of cliques.
-\autoref{fig:n4} shows a simple MRF construction.
-This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \autoref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$.
+\Cref{fig:n4} shows a simple MRF construction.
+This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \Cref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$.
 However, cliques of orders higher than two are ignored for computational reasons.
-In \autoref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
+In \Cref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
 The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one.
-After expanding \autoref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
+After expanding \Cref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
 
 \begin{equation}
 \Pr(x|y) = \frac{1}{Z}\prod_{i \in \mathcal{V}}\exp(-\Psi_i(x_i))\prod_{(i,j) \in \mathcal{E}}\exp(-\Psi_{ij}(x_i,x_j)),
@@ -229,7 +229,7 @@ where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise 
 		\includegraphics[width=0.35\columnwidth]{N8.png}
 		\label{fig:n8}
 	}
-	\caption{Caption. \textbf{(a)} Caption. \textbf{(b)} Caption.}
+	\caption{2D Neighbourhood structure and node ordering. \textbf{(a)} 4-Connected. \textbf{(b)} 8-Connected.}
 	\label{fig:cliques}
 \end{figure}
 
@@ -240,7 +240,7 @@ where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise 
 \subsection{MAP-MRF Estimation as Energy Minimisation}
 \label{sec:MAPMRFEstimation}
 
-The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \autoref{eq:mrfprobability} is equivalent to minimising \autoref{eq:gibbsenergy} \citep{Winkler2006}:
+The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \Cref{eq:mrfprobability} is equivalent to minimising \Cref{eq:gibbsenergy} \citep{Winkler2006}:
 
 \begin{equation}
 \mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}) = \argmin_{\mathbf{y} \in \mathcal{Y}}E(\mathbf{y},\mathbf{x});
@@ -248,11 +248,11 @@ The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means t
 \end{equation}
 
 the most probable labelling yields the lowest energy.
-Obtaining the optimal labelling from \autoref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good.
+Obtaining the optimal labelling from \Cref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good.
 The design of a good energy function, that captures all constraints and priors, is not easy.
 However, optimisation is harder still.
 
-From \autoref{eq:gibbs1}, if we take the negative log we get:
+From \Cref{eq:gibbs1}, if we take the negative log we get:
 
 \begin{equation}
 	-\log(\Pr(x|y)) = \log(Z) + \sum_{i \in \mathcal{V}}\Psi(x_i) + \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j),
@@ -292,7 +292,7 @@ $V_{\{p,q\}}(f_p,f_q)$ is known as the \textit{neighbourhood interaction functio
 The aim of this function is to encourage neighbouring random variables to take on the same label, i.e. it penalises neighbouring pixels $p$ and $q$ if they have different labels.
 The form of $V_{\{p,q\}}(f_p,f_q)$ is application dependant and is more tricky to design.
 In image segmentation, the most common prior is that of smoothness, i.e intra-object pixel intensities are assumed to be the same or vary gradually within some range, it is at edges or boundaries where this assumption is violated.
-The general form in \autoref{eq:generalform} can be rewritten as:
+The general form in \Cref{eq:generalform} can be rewritten as:
 
 \begin{equation}
 	E(f) = \sum_{p \in \mathcal{P}}D_p(f_p) + \lambda \sum_{\{p,q\} \in \mathcal{N}}V_{\{p,q\}}(f_p,f_q).
@@ -361,7 +361,7 @@ The general form in \autoref{eq:generalform} can be rewritten as:
 \section{Introduction to Graph Cuts}
 \label{sec:GraphCuts}
 
-Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \autoref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as \textit{Push-Relabel} \citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
+Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \Cref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as \textit{Push-Relabel} \citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 1
