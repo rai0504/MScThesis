@@ -4,19 +4,19 @@
 
 \label{chap:Chapter2} % Change 2 to a consecutive number; for referencing this chapter elsewhere, use 
 
-Fluorescence microscopy has become an essential tool in diverse fields, such as petrology, semiconductors, etc, and has especially been established as a choice imaging technique in cellular and molecular biology for visualisation of cells and tissues \citep{Spring2003,Danek2012,Hubeny2008,Fatima2008,Matula2012}.
-In this thesis we confine our attention to its use in cellular biology.
+Fluorescence microscopy has become an essential tool in diverse fields, such as petrology, semiconductors, etc, and it has especially been established as a choice imaging technique in cellular and molecular biology for visualisation of cells and tissues \citep{Spring2003,Danek2012,Hubeny2008,Fatima2008,Matula2012}.
+In this thesis we focus our attention to its use in cellular biology.
 
-Certain substances emit radiation when irradiated with a higher intensity light, such as ultraviolet (UV), blue or green, which is off a longer wavelength than that of the exciting light, this is known as \textit{Stokes' Law}.
+Certain substances emit radiation when irradiated with a higher intensity light, such as ultraviolet (UV), blue or green, which is of a longer wavelength than that of the exciting light, this is known as \textit{Stokes' Law}.
 This phenomenon is known as \textit{photoluminescence} \citep{Koch1972,Vaughan2015,Sarder2006,AbramowitzDavidson2016}.
 There are two types of photoluminescence. If emission persists at an appreciable level after the exciting light is turned off, then we call this \textit{phosphorescence}.
 If emission persist only so long as the exciting light is on, then we call this \textit{fluorescence} \citep{Koch1972,SpringDavisdson2016}.
 
-The first observance and publishing of fluorescence is credited to Sir John Frederick William Herschel around 1852.
+The first observance and publishing of fluorescence is credited to Sir John Frederick William Herschel circa 1852.
 In 1852, Sir John George Stokes published a 100 page treatise about this luminescent phenomenon and coined the term \textit{fluorescence}, over Herschel's \textit{dispersive reflection}, when he observed that the mineral \textit{fluorite} emitted red light when irradiated by ultraviolet (UV) light \citep{Dobrucki2013,Danek2012}.
 
 In the remainder of this chapter we present the underlying principles of fluorescence, how specimens are fluorescently marked, the optical principles of microscope design, image acquisition, image processing and common analysis in cellular biology.
-We only go so far in depth as to present a rudimentary understanding of fluorescence microscopy as is necessary for the comprehension of this thesis.
+This chapter will only go so far as to present a rudimentary understanding of fluorescence microscopy that is necessary for the comprehension of this thesis.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -27,7 +27,7 @@ We only go so far in depth as to present a rudimentary understanding of fluoresc
 
 %\textcolor{red}{Why is it necessary to understand the principles of fluroescence? Simple description of the fluorescence process. A more in-depth explanation of the fluorescence process and why stuff goes wrong  e.g. phosphorescence, fading, etc.}
 Fluorescence microscopy is a cross-disciplinary field.
-It is encouraged, if not necessary, to have a photophysical understanding of the principles of fluorescence, for biologists and computer scientists.
+It is encouraged, if not necessary, for biologists and computer scientists to have a photophysical understanding of the principles of fluorescence.
 The knowledge of the "under the hood" mechanics of fluorescence empower computer scientists to make informed and directed research in terms of image processing.
 The aim here is to present an elementary introduction into the physics of fluorescence.
 
@@ -56,12 +56,12 @@ The overall principle of fluorescence can be explained in three steps \citep{Nob
 	One of the best ways to visualise the fluorescing process is using a Jab{\l}o{\'n}ski diagram.
 	A detailed Jab{\l}o{\'n}ski diagram is shown in \Cref{fig:jablonski}. 
 	When a photon collides with an atom, all its energy is transferred to the atom. The energy of the photon is inversely related to it's wavelength, $E = h \frac{c}{\lambda}$, where $h$ is Planck's constant and $c$ and $\lambda$ are the speed and wavelength of light in a vacuum respectively.
-	This increase in energy moves an electron from the ground state $S_0$ to a higher level energy state.
-	Depending on the energy of the photon and the number of photons absorbed by the photon the electron can move to different energy levels e.g. $S_1, S_2, etc$.
+	This increase in energy moves an electron from the ground state, $S_0$, to a higher energy level state.
+	Depending on the energy of the photon and the number of photons absorbed by the electron, the electron can move to different energy levels e.g. $S_1, S_2, etc$.
 	This process happens almost immediately in the order of femtoseconds($10^{-15}s$).
-	Before moving to the lowest next higher energy level ($S_1$), some energy is lost due to internal conversion and vibrational relaxation.
-	When the electron spontaneously decays from $S_1$ to $S_0$ it emits a photon of longer wavelength than the absorption photon.
-	This happens few nanoseconds ($10^{-9}s$) after excitation.
+	Before moving to the next lowest energy level, $S_1$, some energy is lost due to internal conversion and vibrational relaxation.
+	When the electron spontaneously decays from $S_1$ to $S_0$ it emits a photon of a longer wavelength than the absorption photon.
+	This happens within a few nanoseconds ($10^{-9}s$) after excitation.
 	
 	The difference in wavelength of the emission photon and excitation photon is known as the \textit{Stokes' Shift} or \textit{Stokes' Law}.
 	The larger the Stokes' Shift the easier it is to separate the emission light from the excitation light \citep{Spring2003}.
@@ -72,7 +72,8 @@ The overall principle of fluorescence can be explained in three steps \citep{Nob
 	Substances that exhibit the fluorescent property are called fluorophores, also known as \textit{fluorochromes} or \textit{fluoresent dyes}.
 	Early investigations showed that many substance naturally posess fluorescent properties, such as minerals, crystals, resins, crude drugs, butter, chlorophyll, vitamins, etc \citep{Spring2003}.
 	This is known as \textit{autofluorescence}.
-	Substances that do not fluoresce must be \textit{stained} such that it can be observed through a fluorescent microscope, more on this later.
+	Substances that do not fluoresce must be \textit{stained} such that it can be observed through a fluorescent microscope.
+	We will expand on this later in this chapter.
 \end{definition}
 
 %\begin{definition}[Jab{\l}o{\'n}ski diagrams]
@@ -88,7 +89,13 @@ The overall principle of fluorescence can be explained in three steps \citep{Nob
 %\end{definition}
 
 \begin{definition}[Intersystem crossing]
-	If the electron spin as the electron transfer between energy states is preserved then the energy states are known as \textit{singlet states}. It is also possible for the electron to reverse it's spin. This is very unlikely and is known as \textit{forbidden transition} in Quantum mechanics. When this happens the electron is said to be in a \textit{triplet state}, see \Cref{fig:jablonski}. The only way for the electron to reach the ground state is to again undergo another forbidden transition which is unlikely. When this does eventually happen the electron may emit a photon and this phenomenon is known as \textit{phosphorescence}. This process takes much longer, in the order of microseconds ($10^{-6}s$).
+	If the electron spin as the electron transfer between energy states is preserved then the energy states are known as \textit{singlet states}.
+	It is also possible for the electron to reverse it's spin.
+	However, this is very unlikely and is known as \textit{forbidden transition} in Quantum mechanics.
+	When this happens the electron is said to be in a \textit{triplet state}, see \Cref{fig:jablonski}.
+	The only way for the electron to reach the ground state is to undergo another forbidden transition, which is even less likely.
+	When, eventually, this does happen, the electron may emit a photon; this phenomenon is known as \textit{phosphorescence}.
+	This process takes much longer, in the order of microseconds ($10^{-6}s$).
 \end{definition}
 
 %\begin{definition}[Quantum yield]
@@ -126,14 +133,14 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 	FISH is a molecular cytogenetic technique that uses flourophores that bind to selected regions in nucleic acids \citep{Danek2012,Fatima2008}.
 	FISH is the most frequently used staining technique used primarily for visualisation and localisation of nucleic acid sequences, chromosomes, cytplasm or organelles which contain those acids \citep{Hubeny2008}.
 	This makes FISH highly attractive for finding specific features in DNA and RNA used in genetic diagnosis and research, medicine and species identification \citep{Amann2008,Fatima2008}.
-	Figure \ref{fig:FISH} is a capture of mouse chromosomes using the FISH staining technique.
+	Figure \ref{fig:FISH} is a microscope image of mouse chromosomes using the FISH staining technique.
 \end{definition}
 
 \begin{definition}[Immunostaining]
 	%\textcolor{red}{What is Immunofluorescence and the two main types, what is the difference between the two, and which is more common? What is the Immunofluorescence staining techniques used for?}
 	Immunofluorescence is the detection method where an antibody is used to detect an antigen in a tissue or a cell using fluorescence. Flourophores are usually conjugated onto antibodies, which are proteins that are designed bind to specific antigens, target proteins, on a cell \citep{CudeBurke2014}.
 	The two types of immunofluorescent detection are immunocytofluorescence (ICF) and immunohystofluorescence (IHF).
-	It must not be confused with immunocytochemistry (ICC) and immunohistochemistry (IHC).
+	These must not be confused with immunocytochemistry (ICC) and immunohistochemistry (IHC).
 	\textit{Immuno} refers to the immunological technique, i.e. the binding of antibodies to antigens.
 	\textit{Cyto} refers to cells, i.e. cells without the extracellular membrane.
 	\textit{Histo} refers to tissue i.e. cells with the extracellular membrane.
@@ -144,8 +151,8 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 
 \begin{definition}[Live-cell staining]
 	%\textcolor{red}{FISH and IHC cannot stain live cells. Why? How can we stain live cells?}
-	The previously discussed staining techniques are not suitable to observe living cells.
-	The fluorescent dyes used are phototoxic and cause cells to die. The circumvent this problem an elegant solution has been devised.
+	The staining techniques discussed previously are not suitable to observe living cells.
+	The fluorescent dyes that are used are phototoxic and cause cells to die. To circumvent this problem an elegant solution has been devised.
 	Instead of staining, the cells are modified to produce a fluorescent substance in the target structures.
 	Derivatives of the \textit{green fluorescent protein} (GFP), isolated from the \textit{Aequorea victoria} jellyfish \citep{Tsien1998,LichtmanConchello2005,Fatima2008}, are used as it generates a strong photon emission and is non-toxic to living cells \citep{Danek2012,Hubeny2008,Dobrucki2013}.
 \end{definition}
@@ -189,19 +196,20 @@ The most prevalent staining techniques are fluorescence in-situ hybridisation (F
 
 %\textcolor{red}{What is a fluorescent microscope? Schematic layout of a fluorescence microscope? Function and purpose of each component in the fluorescent microscope?}
 A fluorescence microscope is an optical microscope that is designed specifically to exploit the principle of fluorescence to allow for the observation of flourescently labelled specimens \citep{Hubeny2008,Sarder2006,Dobrucki2013,Andrews2002,Fatima2008}.
-There are many types of fluorescent micrcoscopes avaialble but the favoured type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016,AbramowitzDavidson2016}.
-The schematic of the epifluorescent micrcoscope is illustrated in \Cref{fig:epifluorescencemicroscope}.
+There are many types of fluorescent micrcoscopes available but the preferred type among many biologists and geneticists is the epifluorescent microscope \citep{Rice2016,AbramowitzDavidson2016}.
+A schematic of the epifluorescent micrcoscope is illustrated in \Cref{fig:epifluorescencemicroscope}.
 
 \begin{definition}[Light source]
 	%\textcolor{red}{What sort of light needs to be generated? What sort of lamps are used? Advantages and disadvantages of certain lamps.}
 	The light source is typically a high-luminance light source e.g. Mercury or Xenon arc lamps, LEDs, lasers, etc  \citep{Danek2012,Hubeny2008,Aswani2012,Rice2016,ThermoFisher2016}.
-	The primary criterion for choosing a light sources is that its characeristic peaks must coincide with the excitation spectrum of the fluorophores being used \citep{LichtmanConchello2005,Spring2003,Fatima2008}.
-	Wavelength coverage spans from near infra-red to UV. Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative is bright LEDs \citep{Fatima2008,Dobrucki2013,Aswani2012,Koch1972}.
+	The primary criterion for choosing a light source is that its characeristic peaks must coincide with the excitation spectrum of the fluorophores being used \citep{LichtmanConchello2005,Spring2003,Fatima2008}.
+	Wavelength coverage spans from near infra-red to UV.
+	Mercury and Xenon arc lamps are expensive, an inexpensive and lightweight alternative are bright LEDs \citep{Fatima2008,Dobrucki2013,Aswani2012,Koch1972}.
 \end{definition}
 
 \begin{definition}[Excitation filter]
 	%\textcolor{red}{What is an excitation filter? Why is it needed?}
-	The incoming light from the light source is typically mulispectral \citep{SpringDavisdson2016}. 
+	Typically, the incoming light from the light source is multispectral \citep{SpringDavisdson2016}. 
 	The excitation filter is a wavelength selection filter which is placed in the path of the incoming light and filters through only those wavelengths in the absorption spectrum of the fluorescent dye \citep{ThermoFisher2016,Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,CudeBurke2014,Fatima2008,Dobrucki2013}.
 \end{definition}
 
@@ -238,20 +246,20 @@ The schematic of the epifluorescent micrcoscope is illustrated in \Cref{fig:epif
 
 \begin{definition}[Detector]
 	%\textcolor{red}{What is the detector why is it needed?}
-	The dector is used to capture the emission light and can further digital form the image.
-	The detector is usually a photodector such as a CCD (charge-coupled device) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
-	It is vital that an appropriate detector be chosen as this has direct impact on image quality \citep{Fatima2008}.
+	A detector is used to capture the emission light and can further digital form the image.
+	The detector is usually a photodetector such as a charge-coupled device (CCD) camera or a photomultipler tube \citep{Danek2012,Hubeny2008,LichtmanConchello2005,Spring2003,Murphy2001}.
+	It is vital that an appropriate detector is chosen as this has a direct impact on the image quality \citep{Fatima2008}.
 \end{definition}
 
 %\textcolor{red}{Other Types of Fluorescence Microscopes: Confocal, TIRF. Acquisition: CCD, Hardware setup effect on image quality, Numerical Aperture, Sub-diffraction}
-The type of fluorescence image data that needs to be captured is application dependant and this impacts the decision on which type of microscope to use.
+The type of fluorescence image data that needs to be captured is application dependant and this impacts the decision on which type of microscope is to be used.
 The \textit{widefield}, or conventional, microscope produces 2D image data.
 3D image data cannot be captured directly.
-Instead, a series od 2D images are captured to form a 2D stack. The 3D image is then constructed in software.
+Instead, a series of 2D images are captured to form a 2D stack. The 3D image is then constructed in software.
 In this scenario, the most common choice of micrscope is the \textit{confocal laser scanning microscope} (CLSM).
 This microscope system is expensive and acquisition is slower.
 An economical alternative is the \textit{confocal spinning disk miscroscope}.
-To detect single molecules, the favoured technique is \textit{total internal reflection fluorescence} (TIRF) which can be achieved by a modification of the epifluorescence micrcoscope.
+To detect single molecules, the preffered technique is \textit{total internal reflection fluorescence} (TIRF) which can be achieved by a modification of the epifluorescence micrcoscope.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
@@ -262,10 +270,10 @@ To detect single molecules, the favoured technique is \textit{total internal ref
 
 %\textcolor{red}{Limitations in Fluorescence Imaging. Preprocessing: Point Spread Function deconvolution, etc. Segmentation }
 Due to the physical nature of the fluorescence and image acquisition process, there are many factors that can degrade image quality.
-There are measures that can be taken to largely mitigate some problems but they can never be completely abated.
+There are measures that can be taken to largely mitigate some problems but they can never be completely eliminated.
 The presence of these factors directly affect segmentation accuracy and subsequently higher level analysis.
-Therefore, images are processed prior to segmentation to suppress the artefacts and reconstruct the original data \citep{Danek2012} or better yet enhance it.
-\Cref{chap:Chapter7} takes a step in this vain.
+Therefore, images are processed prior to segmentation to suppress the artefacts and reconstruct the original data \citep{Danek2012} or to enhance it.
+\Cref{chap:Chapter7} takes a step in this vein.
 Here we present some of the commonly occuring factors that reduce image quality and the methods used to mitigate them, and some of the techniques employed for segmentation.
 
 \subsection{Preprocessing}
@@ -275,12 +283,12 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	%\textcolor{red}{What causes uneven illumination? What techniques are done to reduce it's effect. Vignette effect, etc.}
 	There are many factors that could contribute to nonuniform illumination.
 	The specimen layer will not be uniformly lit if the  arc lamp is not properly focussed on the black aperture.
-	To prevent this from happening, a liquid light guide-based light source, which provide even illumination may be used \citep{LichtmanConchello2005}.
+	To prevent this from happening a liquid light guide-based light source, which provides even illumination, may be used \citep{LichtmanConchello2005}.
 	If the light brightness diminished towards the edges of the image then this is known as the \textit{Vignette effect}.
 	Common techniques to suppress this distortion is \textit{background correction}, also known as \textit{flat-field correction}, \textit{background flattening} or \textit{shading correction} \citep{Danek2012,Fatima2008,Murphy2001}.
 	Other causes of nonuniform illumination are inhomogenous detector sensitivity, autofluorescence, dirt particles in the optical system or nonspecific sample staining.
 	An example of the Vignette effect is illustrated in \Cref{fig:Vignette}.
-	Computational schemes to eliminate nonuniform illumination have been well researched, although recently it hasn't recived too much attention \citep{Young2001,Ghauharali1998,Model2001,Model2001_2}.
+	Computational schemes to eliminate nonuniform illumination have been well researched, although recently it has not received too much attention \citep{Young2001,Ghauharali1998,Model2001,Model2001_2}.
 	
 	\begin{figure}[!t]
 		\centering
@@ -314,12 +322,12 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	
 	Bleaching refers to all processes that cause a fluorescent signal to fade permanently \citep{LichtmanConchello2005}.
 	From the fluorescence process presented in \Cref{sec:PhysicsOfFluorescence}, one may assume that, under the proper conditions, a fluorochrome has the ability to fluoresce indefinitely.
-	However, this is not the case. There is a limit number of cycles before permanent bleaching \citep{LichtmanConchello2005}.
+	However, this is not the case. There is a limited number of cycles before permanent bleaching \citep{LichtmanConchello2005}.
 	\Cref{fig:bleaching} illustrates the effect of photobleaching.
 	\textit{Photobleaching} is the most prominent form of bleaching.
 	It is due the interaction of the fluorophore with an oxygen molecule.
 	This can move the oxygen molecule to an excited singlet state, which then becomes a reactive molecule.
-	When in this state, the oxygen molecule can participate in many chemically destructive reaction with organic molecules causing \textit{phototoxicity} \citep{Danek2012}.
+	When in this state, the oxygen molecule can participate in many chemically destructive reactions with organic molecules causing \textit{phototoxicity} \citep{Danek2012}.
 	Photobleaching is used to study diffusion and motion through a technique called \textit{fluorescence recovery after photobleaching} (FRAP) \citep{LichtmanConchello2005,AbramowitzDavidson2016}.
 	
 	Photobleaching cannot be avoided but it be can pushed back.
@@ -362,8 +370,8 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	\end{equation}
 	where $O$ is the formed image, $n$ is the noise function, $s$ is the exact image and $h$ is the specific PSF of the optical system.
 	We discuss the PSF first.
-	The observed image isn't an exact representation of the real object.
-	Optical systems have an inherent property called the point spread function which is the systems optical response to a point light source \citep{Danek2012}.
+	The observed image is not an exact representation of the real object.
+	Optical systems have an inherent property called 'the point spread function' which is the systems optical response to a point light source \citep{Danek2012}.
 	The final image is dependant on the spatial position of a point, numerical aperture (NA) and furthermore differs for various emission wavelengths \citep{Hubeny2008,Keuper2012}.
 	The final image is a superposition of all points in the illuminated volume where the contribution of each is described by the PSF.
 	
@@ -384,7 +392,7 @@ Here we present some of the commonly occuring factors that reduce image quality 
 	\end{figure}
 	
 	%Image deconvolution is a well researched and still an ongoing research topic.
-	Deconvolution has recieved a lot of attention in the passed with very creative approaches \citep{Mukamel2012,Verveer2007,Periasamy1999,Swedlow2007,Rooi2014}.
+	Deconvolution has recieved a lot of attention in the past with very creative approaches \citep{Mukamel2012,Verveer2007,Periasamy1999,Swedlow2007,Rooi2014}.
 	Fluorescence microscopy deconvolution is still a very active field of research.
 	Bayesian methods have become popular in fluorescence microscopy image deconvolution, however noise in low SNR imaging conditions still poses a challenge \citep{Wong2015}.
 	Recent trends in 3D deconvolution in widefield microscopy use blind depth-invariant of the PSF \citep{Kim2015}.
@@ -398,10 +406,10 @@ As previously stated, fluorescence imaging is a low light, low constrast and low
 For these reasons, noise becomes prominent. The three types of noise recorded by a camera is \textit{dark noise}, \textit{read noise} and \textit{photon noise} \citep{Dobrucki2013,Danek2012,Matula2012,Hubeny2008}.
 
 The electrons in a CCD of film are always in motion due to thermal energy.
-Dark current is due to the extraneous electrons which excited into the signal.
+Dark current is due to the extraneous electrons which are excited into the signal.
 This signal carries a statistical fluctuation known as dark noise.
 Dark current effects can be reduced by ground image subtraction or cooling the CCD.
-If there is a significant amount of dark noise then the background won't be as black as it should be.
+If there is a significant amount of dark noise then the background will not be as black as is necessary.
 For this reason it is common to mistake dark noise for low-level autofluorescence \citep{Ryan2016,Dobrucki2013}.
 
 Read noise is a result of the conversion process from charge build-up to a voltage and then digitisation.
@@ -446,14 +454,14 @@ The effect of noise on segementation accuracy is illustrated in \Cref{fig:Noise}
 The primary aim of using fluorescence microscopy imaging is to make diagnoses and to study molecular behaviour and interaction.
 This means that biologists, geneticists and other professionals alike, not only have a superabundance of microscopic imaging techniques at their disposal, but also have an immense amount of image data to analyse since the outburst of image acquisition technology.
 The abundance, diversity, dimensionality and complexity of fluorescence image data obviates manual image processing as this isn't tractable, by any means, in terms of time or quality \citep{Meijering2012,Ryan2016}.
-Consequently, the task has fallen to computers to perform these tasks and has now become of essential in advancing these fields \citep{Alberts2007,Vonesch2006}.
+Consequently, the task has fallen to computers to perform these tasks and has now become essential in advancing these fields \citep{Alberts2007,Vonesch2006}.
 The crux of image analysis lies on the accuracy of image segmentation and has become the principle focus in many studies \citep{Bengtsson2004}.\\
 
 Anton van Leeuwenhoek, a Dutch draper and scientist, is credited with the invention of the first real compound microscope in the late 17th century.
 However, it wasn't until the mid-1950s that computers became involved when systems were developed to automate the classification of smears of exfoliated cells.
 These systems used simple thresholding rules on 1D scanning of microscopic lines \citep{Tolles1955}.
 In the 1960s, automated systems were developed to count leukocytes on 2D image data based on their colour and morphological measurements \citep{Prewitt1966}.
-In the 1980s the invention of the confocal microscope made it possible to study cells in 3D but it wasn't until the 1990s that computer became powerful enough to process 3D image data or complex 2D images \citep{Gurcan2009}.
+In the 1980s the invention of the confocal microscope made it possible to study cells in 3D but it wasn't until the 1990s that the computer became powerful enough to process 3D image data or complex 2D images \citep{Gurcan2009}.
 The trends of increased computing power has made possible the use of more sophisticated cell analysis techniques as well as the ability to use more computationally demanding segmentation methods.
 The literature on cell segmentation and analysis has experienced exponential growth in the last couple of decades.
 Many studies comparing segmentation algorithms for cells have been pubished \citep{Dima2011,Pincus2007,Coelho2009}.
@@ -471,7 +479,7 @@ We review some of the common techniques used in fluorescence microscopy image se
 \begin{definition}[Morphological segmentation]
 	%\textcolor{red}{Say something about this section.}
 	This method uses non-linear mathematical morphological operators like erosion, dilation, opening, closing, etc with geometrical and topological properties to segment the image \citep{GonzalezWoods2002,Meijering2004,Dorini2007,Anoraganingrum1999,Kumar2002}.
-	Generally, this method is used as a post-processing step to polish up coarse segmentation or a pre-processing step to suppress certain image structures \citep{Bengtsson2004}.
+	Generally, this method is used as a post-processing step to refine a coarse segmentation; or as a pre-processing step to suppress certain image structures \citep{Bengtsson2004}.
 \end{definition}
 
 \begin{definition}[Region accumulation]
@@ -482,7 +490,7 @@ We review some of the common techniques used in fluorescence microscopy image se
 	Most cases assume an image model similar to that of thresholding and suffers the same segmented results problems.
 	Another approach is called the \textit{watershed method} which converts the image into an open 3D shape and "fills the shape with water".
 	The different regions are separated by those "filled with water" and those that aren't.
-	A common problem with this method is oversegmentation and usually requires post-processing methods, like \textit{region merging}, to get a meaningful result \citep{Jiang2003,Lin2003,Bengtsson2004}.
+	A common problem with this method is oversegmentation and usually requires post-processing methods, like \textit{region merging}, to achieve a meaningful result \citep{Jiang2003,Lin2003,Bengtsson2004}.
 \end{definition}
 
 \begin{definition}[Edge-based segmentation]
@@ -536,7 +544,7 @@ The aim in fluorescence image analysis is to measure specific properties of inte
 Typically, these properties are quantitative measures.
 In this section we review some of the important quantitative measurements in digital image analysis.
 It is important to note that for some of the properties of interest, the accuracy of the measurements depend heavily on the accuracy on the segmentation.
-The properties of interest are application dependent, one might require just the object morphology of structure and hence properties like perimeter, area, shape, intensity, colour, etc are of significance.
+The properties of interest are application dependent, one might require solely the object morphology of structure and hence properties like perimeter, area, shape, intensity, colour, etc, are of significance.
 Alternatively, if one requires the colocalisation of cells, then distance discriminants, such as Euclidean distance, Manhattan distance, Chessboard distance, etc, are of significance \citep{Fatima2008_2,Danek2012}.
 
 Object measures can be loosely classified into four catergories: geometric measures, histogram-based measures, intensity based measures and temporal measures. One can also argue a fifth catergory statistical classifiers although this is generally used in higher level analysis.
