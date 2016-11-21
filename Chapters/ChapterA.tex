@@ -4,44 +4,126 @@
 
 \label{chap:Chapter1} % For referencing the chapter elsewhere, use \ref{chap:Chapter1} 
 
+% motivate topic
+% define problem
+% direction of work
+% goals + specific objectives attached to goals (context of conclusion)
+
+Despite the increasing amounts of research closing the doors on ideas, scientific inquiry has unvieled deeper and more questions in its respective fields. 
+Being left with more questions than when you first started is a notorious characteristic of the search for knowledge, especially in scientific disciplines. 
+Instead of satisfying our scientific curiosity, we are driven to see further than the edge of our universe, to observe the invisible and to understand the incomprehensible nature of life itself.
+
+How often is it that a newspaper or any periodical does not contain information on the latest pharmaceutical drugs, the recent advancements in studies of terminal diseases, like cancer, or even the latest ethical-challenging movements in genetic engineering, such as cloning, genetic mutation, etc. 
+In this modern age, this is as rare as not finding a computer in the average household. 
+Literature regarding the sciences of life, be it as complex as it is, is something you cannot easily evade. 
+It has pervaded almost almost every communication medium. 
+The insurmountable information in these fields is due to the ability to observe organisms and objects at the mirco and even nano level. 
+The consequent insight into this world has allowed us to view the world from an indispensably unique 
+perspective which has since played a vital role in enriching the livelihood of mankind. 
+
+Consider just a few highlights of the research and development in drug development, immunology and immunotherapy and genetics from around the turn of the millenium.
+\begin{enumerate}
+	\item (1996) Antiretroviral (ARV) to treat Human Immune Viruses (HIV) \citep{Lange2014}. 
+	In 1983/1984 HIV was found to be the caustive agent of Acquired Immune Deficiency Syndrome (AIDS). Since then, successful and astonishing research has lead to the development of combative and resitive drugs, known as ARVs. Research in this area is still strong and ongoing. At the time of writing, history has been made with the first large-scale clinical HIV vaccine trials which are taking place in South Africa to prevent a strain of HIV prevalent in Southern Africa.
+	
+	\item (2001) New targeted therapy transforms treatment for rare leukemia \citep{Druker2001}.
+	Imatinib (Gleevec) was approved after three months of review by the FDA. The fastest in FDA history. It is the first drug proven to act against a molecular defect on the \textit{Philadelphia chromosome.} The drug demonstrated its ability to halt growth of chronic myelogenous leukemia (CML) in the majority of patients.
+	
+	\item (2003) Scientists decode the human genome \citep{HGP2013}. A thirteen year collaborative effort, involving scientists from 7 countries and funded primarily by the US, comes to a halt after mapping three billion DNA letters in the human genome. This marked the completion of the Human Genome Project (HGP).
+	
+	\item (1998-2006) First targeted anti-breast cancer drug, trastuzumab (Herceptin), has major impact on care \citep{Slamon2001}. About 25\%-30\% of women suffering with advanced breast cancer are diagnosed as \textit{HER2+}. This is where there is an over-production of the protein HER2 which increases the aggressiveness of the tumor. In 2001, the FDA approved a revolutionary drug, trastuzumab (Herceptin), which drastically increases the survival rate of treated women.
+
+	\item (2012) Record number of Americans surviving cancer - nearly 14 million \citep{MMWR2011}.
+	A report published by The National Cancer Institute and the American Cancer Society claims that cancer surviving patients in the US have increased to 13.7 million. At the time it was the highest recorded cancer survival rate in US history. A drastic over four-fold increase than 1971 which was recorded at three million survivors.
+\end{enumerate}
+
+The common denominator in all research of this nature is the "tool", the fluorescence microscope. 
+It can be easily inferred that fluorescence microscopy is an essential and indespensible field of knowledge that is crucial to the advancement of human-kind. 
+Coupled with the rapid advancement in optical engineering, there is now an ever increasing amount of image data which need to be analysed, the sheer volume, of which, presents too much of a burden on manual analysis. 
+This is where we can harness the unmatched computational power of modern computers. 
+A fundamental task in nearly every image analysis endeavour is that of accurate segmentation of the objects of interest. 
+This has placed images segmentation as a crucial tool within the study of all life science and related fields. 
+However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc.
+
+Despite it's importance, fluorescence image segmentation methods are typically comprised of archaic techniques, such as histogram segmentation and watershed segemtation variations. 
+This is due primarily because fluorescent image properties have not been incorporated well enough into more sophisticated mathematical segmentation models. 
+
+The aim of this research is to better understand fluorescence image properties and use this information
+to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results. 
+We focus specifically on incorporating fluorescent image properties into graph cut segmentation models. 
+This is done by tailoring the energy function, which is to be minimised, to suit the need given the properties of the data.
+Graph cuts is an extremely powerful and general mathematical tool. 
+It has also been used in 3D reconstruction, image restoration, image stitching, etc. 
+All that is required, is that the problem be characterised discretely and that the resulting function meet the sub-modularity constraint (for global minimisation).
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
 %----------------------------------------------------------------------------------------
 
-% Define some commands to keep the formatting separated from the content 
-\newcommand{\keyword}[1]{\textbf{#1}}
-\newcommand{\tabhead}[1]{\textbf{#1}}
-\newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\file}[1]{\texttt{\bfseries#1}}
-\newcommand{\option}[1]{\texttt{\itshape#1}}
+\section{Contributions and Publications}
+\textcolor{red}
+{
+	%(Pre)Novel pre-processing scheme \citep{Ryan2016} \Cref{sec:preprocessscheme} \\
+	%(Pre)Novel cell enhancement method \citep{Ryan2016} \Cref{sec:contrastcorrection} \\
+	%(CV) Novel parameter relations and modified graph weighting \Cref{sec:cvgc_weighting} \\
+	%(CV) Novel parameter estimation method \Cref{sec:cvgc_analysis} \\
+	%(CV) Tuning parameters for fluorescence microscopy segmentation \Cref{sec:cvgc_parameterestimation} \\
+	%(Int) Optimised tuning parameters for Eriksson \textit{et al.} energy function for FM \Cref{sec:optimalparameters}\\
+	%(Int) Optimised tuning parameters for Boykov \textit{et al.} energy function for FM \Cref{sec:optimalparameters}  \\
+	%(Int) Proposed energy function for FM with and without hard constraints and optimised parameter settings \Cref{sec:interactiveproposedweighting,sec:optimalparameters} \\
+}
+
+This thesis is a collection of the main contributions listed below.
+
+\begin{enumerate}
+	\item 
+	\textbf{Novel preprocessing scheme for fluorescence images as a preparation for segmentation  \citep{Ryan2016}.}
+	The fluorescent image acquisition process is far from perfect. The sub-processes involved accumulatively degrade the image. This scheme is designed to, as far as possible, reverse the negative effects imposed on the image and amplify its segmentation characteristics. The output image will be the image that will be segmented. The segmented mask is then used to extract the object from the original image.
+	
+	\item
+	\textbf{Novel cell intensity enhancement function based on Bezier curves \citep{Ryan2016}.}
+	Fluorescence imaging is low light, low contrast technique. This poses a major problem for accurate object segmentation. However, there are strong characteristic features that allow for the object data to be enhanced and simultaneously suppress data that is likely to belong to the object. This is a sub-process in the pre-processing scheme designed for fluorescent image enhancement.
+	
+	\item 
+	\textbf{Novel parameter relations and modified graph weighting for graph cut active contours without edges segmentation.}
+	The modified weighting technique allows for easier mathematical analysis which reveals the implicit relationships between parameters. From these relationships, we devise a general estimation method which is encoded by other variables which can be easily tuned from real data. Then we use these "proxy" variable and optimise them for fluorescence image segmentation. Results show a significant boost in classification accuracy as well as consistent results over a large range of fluorescent image types.
+	
+	\item
+	\textbf{Optimal parameter settings for the energy function proposed Boykov and Jolly, in \citep{Boykov2001_2}, for interactive fluorescent image segmentation.}
+	The energy function, which is used to weight the graph, that was proposed by Boykov and Jolly, is one of the most commonly used weighting schemes for general graph cut problems. We alter this general form, into one that can be used for segmentation, as proposed by them, and find the optimal parameters for fluroescent image segmentation based on seeds marked by the user.
+	
+	\item
+	\textbf{Optimal parameter settings for the energy function proposed by Eriksson \textit{et al.}, in \citep{Eriksson2006}, for interactive fluorescent image segmentation.}
+	Similar to the previous point, the energy function, which is used to weight the graph, that was proposed by  Eriksson \textit{et al.}, is also a very commonly used weighting system for graph cut image segmentation. We find the optimal parameters for fluroescent image segmentation based on seeds marked by the user.
+	
+	\item
+	\textbf{Novel energy function and the corresponding optimal parameters for interactive fluorescent image segmentation.}
+	We alter the energy function to encode the dominant intensity characteristics of objects in fluorescent images and find the optimal parameters for segmentation. This weighting scheme has two variants: seeding only, and using the seeds as hard constraints. Results show a significant boost in classification accuracy as well as greater stability over varying fluorescent image types in comparison to the two previously mentioned interactive segmentation energy functions. 
+\end{enumerate}
 
 %----------------------------------------------------------------------------------------
-
-\section{Literature Review}
-The Literature Review is here.
-
+%	SECTION 2
 %----------------------------------------------------------------------------------------
 
-\section{Outline and Contributions}
-\textcolor{red}{Novel pre-processing scheme\\
-	Novel cell enhancement method\\
-	(CV) Novel parameter relations and modified graph weighting\\
-	(CV) Novel parameter estimation method\\
-	(CV) Tuning parameters for fluorescence microscopy segmentation}
-%----------------------------------------------------------------------------------------
+\section{Outline}
 
-\section{Thesis Overview}
+%The remainder of the thesis outline.\\
+%\Cref{chap:Chapter2} is where we cover Fluorescence Microscopy.\\
+%\Cref{chap:Chapter3} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
+%\Cref{chap:Chapter4} is where we cover the pre and post processing scheme.\\
+%\Cref{chap:Chapter5} is where we cover the CV parameter estimation.\\
+%\Cref{chap:Chapter6} is where we cover the interactive Graph Cut image segmenation.\\
+%\Cref{chap:Chapter7} concludes the thesis with suggestions for further work.\\
 
-The remainder of the thesis outline.\\
-\\
-\textbf{\hyperref[chap:Chapter2]{Chapter~\ref*{chap:Chapter2}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter3]{Chapter~\ref*{chap:Chapter3}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter4]{Chapter~\ref*{chap:Chapter4}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter5]{Chapter~\ref*{chap:Chapter5}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter6]{Chapter~\ref*{chap:Chapter6}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter7]{Chapter~\ref*{chap:Chapter7}}} is where we cover the mathematical foundation to Graph Cut image segmenation.\\
-\\
-\textbf{\hyperref[chap:Chapter8]{Chapter~\ref*{chap:Chapter8}}} concludes the thesis with suggestions for further work.
+The coarse of this thesis is as follows:
+\Cref{chap:Chapter2,chap:Chapter3} comprise the background material.
+In \Cref{chap:Chapter2} we introduce the fluorescence process. We only briefly cover the main points  and focus on the problems related to the imaging process.
+In \Cref{chap:Chapter3} we introduce the graph cut technique and its application specifically for 2D image segmentation.
+
+\Cref{chap:Chapter4,chap:Chapter5,chap:Chapter6} cover the contributions and work undertaken.
+In \Cref{chap:Chapter4} we present the novel pre-processing scheme and data enhancement function.
+In \Cref{chap:Chapter5} we present the modified graph weighting and parameter estimation method for ACWE graph cut segmentation.
+In \Cref{chap:Chapter6} we present the fluorescence image specific optimal parameters derived for the energy functions by Boykov and Jolly, and Eriksson \textit{et al.}. We also present the novel energy function, derive the optimal parameters for fluorescence image segmentation and compare it to the previous energy functions.
+
+In \Cref{chap:Chapter7} we summarise our contributions and point out possible future work.

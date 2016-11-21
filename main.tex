@@ -171,6 +171,13 @@ headsepline, % Uncomment to get a line under the header
 
 %\captionsetup{width=\columnwidth}
 
+% Define some commands to keep the formatting separated from the content 
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+
 \begin{document}
 	
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
@@ -267,7 +274,7 @@ For multiple fields, from biosciences and pharmaceutical drug development to sem
 
 Fluorescence microscopy isn’t the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and use this information to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
 
-We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image procurement stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme such by defining a weighting process and parameter relations. We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for segmentation on the image of interest specifically. We compare this scheme with other well-known parameter estimation schemes and parameter settings.
+We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image acquisition stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme such by defining a weighting process and parameter relations. We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for segmentation on the image of interest specifically. We compare this scheme with other well-known parameter estimation schemes and parameter settings. We also determine the optimal parameter setting for two energy and compare them to the novel energy function for fluorescent image segmentation.
 
 The results exhibit a significant boost in segmentation correctness and consistency. It is also supersedes previous schemes in terms of being applicable over a wider range of images. It also boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
 
@@ -310,6 +317,8 @@ Family esp. Paps + Sian for editing\\
 % A
 \textbf{ACWE} & \textbf{A}ctive \textbf{C}ontours \textbf{W}ithout \textbf{E}dges\\
 \textbf{AOD} & \textbf{A}verage \textbf{O}ptical \textbf{D}ensity\\
+\textbf{AIDS} & \textbf{A}cquired \textbf{I}mmune \textbf{D}efiency \textbf{S}yndrome\\
+\textbf{ARV} & \textbf{A}nti\textbf{r}etro\textbf{v}iral\\
 
 % B
 \textbf{BCC} & \textbf{B}oundary \textbf{C}hain \textbf{C}ode\\
@@ -320,6 +329,7 @@ Family esp. Paps + Sian for editing\\
 \textbf{CCD} & \textbf{C}harge-\textbf{C}oupled \textbf{D}evice\\
 \textbf{CED} & \textbf{C}oherence \textbf{E}nhancing \textbf{D}iffusion\\
 \textbf{CLSM} & \textbf{C}onfocal \textbf{L}aser \textbf{S}canning \textbf{M}icroscopy\\
+\textbf{CML} & \textbf{C}hronic textbf{M}yelogenous \textbf{L}eukemia\\
 \textbf{CRF} & \textbf{C}onditional \textbf{R}andom \textbf{F}ield\\
 
 % D
@@ -335,6 +345,7 @@ Family esp. Paps + Sian for editing\\
 
 % F
 \textbf{FCS} & \textbf{F}luorenscence \textbf{C}orrelation \textbf{S}pectroscopy\\
+\textbf{FDA} & \textbf{F}ood and \textbf{Drug} \textbf{A}dministration\\
 \textbf{FIFO} & \textbf{F}irst-\textbf{I}n \textbf{F}irst-\textbf{O}ut\\
 \textbf{FISH} & \textbf{F}luorenscence \textbf{i}n-\textbf{s}itu \textbf{H}ybridisation\\
 \textbf{FLIM} & \textbf{F}luorenscence \textbf{L}ifetime \textbf{I}maging \textbf{M}icroscopy\\
@@ -350,6 +361,8 @@ Family esp. Paps + Sian for editing\\
 \textbf{GRF} & \textbf{G}ibbs \textbf{R}andom \textbf{F}ield\\
 
 % H
+\textbf{HGP} & \textbf{H}uman \textbf{G}enome \textbf{P}roject\\
+\textbf{HIV} & \textbf{H}uman \textbf{I}mmune \textbf{V}irus\\
 \textbf{HLF} & \textbf{H}ighest \textbf{L}evel \textbf{F}irst\\
 
 % I
@@ -455,7 +468,7 @@ Family esp. Paps + Sian for editing\\
 % Include the chapters of the thesis as separate files from the Chapters folder
 % Uncomment the lines as you write the chapters
 
-%%\include{Chapters/ChapterA} % Introduction
+\include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
 \include{Chapters/ChapterB} % Mathematical Background
 \include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
@@ -464,7 +477,7 @@ Family esp. Paps + Sian for editing\\
 \include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 \include{Chapters/ChapterC} % Interactive Segmentation
 %%\include{Chapters/ChapterI} % Texture Segmentation (and Intensity)
-%%\include{Chapters/ChapterH} % Conclusion and Future Work
+\include{Chapters/ChapterH} % Conclusion and Future Work
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
