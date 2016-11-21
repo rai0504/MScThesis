@@ -17,9 +17,9 @@ The \textit{optimisation approach} is an elegant way to obtain a solution.
 In computer vision, a problem can be posed as an optimisation problem as follows: We are given a coarse, discrete and noisy, approximation of the visual data, $d$, we aim to infer some hidden quantities $x$, labels, depth, probable pixel intensty, etc, based on it.
 We then have to design an \textit{objective function}, also known as an \textit{energy function} or \textit{cost function},
 
-\begin{equation}
-	E:(x,d) \rightarrow \Re,
-\end{equation}
+\begin{equation*}
+	E:(x,d) \rightarrow \mathbb{R},
+\end{equation*}
 
 which has to be optimised such that the optimsation of the function provides a solution to the problem.
 $E(x,d)$ assigns an energy or a cost to each combination $(x,d)$ of the input and hidden quantities.
@@ -137,7 +137,7 @@ In this thesis we are concerned with 2D images only.
 Two sites, $p$ and $q$, are neighbours if edge $(p,q) \bigcup (q,p) \in \mathcal{E}_{RF}$.
 The set of neighbours of $p$ are denoted $\mathcal{N}_p$.
 The RF associated with $\mathcal{P}$ is denoted as $\mathbf{Y} = \{Y_p:p \in \mathcal{P}\}$, where each $Y_p$ can be assigned one of $k$ labels from $\mathcal{L}$.
-A 4-connected RF is illustrated in \autoref{fig:randomfield}.
+A 4-connected RF is illustrated in \Cref{fig:randomfield}.
 A \textit{clique} $c$ is a fully connected subgraph; it is defined as $\forall p,q \in c, p \in \mathcal{N}_q$ and $q \in \mathcal{N}_p$.
 In a clique, each site is connected to all other sites.
 
@@ -179,7 +179,7 @@ The joint distribution can be specified as a \textit{Gibbs Random Field} (GRF) \
 
 where $\mathcal{C}$ is the set of cliques.
 \Cref{fig:n4} shows a simple MRF construction.
-This MRF contains cliques of order one and two, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}$. \Cref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}$.
+This MRF contains cliques of order one and two, i.e. $$\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}.$$ \Cref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $$\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}.$$
 However, cliques of orders higher than two are ignored for computational reasons.
 In \Cref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
 The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one.

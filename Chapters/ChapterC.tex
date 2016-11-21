@@ -2,7 +2,7 @@
 
 \chapter{Fluorescence Imaging Specific Energy Function for Interactive Segmentation} % Main chapter title
 
-\label{chap:Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+\label{chap:Chapter6} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
 \textcolor{red}{[Introduction] What is interactive segmentation and the associated energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
 
@@ -155,6 +155,8 @@ To maintain as much commonality between the different weighting techniques we've
 	( \lambda, \sigma) &= (0.5, 7.5) & \text{Proposed (Hard constraints)}
 \end{align*}
 
+The segmentation results with the optimal parameters for each weighting system is shown in \Cref{fig:interactivesampleseg1,fig:interactivesampleseg2,fig:interactivesampleseg3,fig:interactivesampleseg4,fig:interactivesampleseg5,fig:interactivesampleseg6}.
+
 \begin{figure}[!h]
 	\centering
 	\subfigure[]
@@ -225,10 +227,172 @@ To maintain as much commonality between the different weighting techniques we've
 	\label{fig:interactiveweightingcomparison}
 \end{figure}
 
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/1seg}
+		\label{fig:eriksson1}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/1seg}
+		\label{fig:boykov1}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/1seg}
+		\label{fig:proposed1}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/1seg}
+		\label{fig:proposedhc1}
+	}
+	
+	\caption{Interactive segmentation of Image 1 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg1}
+\end{figure}
+
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.21\columnwidth]{/proposedinteractive/sampleeriksson/2seg}
+		\label{fig:eriksson2}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/2seg}
+		\label{fig:boykov2}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/2seg}
+		\label{fig:proposed2}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/2seg}
+		\label{fig:proposedhc2}
+	}
+	
+	\caption{Interactive segmentation of Image 2 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg2}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/3seg}
+		\label{fig:eriksson3}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/3seg}
+		\label{fig:boykov3}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/3seg}
+		\label{fig:proposed3}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/3seg}
+		\label{fig:proposedhc3}
+	}
+	
+	\caption{Interactive segmentation of Image 3 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg3}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/4seg}
+		\label{fig:eriksson4}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/4seg}
+		\label{fig:boykov4}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/4seg}
+		\label{fig:proposed4}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/4seg}
+		\label{fig:proposedhc4}
+	}
+	
+	\caption{Interactive segmentation of Image 4 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg4}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/5seg}
+		\label{fig:eriksson5}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/5seg}
+		\label{fig:boykov5}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/5seg}
+		\label{fig:proposed5}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/5seg}
+		\label{fig:proposedhc5}
+	}
+	
+	\caption{Interactive segmentation of Image 5 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg5}
+\end{figure}
+
+\begin{figure}[!t]
+	\centering
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/6seg}
+		\label{fig:eriksson6}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/6seg}
+		\label{fig:boykov6}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/6seg}
+		\label{fig:proposed6}
+	}
+	\subfigure[]
+	{
+		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/6seg}
+		\label{fig:proposedhc6}
+	}
+	
+	\caption{Interactive segmentation of Image 6 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\label{fig:interactivesampleseg6}
+\end{figure}
 
 %-----------------------------------
 %	SECTION 4
 %-----------------------------------
+\clearpage
 \section{Experimental Results}
 \label{sec:interactiveresults}
 
