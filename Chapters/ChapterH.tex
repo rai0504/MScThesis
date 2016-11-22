@@ -1,12 +1,38 @@
 % Chapter Template
 
-\chapter{Conclusion and Future Work} % Main chapter title
+\chapter{Conclusion} % Main chapter title
 
 \label{chap:Chapter7} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\textcolor{red}
-{
-	Achieved goals\\
-	Limitations\\
-	Future work + Extensions
-}
+We have shown, thoroughly and comprehensively, that the proposed methods are superior to existing methods. In some cases there is a greater than 12\% increase in the accuracy of the results over a greater variation of fluorescence images. We have suceeded in moving a few steps closer to fully automated analysis. However, that is not to say that there isn't any limitations with the proposed methods.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Limitations}
+
+\begin{enumerate}
+	\item The remapping function presented in \Cref{sec:contrastcorrection} has 5 tuning parameters. Although there is greater freedom in tuning the curve, the added complexity in parameter finding is not welcomed.
+	
+	\item The preprocessing scheme presented in \Cref{chap:Chapter4} has a total of 14 tuning parameters. This makes it difficult to devise parameter estimation methods.
+	
+	\item In the propsosed parameter settings for the proposed parameter estimation method for ACWE graph cut segmentation in \Cref{sec:cvgc_weightingandparameterestimation}, we maintained a proportional relation between $\lambda_0$ and $\lambda_1$. Similarly, the $\alpha$ parameter remains constant and is not subject to appropriate variation with the image. 
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+\section{Future Work and Extensions}
+
+\begin{enumerate}
+	\item The parameters for the remapping function can be estimated from the image. This will allow the preprocessing scheme to be more adaptable over a greater variety of images and reduce manual parameter tuning.
+	
+	\item For the proposed parameter estimation scheme, we used simple mathematical relations. More sophisticated, comprehensive and accurate mathematical relations might allow for better segmentation results and applicability to a large class of images.
+	
+	\item Devise a method for automatic seeding and use those seeds as input for the propsed method in \Cref{sec:interactiveproposedweighting}. This will allow an interactive segmentation technique to become automatic.
+	
+	\item The parameter estimation technique in \Cref{sec:cvgc_weightingandparameterestimation} can be extended to colour images.
+	
+	\item The energy function proposed \Cref{sec:interactiveproposedweighting} can be extended to colour images.
+\end{enumerate}
+
