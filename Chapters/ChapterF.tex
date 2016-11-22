@@ -6,14 +6,13 @@
 
 %\textcolor{red}{[Introduction] What is special about the Chan-Vese formulation to the Mumford-Shah evolution energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
 
-The Mumford-Shah functional \citep{Mumford1989} is used to find optimal sub-regions of an image. The image is modelled to as a piecewise-smooth function. This functional is diffult to optimise and is usually done by optimising an approximation. Chan and Vese, in \citep{Chan2001}, optimises an approximation of the Mumford-Shah functional by using variational level sets. Hence, the curves are not explicitely manipulated. Instead, they are implicitely manipulated by evolving the level set function. This was found to be highly robust and accurate in practice, even when algorithms terminated at near optimums. In the following section we cover how this functional can be adapted for graph cut optimisation, for global optimisation. We then tweak the energy function for easier mathematical analysis and tune the parameter specifically for fluorescence image segmentation in \Cref{sec:cvgc_weightingandparameterestimation}. We present the results of our proposed energy function and parameter estimation method against other published parameter settings in \Cref{sec:cvgc_experimentalresults}. A discussion follows in \Cref{sec:cvgc_discussion}.
-
+The Mumford-Shah functional \citep{Mumford1989} is used to find optimal sub-regions of an image. The image is modelled to as a piece-wise smooth function. This functional is difficult to optimise and is usually done by optimising an approximation. Chan and Vese, in \citep{Chan2001}, optimises an approximation of the Mumford-Shah functional by using variational level sets. Hence, the curves are not explicitly manipulated. Instead, they are implicitly manipulated by evolving the level set function. This was found to be highly robust and accurate in practice, even when algorithms terminated at near optimums. In the following section we cover how this functional can be adapted for graph cut optimisation, for global optimisation. We then tweak the energy function for easier mathematical analysis and tune the parameter specifically for fluorescence image segmentation in \Cref{sec:cvgc_weightingandparameterestimation}. We present the results of our proposed energy function and parameter estimation method against other published parameter settings in \Cref{sec:cvgc_experimentalresults}. A discussion follows in \Cref{sec:cvgc_discussion}.
 
 \section{Graph Cut Model for Chan-Vese Segmentation}
 \label{sec:chanveseGC}
 
 %\textcolor{red}{Chan-Vese formulation of the Mumford-Shah formulation. Length approximation using discrete representations (cut-metrics). Discrete representation of Chan-Vese formulation. Graph representation and sub-modularity constraint. Insensitivity to initialisation. What do the parameters mean and how do they influence the final result.}
-In this section we briefly reintroduce the graph cut formulation for the Chan-Vese formulation of the Mumford-Shah evolution energy function for image segmentation. The Mumford-Shah model uses gradient descent techniques to obtain a minimum but as previously discussed, \Cref{sec:MAPMRFEstimation}, they usually terminate at local minima. By reformulating the energy function in a discrete form that allows for appropriate graph representability, we can use graph cuts, which are able to terminate at a global minimum, to iteratively converge to the optimal solution. For an in-depth exposition into this technique, look to \citep{Mumford1989,Chan2001,ElZehiry2007}.
+In this section we briefly reintroduce the graph cut formulation for the Chan-Vese formulation of the Mumford-Shah evolution energy function for image segmentation. The Mumford-Shah model uses gradient descent techniques to obtain a minimum; but as previously discussed in \Cref{sec:MAPMRFEstimation}, they usually terminate at local minima. By reformulating the energy function in a discrete form that allows for appropriate graph representability, we can use graph cuts which are able to terminate at a global minimum, to iteratively converge to the optimal solution. For an in-depth exposition into this technique, look to \citep{Mumford1989,Chan2001,ElZehiry2007}.
 
 The level set representation of the Mumford-Shah energy function is 
 \begin{equation}
@@ -25,7 +24,7 @@ The level set representation of the Mumford-Shah energy function is
 	\end{split}
 	\label{eq:mumfordshahfunction}
 \end{equation}
-where $u(x,y)$ is the image, $H(\cdot)$ is the Heaviside step function, $\delta(\cdot)$ is the Dirac delta function, $\phi:\Omega \rightarrow \Re$ is the level set function, such that:
+where $u(x,y)$ is the image, $H(\cdot)$ is the Heaviside step function, $\delta(\cdot)$ is the Dirac delta function and $\phi:\Omega \rightarrow \mathbb{R}$ is the level set function, such that:
 \begin{equation}
 	\begin{split}
 		\omega & = \{(x,y) \in \Omega|\Phi(x_p)>0\} \text{ Inside the boundary} \\
@@ -43,14 +42,14 @@ $c_1$ and $c_2$ are the arithmetic means given by:
 c_2(\phi) = \frac{\int_\Omega u(x,y)(1-H(\phi(x,y)))dxdy}{\int_\Omega (1-H(\phi(x,y)))dxdy}.
 \label{eq:c2}
 \end{equation}
-The piecewise smooth approximation of the image is then 
+The piece-wise smooth approximation of the image is then 
 \begin{equation}
 	u(x,y) = c_1 H(\phi(x,y)) + c_2(1-H(\phi(x,y))).
 	\label{eq:piecewiseapproximation}
 \end{equation}
 
 \begin{definition}[Discrete Approximation of Contour Length]
-	For the energy function to be represented as a graph, one of the requirements is that it must be in a discrete representation. This means that the length of the contour, the first term in \Cref{eq:mumfordshahfunction}, must be approximated discretely and be graph representable. This work has already been done by Kolmogorov and Boykov in \citep{Kolmogorov2005_2,Boykov2003} where they used the Cauchy-Crofton thereom. The thereom states that the length of a curve can be approximated by draw a large number of straight lines from $0$ to $2\pi$ and counting the number of intersections between the lines and the contour. The mathematical representation is
+	For the energy function to be represented as a graph, one of the requirements is that it must be in a discrete representation. This means that the length of the contour, the first term in \Cref{eq:mumfordshahfunction}, must be approximated discretely and be graph representable. This work has already been done by Kolmogorov and Boykov in \citep{Kolmogorov2005_2,Boykov2003} where they used the Cauchy-Crofton thereom. The thereom states that the length of a curve can be approximated by drawing a large number of straight lines from $0$ to $2\pi$ and counting the number of intersections between the lines and the contour. The mathematical representation is
 	\begin{equation}
 		\int_L n_L dL = \int_{0}^{\pi}\int_{-\infty}^{\infty} n_L d\rho d\theta = 2 \lVert C \rVert_E,
 	\end{equation}

@@ -7,12 +7,12 @@
 %\textcolor{red}{Optimisation approach in vision, "machinery/mechanics", literature review, ill-posed inverse problems.}
 
 Image segmentation falls under the mathemtical classification as being an \textit{ill-posed inverse problem} \citep{Poggio1985,Terzopoulos1986}.
-It is an inverse problem since we require a model from the observation, this simply means given the results, what are the causes.
+It is an inverse problem since we require a model from observation, this simply means: given the results, what are the causes?
 In image segmentation this translates to, given a 2D matrix of intensity values, which pixels belong to the object and which belong to the background.
-Image segmentation is also an ill-posed problem since their is a lack of uniqueness or stability of a solution \citep{Kabanikhin2008}, which are two of the three requirements for a solution to be \textit{well-posed}, the other being existence.
-Image segmentation is an ill-posed because immense amount of information is suppressed in the acquisition processed \citep{Tarantola2005,Bertero1998,Bertero2006}.
+Image segmentation is also an ill-posed problem since there is a lack of uniqueness or stability of a solution \citep{Kabanikhin2008}, which are two of the three requirements for a solution to be \textit{well-posed}; the other being existence.
+Image segmentation is an ill-posed problem because immense amount of information is suppressed in the acquisition processed \citep{Tarantola2005,Bertero1998,Bertero2006}.
 Many tasks in vision are inherently or can be reformulated as ill-posed inverse problems e.g. scene reconstruction, stereo matching, image restoration, image deconvolution, etc.
-Computer vision is used heavily in industry, medicine and life science fields included, hence there is a need for robust, enviromentally resistant approach.
+Computer vision is used heavily in industry, medicine and life science fields included, hence there is a need for a robust, enviromentally resistant approach.
 The \textit{optimisation approach} is an elegant way to obtain a solution.
 In computer vision, a problem can be posed as an optimisation problem as follows: We are given a coarse, discrete and noisy, approximation of the visual data, $d$, we aim to infer some hidden quantities $x$, labels, depth, probable pixel intensty, etc, based on it.
 We then have to design an \textit{objective function}, also known as an \textit{energy function} or \textit{cost function},
@@ -24,7 +24,7 @@ We then have to design an \textit{objective function}, also known as an \textit{
 which has to be optimised such that the optimsation of the function provides a solution to the problem.
 $E(x,d)$ assigns an energy or a cost to each combination $(x,d)$ of the input and hidden quantities.
 $E$ provides a measure of goodness to how well the candidate solution $x$ fits the expectation given the data $d$.
-In optimisation of this function we seek a minimum energy,
+In the optimisation of this function we seek a minimum energy,
 
 \begin{equation}
 	x^{*} = \argmin_{x}E(x,d),
@@ -34,11 +34,11 @@ In optimisation of this function we seek a minimum energy,
 which has roots in Statistical Physics where lower energies correspond to more stable solutions.
 This gives us a general idea of how we should assign energies to solutions; better a solution, the lower an energy we should assign to it.
 In this case, a huge number of inference problems in vision can be solved by minimising the associated energy.
-A solution is only as good as the energy model and the optimisation technique. Once a precice energy and minimising algorithm are found, the problem is essentially solved \citep{Delong2011}. 
+A solution is only as good as the energy model and the optimisation technique. Once a precise energy and a minimising algorithm is found, the problem is essentially solved \citep{Delong2011}. 
 
 Early attempts in computer vision would solve problems like these using iteration or relaxation methods \citep{Waltz1975,Rosenfeld1976}.
-In these attempts the problems are solved in a Calculus of variations framework, this is still a popular approach to optimisation in vision since Poggio \textit{et al.}. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
-Many important advancements in computer vision are proposals for a better energy, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
+In these attempts the problems are solved in a Calculus of variations framework. This is still a popular approach to optimisation in vision since Poggio \textit{et al.}. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
+Many important advancements in computer vision are proposals for a better energy model, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
 In this thesis we focus on discrete energy optimisation using graph cuts for image segmentation.
 
 %\textcolor{red}{Plan for the chapter.}
@@ -54,14 +54,14 @@ In \Cref{sec:LabellingProblems} we briefly discuss labelling problems and its fo
 \label{sec:LabellingProblems}
 
 Among the many computer vision problems, image segmentation is the easiest labelling problem to understand.
-A labelling problem is simply assigning, to an observation, a label that most accurately explains it.
+A labelling problem is simply assigning to an observation, a label that most accurately explains it.
 An observation can be anything that we wish to classify e.g. pixels, features, salient points, depth measurement, etc.
 A label is a description of that observation.
 There are two types of labels: \textit{semantic labelling} (person, car, tree, sky, face, eye, etc) or \textit{pixel-wise labelling} (texture, shape, colour, background/object, etc) \citep{Delong2011,Athanasiadis2007}.
 
-To formulate a labelling problem we need a set of \textit{cites}, intuitively known as observations, and a set of \textit{labels}, a set of explanations.
+To formulate a labelling problem we need a set of \textit{cites}, intuitively known as observations, and a set of \textit{labels}, which is a set of explanations.
 The goal is to find the best explanation given the observations.
-In computer vision, the observations, can be features, image segments, etc.
+In computer vision, the observations can be features, image segments, etc.
 However, they will typically represent pixels in an image with some natual structure or ordering.
 Let 
 
@@ -91,7 +91,7 @@ Most often, settling for an approximate solution is "good enough".
 	\label{tab:configuration}
 	\begin{tabular}{|c|c|c|c|}
 		\hline 
-		Image ($\mathcal{P}$) & Number of cites ($|\mathcal{P}|$) & Number of labes ($|\mathcal{L}|$) & Number of configurations $|\mathcal{L}|^{|\mathcal{P}|}$ \\ 
+		Image ($\mathcal{P}$) & Number of cites ($|\mathcal{P}|$) & Number of labels ($|\mathcal{L}|$) & Number of configurations $|\mathcal{L}|^{|\mathcal{P}|}$ \\ 
 		\hline 
 		$64 \times 64$ & $2^{12}=4096$ & $2$ & $2^{2^{12}} = 2^{4096}=n$ \\
 		\hline 
@@ -111,7 +111,7 @@ Most often, settling for an approximate solution is "good enough".
 \label{sec:MAPEstimates}
 
 As previously mentioned, image segmentation can be viewed as a labelling problem.
-The problem is the huge search space in which the solution exists, or possibly more than one.
+The problem is the huge search space in which the solution, or possibly more than one, exists.
 We need a metric that is able to appropriately weight a configuration $f$.
 \textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems.
 \textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks.
@@ -126,11 +126,11 @@ MRFs are pivotal in designing, weighting and structuring graphs, so we give a br
 \label{sec:MarkovRandomFields}
 
 A \textit{random field} (RF) is a stochastic process where each random variable is indexed by a spatial variable \citep{Adler2007,Gikhman1996}.
-A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of sites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables.
+A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of cites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables.
 In vision, random variables which correspond to neighbouring or nearby pixels are linked.
-These links model interdependency and in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}.
-Common connectivity arrangements in 2D images are 4- and 8-connectivity.
-Similarly, higher dimensional data can be represented using graph.
+These links model interdependency in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}.
+Common connectivity arrangements in 2D images are 4 and 8-connectivity.
+Similarly, higher dimensional data can be represented using graphs.
 For 3D images, common connectivity arrangements are 6- and 26-connectivity.
 Connectedness is illustrated in \Cref{fig:connectedness} for 4-connectivity for 2D image data and 6-connectivity for 3D image data.
 In this thesis we are concerned with 2D images only.
@@ -162,7 +162,7 @@ where $\mathcal{Y}$ denotes the set of all possible labellings. $\mathbf{Y}$ is 
 The positivity property constrains all configurations to have non-zero probability and is needed to ensure that the joint probability can be uniquely determined by the local conditional probabilities \citep{Smith1997}.
 The Markovinatity property states that a site is conditionally independant of all other sites given it's neighbours.
 
-MRFs are on of the most popular probabilistic modelling tools and was introduced to the computer vision community by Geman and Geman \citep{Geman1984} and Besag \citep{Besag1986}.
+MRFs are on of the most popular probabilistic modelling tools and was introduced to the computer vision community by Geman and Geman \citep{Geman1984}; and Besag \citep{Besag1986}.
 MRFs allow us to model local contextual constraints, such as spatial interactions between pixels.
 According to Baye's rule, the posterior probability relation is:
 
@@ -242,7 +242,7 @@ where $\mathcal{V} = \{1,2,\ldots,n\}$ and $\mathcal{E}$ is the set of pairwise 
 \subsection{MAP-MRF Estimation as Energy Minimisation}
 \label{sec:MAPMRFEstimation}
 
-The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means that maximising \Cref{eq:mrfprobability} is equivalent to minimising \Cref{eq:gibbsenergy} \citep{Winkler2006}:
+The equivalence of MRFs and GRFs, proven by the Hammersely-Clifford thereom, means that maximising \Cref{eq:mrfprobability} is equivalent to minimising \Cref{eq:gibbsenergy} \citep{Winkler2006}:
 
 \begin{equation}
 \mathbf{y^*} = \argmax_{\mathbf{y} \in \mathcal{Y}}\Pr(\mathbf{y}|\mathbf{x}) = \argmin_{\mathbf{y} \in \mathcal{Y}}E(\mathbf{y},\mathbf{x});
@@ -251,7 +251,7 @@ The equivalence of MRFs and GRFs, proven by Hammersely-Clifford thereom, means t
 
 the most probable labelling yields the lowest energy.
 Obtaining the optimal labelling from \Cref{eq:mrf_grf_equivaleance} does not guarantee that the segmented output will be good.
-The design of a good energy function, that captures all constraints and priors, is not easy.
+The design of a good energy function that captures all constraints and priors is not easy.
 However, optimisation is harder still.
 
 From \Cref{eq:gibbs1}, if we take the negative log we get:
@@ -260,7 +260,7 @@ From \Cref{eq:gibbs1}, if we take the negative log we get:
 	-\log(\Pr(x|y)) = \log(Z) + \sum_{i \in \mathcal{V}}\Psi(x_i) + \sum_{(i,j) \in \mathcal{E}}\Psi_{i,j}(x_i,x_j),
 \end{equation}
 
-the constant $Z$ is not need as it does not affect the final labelling.
+the constant $Z$ is not needed as it does not affect the final labelling.
 In this form, the equation is a sum of potentials, i.e. a sum of energies.
 The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$.
 In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$.
@@ -282,7 +282,7 @@ The data energy takes on the following form:
 
 $D_p$ measures the level of agreement between the label $f_p$ and the pixel $p$.
 A common approximation is to assume independency observations, and this makes designing $D_p$ relatively straightforward.
-The only restriction is  $D_p(f_p) \in \Re^{+}$.
+The only restriction is  $D_p(f_p) \in \mathbb{R}^{+}$.
 The prior energy takes on the following form:
 
 \begin{equation}
@@ -320,7 +320,7 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 	The algorithm is initialised with a random labelling.
 	Each pixel is then visited and a local random change is made.
 	If the change results in a lower energy then it is accepted, else the change is accepted based on a probability parameter, i.e. the temperature.
-	With certain cooling schedules the global minimum can be obtained however, this is horrendously slow in practise so sub-optimal schedules are used instead \citep{Geman1984}.
+	With certain cooling schedules the global minimum can be obtained. However, this is horrendously slow in practice so sub-optimal schedules are used instead \citep{Geman1984}.
 \end{definition}
 
 \begin{definition}[Genetic Algorithms (GAs)]
@@ -350,7 +350,7 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 	For a restrictive class of energy functions, \textit{submodular functions}, it is able to obtain a global minimum \citep{Kolmogorov2004,Boykov2001_2,Boykvo2001_3,Kolmogorov2007}.
 	For non-submodular energy functions it is able to find approximate solutions with strong local optimality \citep{Boykov2001,Kohli2009,Komodakis2007,Kumar2009}.
 	Greig \textit{et al.} was the first to use graph cuts in vision to find an exact solution to a certain energy function for the binary image restoration problem \citep{Greig1989}.
-	However, it did recieve much attention and remained buried for almost ten years primarily because of the disinterest in binary image restoration and that, at the time, it's optimisation was notoriously slow which made it an unappealing technique when compared to stochastic optimisation methods, like simulated annealing, which was popular at the time.
+	However, it did not recieve much attention and remained buried for almost ten years primarily because of the disinterest in binary image restoration and, at the time, it's optimisation was notoriously slow which made it an unappealing technique when compared to stochastic optimisation methods, like simulated annealing, which was popular at the time.
 	In the last two decades graph cut optimisation has been a major focus as a key tool in optimisation since Roy and Cox \citep{Roy1998} used it to solve more interesting problems in multi-camera stereo.
 	Shortly after, Boykov \textit{et al.} generalised the method for determining the MAP estimate of MRFs \citep{Boykov1998}.
 	Graph cut optimisation is the technique of focus in this thesis.
@@ -363,7 +363,7 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 \section{Introduction to Graph Cuts}
 \label{sec:GraphCuts}
 
-Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \Cref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific, graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as \textit{Push-Relabel} \citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
+Graph cuts is a combinatorial optimisation method which can be used to minimise energies of the form presented in \Cref{eq:generalformexpanded}. The aim of graph cuts is to partition a graph into mutual exclusive subgraphs by removing the edges whose sum of capacities is a minimum. We are interested with cutting the graph into two subgraphs. Graph cut algorithms existed long before their use was employed in vision, this is primarily due to the lack of computational power available at the time. Fortunately, computational power is no more as rare a resource as it was previously and this has paved a way into exploiting the power of graph data structures. As a result, this has also lead to vision-specific, graph-cut algorithms. There are primarily three types of graph-cut algorithms: \textit{Augmenting Path Algorithms}, such as Ford-Fulkerson algorithm \citep{Ford1956}, Dinic algorithm \citep{Dinic1970}, Edmond-Karps algorithm \citep{Edmonds1972} etc, \textit{Preflow-Push Algorithms}, also known as Push-Relabel\citep{Goldberg1988}, and \textit{Move-Making Algorithms} such as the $\alpha$-$\beta$ Swap \citep{Boykov2001}, $\alpha$-Expansion \citep{Boykov2001}, etc.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 1
@@ -375,7 +375,7 @@ Graph cuts is a combinatorial optimisation method which can be used to minimise 
 In this section we briefly cover the foundation aspects to understanding graph cuts. We cover \textit{Flow networks}, a branch of Graph Theory also known as \textit{Transportation networks}, and introduce the \textit{Min-cut problem}. For a solid understanding in Graph Theory and Flow Networks see \citep{Deo1974,Bondy1976,Steen2010,Newman2010}. A brief introduction is given in \Cref{AppendixB}.
 
 \begin{definition}[Network]
-	A network $\textbf{N} = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \Re^{+}$.
+	A network $\textbf{N} = (V,E)$ is a directed graph with a source node $s$, a sink node $t$ and a strictly positive capacity on every edge. That is, for each edge $e \in E$, the capacity, $c(.)$, obeys $c(e) \in \mathbb{R}^{+}$.
 	The \textbf{source node} only has out-going edges, $d_{in}(s) = 0$ and $d_{out}(s) \geq 0$. The \textbf{sink node} only has incoming edges, $d_{in} \geq 0$ and $d_{out} = 0$. An example of a network is illustrated in \Cref{fig:network}.
 \end{definition}
 
@@ -422,7 +422,7 @@ In this section we briefly cover the foundation aspects to understanding graph c
 \end{figure}
 
 \begin{definition}[Flow]
-	A flow $f : V^2 \longrightarrow \Re^{+}$ is associated with each edge $e = (u,v)$ such that:
+	A flow $f : V^2 \longrightarrow \mathbb{R}^{+}$ is associated with each edge $e = (u,v)$ such that:
 	\begin{enumerate}
 		\item for each edge $e \in E$ we have $0 \leq f(e) \leq c(e)$. That is, the flow is positive and cannot excees the capacity of the edge.
 		
@@ -528,7 +528,7 @@ In this section we briefly cover the foundation aspects to understanding graph c
 		};
 		\end{tikzpicture}
 	}
-	\caption{Network \textbf{N} with with a valid cut \textbf{C}. The nodes within the red region are reachable from the source and the nodes within the blue region are able to reach the sink. The cut set, \textbf{C}, is show in the orange filled block.}
+	\caption{Network \textbf{N} with with a valid cut \textbf{C}. The nodes within the red region are reachable from the source and the nodes within the blue region are able to reach the sink. The cut set, \textbf{C}, is show in the orange-filled block.}
 	\label{fig:validcut}
 \end{figure}
 
@@ -729,7 +729,7 @@ In this section we briefly cover the foundation aspects to understanding graph c
 
 %\textcolor{red}{Talk about the max-flow/min-cut duality, non-uniqueness.}
 %In the next section we show that the Maximal Flow problem and the Minimal Cut problem are duals of each other, commonly known as the Max-Flow/Min-Cut problem.
-In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut yield the same answer. This is not a coincidence, in fact the two problems are duals of each other, known as the \textit{max-flow min-cut duality}. This was proven by P. Elias, A. Feinstein, and C.E. Shannon \citep{Elias1956} and by Ford and Fulkerson \citep{Ford1956} independently in 1956. This duality is immensely helpful in developing machine algorithms to compute the minimum, since it is easier to find a maximum flow. It is important to realise that there maybe many cuts that can be minimum cut and many flow configurations that can yield the maximum flow, hence the solution is not guaranteed to be unique only an optimum.
+In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut yield the same answer. This is not a coincidence. In fact the two problems are duals of each other, known as the \textit{max-flow min-cut duality}. This was proven by P. Elias, A. Feinstein, and C.E. Shannon \citep{Elias1956} and by Ford and Fulkerson \citep{Ford1956} independently in 1956. This duality is immensely helpful in developing machine algorithms to compute the minimum, since it is easier to find a maximum flow. It is important to realise that there maybe many cuts that can be minimum cut and many flow configurations that can yield the maximum flow, hence the solution is not guaranteed to be unique only an optimum.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 2
@@ -739,7 +739,7 @@ In \Cref{fig:maxflow} and \Cref{fig:mincut} the maximum flow and the minimum cut
 \label{sec:GraphCutFramework}
 
 %\textcolor{red}{Graph construction. Special terminology: n-links, t-links, etc. Undirected to directed conversion. Labels as terminals. Construction with and withtout seeds. Edge weighting -> leave submodular functions to their own section.}
-In graph cut image segmentation the energy function, defined by the image, has to be represented as a graph, specifically a network. We now look at how to 2D binary segmentation energy is constructed as a graph. The graph that is constructed uses the MRF, \Cref{sec:MarkovRandomFields}, model of the image as its base. Each pixel is a node in the graph. The connections between "pixel nodes" are bi-directional, which is generally decomposed into two uni-directional edges, and are known as \textit{n-links} which is synonymous with \textit{neighbour-links}. Additionally, each label is also represented as a node. Each "pixel node" is attached to all "label nodes". In binary, segmentation, there are two labels i.e. object and background. The edges that connect "label nodes" to "pixel nodes" are called \textit{t-links} which is synonymous with \textit{terminal-links}. In keeping with network construction, one label will be the source and the other will be the sink. The t-link weights are generally learned from user input seeds or automatically generated seeds. Seeds mark which type of pixels belong to the object and which belong to the background, an illustration is shown in \Cref{fig:graph_image}. With the seed data and the neighbourhood interaction, we can construct a graph representation of the energy to be minimised over the image as illustrated in \Cref{fig:graph_graph}. Once a graph has been constructed, we then call upon a max-flow/min-cut method which will minimise the energy function by partitioning the graph into two subgraphs, as shown in \Cref{fig:graph_graphcut}. All pixels are classified according to which "label node" they're still attached to after the max-flow/min-cut algorithm has run, this is illustrated in \Cref{fig:graph_mask}.
+In graph cut image segmentation the energy function, defined by the image, has to be represented as a graph, specifically a network. We now look at how 2D binary segmentation energy is constructed as a graph. The graph that is constructed uses the MRF, \Cref{sec:MarkovRandomFields}, model of the image as its base. Each pixel is a node in the graph. The connections between "pixel nodes" are bi-directional, which is generally decomposed into two uni-directional edges, and are known as \textit{n-links} which is synonymous with \textit{neighbour-links}. Additionally, each label is also represented as a node. Each "pixel node" is attached to all "label nodes". In binary, segmentation, there are two labels i.e. object and background. The edges that connect "label nodes" to "pixel nodes" are called \textit{t-links} which is synonymous with \textit{terminal-links}. In keeping with network construction, one label will be the source and the other will be the sink. The t-link weights are generally learned from user input seeds or automatically generated. Seeds mark which type of pixels belong to the object and which belong to the background, an illustration is shown in \Cref{fig:graph_image}. With the seed data and the neighbourhood interaction, we can construct a graph representation of the energy to be minimised over the image as illustrated in \Cref{fig:graph_graph}. Once a graph has been constructed, we then call upon a max-flow/min-cut method which will minimise the energy function by partitioning the graph into two subgraphs, as shown in \Cref{fig:graph_graphcut}. All pixels are classified according to which "label node" they're still attached to after the max-flow/min-cut algorithm has run, this is illustrated in \Cref{fig:graph_mask}.
 
 \begin{figure}[!t]
 	\centering
@@ -767,7 +767,7 @@ In graph cut image segmentation the energy function, defined by the image, has t
 	\textbf{(a)} Image with object and background seeds.
 	\textbf{(b)} Graph representation of the energy function to be minimised over the image. The n-links are represented by black arrows, the t-links from the source are shown in red, and the t-links to the sink are shown in blue.
 	\textbf{(c)} Minimised energy function by cut C. The light red, light blue and grey edges are those that belong to the cut set C.
-	\textbf{(d)} Segmentation mask after label assignment. In this case, all nodes that are still attached to the source, their corresponding pixel label is shown in white, similarly, nodes that are connected to the sink have their corresponding pixel labels shown in black.}
+	\textbf{(d)} Segmentation mask after label assignment. In this case, for all nodes that are still attached to the source, their corresponding pixel label is shown in white, similarly, nodes that are connected to the sink have their corresponding pixel labels shown in black.}
 	\label{fig:graphcut_process}
 \end{figure}
 
@@ -784,7 +784,7 @@ In the previous section we talked about representing the energy function as a gr
 &f^p(a,b) + f^p(a+1,b+1) \leq f^p(a,b+l) + f^p(a+1,b),&  &\forall a,b \in \mathcal{L},&
 \end{align}
 
-where $\mathcal{L}$ is an ordered label set. The type of energies we are concerned with are second order binary energies, and enforcing the submodularity constraint means that the energy function must to satisfy:
+where $\mathcal{L}$ is an ordered label set. The type of energies we are concerned with are second order binary energies, and enforcing the submodularity constraint means that the energy function must satisfy:
 
 \begin{align}
 &E_{ij}(0,0) + E_{ij}(1,1) \leq E_{ij}(0,1) + E_{ij}(1,0),&  &\forall \{i,j\} \in \mathcal{N},&
@@ -808,7 +808,7 @@ Image segmentation via graph cuts can be seen as three main stages. Firstly the 
 \subsection{Ford-Fulkerson}
 \label{sec:FordFulkerson}
 
-The Ford-Fulkerson max-flow algorithm \citep{Ford1956} was designed to work on an arbitrary network with one source and one sink. Ford and Fulkerson proved that the max-flow and min-cut problems are duals of each other, hence solving one means that you have obtained the solution to the other. Augmenting path algorithms iteratively search for open path from the source to the sink. When a path is found, the maximum flow that can be pushed in that path is pushed through that path by incrementing the flow on each edge of that path. The path is said to be \textit{augmented}. If there are no available paths which can be augmented, the solution has been found and the algorithm terminates. The maximum flow is then obtained by the flow leaving the source or the flow entering the sink. A Ford-Fulkerson max-flow algorithm is shown in \Cref{alg:fordfulkerson}. The min-cut, and segmentation, problem can be solved using \Cref{alg:graphsegmentation}. In image segementation we only require the sets $\mathcal{V}_S$ and $\mathcal{V}_T$, so the last step is not necessary. The Ford-Fulkerson algorithm exhibit very poor performance. The primary cause is that each new augmenting path has to be found from scratch. In \citep{Boykvo2001_3}, they countered this by reusing as much information as possible from the existing path.
+The Ford-Fulkerson max-flow algorithm \citep{Ford1956} was designed to work on an arbitrary network with one source and one sink. Ford and Fulkerson proved that the max-flow and min-cut problems are duals of each other, hence solving one means that you have obtained the solution to the other. Augmenting path algorithms iteratively search for open path from the source to the sink. When a path is found, the maximum flow that can be pushed in that path is pushed through that path by incrementing the flow on each edge of that path. The path is said to be \textit{augmented}. If there are no available paths which can be augmented, the solution has been found and the algorithm terminates. The maximum flow is then obtained by the flow leaving the source or the flow entering the sink. A Ford-Fulkerson max-flow algorithm is shown in \Cref{alg:fordfulkerson}. The min-cut, and segmentation, problem can be solved using \Cref{alg:graphsegmentation}. In image segementation we only require the sets $\mathcal{V}_S$ and $\mathcal{V}_T$, so the last step is not necessary. The Ford-Fulkerson algorithm exhibits very poor performance. The primary cause is that each new augmenting path has to be found from scratch. In \citep{Boykvo2001_3}, they countered this by reusing as much information as possible from the existing path.
 %\textcolor{red}{Running time, complexity, properties for network flow, etc of Ford-Fulkerson}.
 
 \begin{algorithm}[!t]
@@ -859,7 +859,7 @@ The Ford-Fulkerson max-flow algorithm \citep{Ford1956} was designed to work on a
 \subsection{Dinic/Edmonds-Karp}
 \label{sec:Dinic}
 
-The Ford-Fulkerson max-flow algorithm is a very inefficient method to finding the max-flow. In practice the runtime is too high making it unfavourable. An improvement on this augmenting path based algorithm was designed by Dinic\citep{Dinic1970} in 1970 and independently by Edmonds and Karp\citep{Edmonds1972} in 1972. The improvement is a change in searching for a path which can be augmented. The Edmonds-Karp algorithm finds the shortest path from the source to the sink by defining the lenght of all edges to be one and using a breadth first search form the source. The amount of flow to be augmented into each path is the minimal residual capacity of the edges in the path. This ensure that on each augmentation atleast one path is \textit{saturated}. The edges that become saturated are said to be \textit{critical}. The Edmonds-Karp max-flow algorithm is shown in \Cref{alg:dinic}. The worst-case complexity is $O(|\mathcal{V}|,|\mathcal{E}|^2)$. Depending on the graph structure other searching strategies may be more efficient, eg. depth first search (DFS) \citep{Cormen2009}, etc.
+The Ford-Fulkerson max-flow algorithm is a very inefficient method to finding the max-flow. In practice the runtime is too high making it unfavourable. An improvement on this augmenting path based algorithm was designed by Dinic\citep{Dinic1970} in 1970 and independently by Edmonds and Karp\citep{Edmonds1972} in 1972. The improvement is a change in searching for a path which can be augmented. The Edmonds-Karp algorithm finds the shortest path from the source to the sink by defining the lenght of all edges to be one and using a breadth first search from the source. The amount of flow to be augmented into each path is the minimal residual capacity of the edges in the path. This ensures that on each augmentation at least one path is \textit{saturated}. The edges that become saturated are said to be \textit{critical}. The Edmonds-Karp max-flow algorithm is shown in \Cref{alg:dinic}. The worst-case complexity is $O(|\mathcal{V}|,|\mathcal{E}|^2)$. Depending on the graph structure other searching strategies may be more efficient, eg. depth first search (DFS) \citep{Cormen2009}, etc.
 
 \begin{algorithm}[!t]
 	\caption{Edmonds-Karp Max-flow}\label{alg:dinic}
@@ -890,8 +890,8 @@ The Ford-Fulkerson max-flow algorithm is a very inefficient method to finding th
 \subsection{Push-Relabel}
 \label{sec:PushRelabel}
 
-Originally developed by Andrew V. Goldberg and Robert E. Tarjan \cite{Goldberg1988}. Previous algorithms, such as Ford-Fulkerson, used the concept of residual networks and augmenting paths to determine max-flow.
-Push-Relabel used the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the \textit{Preflow-Push Algorithm}.
+The Push-Relabel was developed by Andrew V. Goldberg and Robert E. Tarjan \cite{Goldberg1988}. Previous algorithms, such as Ford-Fulkerson, use the concept of residual networks and augmenting paths to determine max-flow.
+Push-Relabel uses the concept of preflow to determine  max-flow instead of augmenting paths. Sometimes referred as the \textit{Preflow-Push Algorithm}.
 Preflow is a concept originally developed by A.V. Karzanov.
 
 The algorithm works at converting a preflow, $f$, into a normal flow and then terminates. This flow also turns out to be the maximum flow. Goldberg and Tarjan defined a generic Push-Relabel algorithm  which solves the maximum flow problem.
@@ -906,10 +906,10 @@ The algorithm works at converting a preflow, $f$, into a normal flow and then te
 		\item Capacity Constraint\\
 		$\forall u,v \in V, f(u,v) \leq c(u,v)$
 		
-		\item Antisymmetry/Skew Symmetry\\
+		\item Anti-symmetry/Skew Symmetry\\
 		$\forall u, v, \in V, f(u,v) = -f(v,u)$
 		
-		\item Nonnegative Constrain\\
+		\item Non-negative Constrain\\
 		The flow into $v \in V-\{s\}$ must be greater than or equal to the flow out of $v$. $\forall u \in V, v \in V-\{s\}, \sum f(u,v)>0$
 	\end{enumerate}
 \end{definition}
@@ -957,7 +957,7 @@ Push-Relabel also uses the concept of a residual graph, $G^*_f=(V, E_f)$.
 		\item $d(t) = 0 \text{ (sink condition)}$
 		\item $d(v) = d(w) + 1$ for every residual edge $(v,u) \in E_f$
 	\end{enumerate}
-	A labelling $d$ and a preflow $f$ are said to be compatible id $d$ adheres to the properties above.
+	A labelling $d$ and a preflow $f$ are said to be compatible if $d$ adheres to the properties above.
 	
 	The algorithm pushes flow excess starting at the source, $s$, along all vertices towards the sink, $t$. The algorithm maintains a compatible vertex labelling function, $d$, to the preflow, $f$. The labelling is used to determine where to push the excess flow. The algorithm repeatedly performs either a push or a relabel operation so long as there is an active vertex in $G^*_f$.
 \end{definition}
@@ -993,7 +993,7 @@ Push-Relabel also uses the concept of a residual graph, $G^*_f=(V, E_f)$.
 \begin{definition}[Relabel Operation]
 	The relabel operation is used to increase the label value of a single active vertex so that excess flow can be pushed out of the active vertex. The relabel operation is performed when all the residual edges of the active vertex have positive residual capacity, $r_f(v,w)>0$. This implies that $v$'s label is less than or equal to all vertices, $d(v) \leq d(w)$, meaning that no push operation across the edges is possible given the push condition $d(v) = d(w)+1$.
 	
-	The relabel operation for some vertex $v$ selects the smallest label for the vertices with positive residual edges, $r_f(v,w)>0$. The active vertex is then assigned the smallest label value $+1$ such that $d(v) := min\{d(v)+1 | (v,w) \in E_f\}$. This will alow the vertex $v$ to potentially push its excess flow to atleast one of the othe vertices during the algorithm's next iteration. The relabel operation is shown in \Cref{alg:relabel}.
+	The relabel operation for some vertex $v$ selects the smallest label for the vertices with positive residual edges, $r_f(v,w)>0$. The active vertex is then assigned the smallest label value $+1$ such that $d(v) := min\{d(v)+1 | (v,w) \in E_f\}$. This will alow the vertex $v$ to potentially push its excess flow to at least one of the othe vertices during the algorithm's next iteration. The relabel operation is shown in \Cref{alg:relabel}.
 \end{definition}
 
 \begin{algorithm}[!t]
@@ -1053,7 +1053,7 @@ The algorithm also maintains a list of active nodes to dischage. The complete Pu
 	\begin{algorithmic}[1]
 		\Procedure{MaxFlow}{$\mathcal{G}$}
 		% initialise the heights of all the nodes
-		\State $d(s) \gets |\mathcal{V}|$\Comment{Initilise the height of all nodes}
+		\State $d(s) \gets |\mathcal{V}|$\Comment{Initialise the height of all nodes}
 		\State $d(t) \gets 0$
 		\For{$\forall v \in \mathcal{V}-\{s,t\}$}
 		\State $d(v) \gets 0$
@@ -1081,13 +1081,13 @@ The algorithm also maintains a list of active nodes to dischage. The complete Pu
 	\end{algorithmic}
 \end{algorithm}
 
-There are many variations of the push-relabel algorithm \citep{Cherkassky1997,Goldberg1988}. Most of these are heuristic implementations to reduce execution time. One such heuristic is the \textit{First-in First-out} (FIFO) \citep{Goldberg1988}. With this implementation the theoretical run-time is shown to be $O(|\mathcal{V}|^3)$. Cubic complexities are unaccpetable in practice, however in practice this heuristic displays a great boost in speed optimisation. Empirical runtime over theoretical runtime is accepted in practice. 
+There are many variations of the push-relabel algorithm \citep{Cherkassky1997,Goldberg1988}. Most of these are heuristic implementations to reduce execution time. One such heuristic is the \textit{First-in First-out} (FIFO) \citep{Goldberg1988}. With this implementation the theoretical run-time is shown to be $O(|\mathcal{V}|^3)$. Cubic complexities are unacceptable in practice, however in practice this heuristic displays a great boost in speed optimisation. Empirical runtime over theoretical runtime is accepted in practice. 
 
 Instead of discharging nodes in the order that they entered the $Active\_node$ list, a better heuristic is to disharge nodes in descending order of node level/height. This heurustic is known as \textit{Highest level first} (HLF). Flow is pushed from higher level nodes to lower level nodes first. This allows a greater dissipation of flow.
 
 Another popular heuristic is \textit{Global relabel}. In this heuristic, all nodes are periodically labelled from the distance of the node to the sink. This is can be done by runnig a BFS from the sink node $t$ in the residual graph $G^*$. When used in conjuction with the FIFO heuristic, there's a huge performance speedup. The Global relabel heuristic is expensive to perform so it is only run after every $|\mathcal{V}|$ relabel operations. 
 
-The final heuristic we discuss is known as the \textit{Gap relabel}. This heuristic is based on an important observation, nodes can only push to other nodes that are one level lower. Hence, if there are no noded of a certain level, $d$, then it is not possible for higher nodes, at level $d+1$, to send their flow to the nodes at the next lowest level, $d-1$, hence this gap in the levels allows us to relabel all nodes that are higher than level $d$ to $|\mathcal{V}|$. These relabelled nodes will no more be considered in further \textsf{push} or \textsf{relabel} operations. When the max-flow is determined, graph partitioning can be easily obtained. All nodes that are equal to or higher than the source are part of the source set, i.e $\mathcal{V}_S=\{v \in \mathcal{V} | d(v)\geq |\mathcal{V}|\}$ and $\mathcal{V}_T = \mathcal{V}-\mathcal{V}_S$.
+The final heuristic we discuss is known as the \textit{Gap relabel}. This heuristic is based on an important observation, nodes can only push to other nodes that are one level lower. Hence, if there are no nodes of a certain level, $d$, then it is not possible for higher nodes, at level $d+1$, to send their flow to the nodes at the next lowest level, $d-1$, hence this gap in the levels allows us to relabel all nodes that are higher than level $d$ to $|\mathcal{V}|$. These relabelled nodes will no more be considered in further \textsf{push} or \textsf{relabel} operations. When the max-flow is determined, graph partitioning can be easily obtained. All nodes that are equal to or higher than the source are part of the source set, i.e $\mathcal{V}_S=\{v \in \mathcal{V} | d(v)\geq |\mathcal{V}|\}$ and $\mathcal{V}_T = \mathcal{V}-\mathcal{V}_S$.
 %
 %The analaysis and the proof of correctness of the Push-Relabel algorithm can be found in \autoref{AppendixB}.
 
@@ -1095,12 +1095,12 @@ The final heuristic we discuss is known as the \textit{Gap relabel}. This heuris
 %	SUBSECTION 4
 %-----------------------------------
 
-\subsection{Move Making Algorithms}
+\subsection{Move-Making Algorithms}
 \label{sec:movemaking}
 
-Modern move making algorithms based on combinatorial graph cuts outperform previous move making methods, such as simulated annealing and ICM, as well as message passing algorithms because of their increased accuracy and efficiency \cite{Szeliski2008}. Specifically, the $\alpha$-expansion and $\alpha\beta$-swap \cite{Boykov2001} has become very popular and gained a large acceptance in the vision community \citep{Vu2008_2}.
+Modern move-making algorithms based on combinatorial graph cuts outperform previous move-making methods, such as simulated annealing and ICM, as well as message passing algorithms because of their increased accuracy and efficiency \cite{Szeliski2008}. Specifically, the $\alpha$-expansion and $\alpha\beta$-swap \cite{Boykov2001} has become very popular and gained a large acceptance in the vision community \citep{Vu2008_2}.
 
-In the $\alpha$-expansion, the algorithm iteratively makes the move to expand the $\alpha$-label set. The label that provides the largest decrease in energy for all labels is kept. When no further label changes can be made, then  the algorithm has reachde convergence and terminates.
+In the $\alpha$-expansion, the algorithm iteratively makes the move to expand the $\alpha$-label set. The label that provides the largest decrease in energy for all labels is kept. When no further label changes can be made, then  the algorithm has reached convergence and terminates.
 In the $\alpha\beta$-swap, the algorithm iteratively chooses two pixel sets with labels $\alpha$ and $\beta$ and swaps the labels of the pixels within these sets. The swap between the pair of labels that results in the largest decrease in energy is chosen. Similarly, when no more swap moves can be made, the algorithm has reached convergence and terminates. For binary segmentation, both of these algorithms require just one iteration to reach convergence and the optimal move is determined by using graph cuts.
 
 %\textcolor{red}{Conclude this chapter? Comparison of Running times for these algorithms?}

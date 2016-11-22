@@ -1,6 +1,6 @@
 % Chapter Template
 
-\chapter{Pre-Processing Scheme for Fluorescence Microscopy Images} % Main chapter title
+\chapter{Pre-processing Scheme for Fluorescence Microscopy Images} % Main chapter title
 
 \label{chap:Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
@@ -56,7 +56,7 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
-\section{Preprocessing Scheme}
+\section{Pre-processing Scheme}
 \label{sec:preprocessscheme}
 
 
@@ -75,7 +75,7 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 \end{definition}
 
 \begin{definition}[Poisson Noise Reduction]
-	In \Cref{sec:PoissonDenoising} and \Cref{sec:ImageProcessing} we mentioned that the primary form of noise in fluorescent images is Poisson noise. It is important to remove as much noise as possible without dampening the boundary information. To this end we've used the Total-Variation anisotropic denoising (Bregman Split). Although it was developed to remove Gaussian noise, it was shown by Rodriguez \textit{et al.}\citep{Rodriguez2008} that is supersedes other state-of-the-art Poisson noise removal methods, e.g.  wavelets \citep{Timmermann1999}, platelets\citep{Willett2004}, minimum description length \citep{Nowak1999}, while maintaining signal integrity. 
+	In \Cref{sec:ImageProcessing} we mentioned that the primary form of noise in fluorescent images is Poisson noise. It is important to remove as much noise as possible without dampening the boundary information. To this end we have used the Total-Variation anisotropic denoising (Bregman Split). Although it was developed to remove Gaussian noise, it was shown by Rodriguez \textit{et al.}\citep{Rodriguez2008} that is supersedes other state-of-the-art Poisson noise removal methods, e.g.  wavelets \citep{Timmermann1999}, platelets\citep{Willett2004}, minimum description length \citep{Nowak1999}, while maintaining signal integrity. 
 	
 	The Poisson distribution, which has equal mean and standard deviation i.e. $\mu = \sigma$, is defined by
 	\begin{equation}
@@ -125,8 +125,8 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 \subsection{Object Data Enhancement}
 \label{sec:contrastcorrection}
 
-The fundamental task of binary image segmentation is to split-up an image into homogenous regions. All pixels labelled $l_0$ share similar values with regard to the feature under consideration. This also means that there is high dissimilarity with pixels that are labelled $l_1$. For grayscale images, such as the type we are concerned with, this feature is generally intensity.
-For segmentation regarding a  specific feature, an ideal image is one where there isn't an overlap in the feature space between the background and the object, as illustrated in \Cref{fig:featuredataset}. In real images (non-synthetic) this is almost never the case as there is no known feature space or it does not exist.
+The fundamental task of binary image segmentation is to split up an image into homogenous regions. All pixels labelled $l_0$ share similar values with regard to the feature under consideration. This also means that there is high dissimilarity with pixels that are labelled $l_1$. For grayscale images, such as the type we are concerned with, this feature is generally intensity.
+For segmentation regarding a specific feature, an ideal image is one where there is no overlap in the feature space between the background and the object, as illustrated in \Cref{fig:featuredataset}. In real images (non-synthetic) this is almost never the case as there is no known feature space or it does not exist.
 
 \begin{figure}[!h]
 	\centering
@@ -137,7 +137,7 @@ For segmentation regarding a  specific feature, an ideal image is one where ther
 
 Grayscale medical image segmentation (MIS) typically uses intensity as the dominant feature on which the applied segmentation algorithms are biased. Hence, it is common to precede segmentation by contrast enhancement \citep{Kim2003,Subr2005}. The problem here lies with the fact that the aim contrast enhancement is to bring out the details more clearly that are otherwise obscured due to limited dynamic range, non-uniform illumination, etc. In fluorescence image this does not necessarily mean that the constrast enhanced image posesses better "segmentation qualities", in terms of intensity.
 
-In this section we present a novel mapping function whose aim is to shrink the "region of uncertainty" by non-linearly widening the gap between background pixels and object pixels. This function is composed of two piecewise sub-functions; one for data attenuation and one for data amplification. We first design the properties the mapping function should have. 
+In this section we present a novel mapping function whose aim is to shrink the "region of uncertainty" by non-linearly widening the gap between background pixels and object pixels. This function is composed of two piece-wise sub-functions; one for data attenuation and one for data amplification. We first design the properties the mapping function should have. 
 
 \begin{definition}[Remapping Function Properties]
 	We denote the remap function as $\widetilde{x_i} = R(x_i)$, where $\widetilde{x_i}$ is the new value which remaps the input pixel, $x_i$, using the function $R$. The range on which $R$ works is $[0,L]$. For 8-bit gray scale images the highest value is usually $L=255$. Let the value that represents the greatest classification uncertainty be denoted $N$, as illustrated in \Cref{fig:featuredataset}.
@@ -182,7 +182,7 @@ In this section we present a novel mapping function whose aim is to shrink the "
 		\label{fig:remapfcn}
 	\end{figure}
 	
-	It is more geometrically intuitive to represnt the control points in polar coordinates with the center at $p_2(N,N)$. Therefore, control point $c$ is represented as $p_c(R_c, \theta_c)$. Where $\theta_c \in [0, \frac{\pi}{4}]$ and $R_c \in \mathbb{R}^+$. The angular deviation is the measure off the straight line which is counter-clockwise for the amplification function and clockwise for the attenuation function. The deviation, $\theta_c$, where $c \in {1,2}$, away from the straight line is further implicitly represented as a range $\kappa_c \in [0,1]$ where $\kappa_c=0$ implies $\theta_c = 0$ would mean no deviation, and $\kappa_c = 1$ implies $\theta_c = \frac{\pi}{4}$ would mean maximum deviation.
+	It is more geometrically intuitive to represnt the control points in polar coordinates with the center at $p_2(N,N)$. Therefore, control point $c$ is represented as $p_c(R_c, \theta_c)$; where $\theta_c \in [0, \frac{\pi}{4}]$ and $R_c \in \mathbb{R}^+$. The angular deviation is the measure off the straight line which is counter-clockwise for the amplification function and clockwise for the attenuation function. The deviation, $\theta_c$, where $c \in {1,2}$, away from the straight line is further implicitly represented as a range $\kappa_c \in [0,1]$ where $\kappa_c=0$ implies $\theta_c = 0$ would mean no deviation, and $\kappa_c = 1$ implies $\theta_c = \frac{\pi}{4}$ would mean maximum deviation.
 	As the function approaches the ends of it domain, less attenuation or amplification occurs, which meets criterions 5 and 6.
 	
 	\begin{figure}[!t]
@@ -620,7 +620,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 \end{figure}
 
 \begin{definition}[Parameter Settings]
-	The results of the segmentations are presented in \Cref{tab:class_stats}. We compare four pre-processing schemes. In the table, the first scheme is denoted A and represents the results when using the raw gray level image; the  second scheme denoted B represents the results of using the coherence enhancing diffusion filter with optimised rotational invariance (CED-ORI) \citep{Weickert2002}, as done in \citep{Maska2013} and \citep{Kroon2009}. The parameters used are:
+	The results of the segmentations are presented in \Cref{tab:class_stats}. We compare four pre-processing schemes. In the table, the first scheme is denoted A and represents the results when using the raw gray level image. The  second scheme denoted B represents the results of using the coherence enhancing diffusion filter with optimised rotational invariance (CED-ORI) \citep{Weickert2002}, as done in \citep{Maska2013} and \citep{Kroon2009}. The parameters used are:
 	$\sigma = 3.0, \, \rho = 5.0, \, c_1 = 1 \times 10^{-3}, \, c_2 = 1, \, \Delta t = 0.0015, \, n=20$.
 	The third scheme, denoted  C in the table, is the results of having each image denoised using the following parameters: $\lambda = 1, \, \mu = 20,  \, \epsilon = 1 \times 10^{-3}$.
 	The fourth scheme, denoted D in the table, is using the proposed scheme. The parameters for the TV denoising and CED-ORI are the same as previously presented. The additional parameters for the third step were set to: $\kappa_1 = 0.17, \, R_1 = 50, \, \kappa_2 = 0.55, \, R_2 = 225$. For the channel mixing step the weights used are shown in \Cref{tab:channel_weights}.
@@ -792,7 +792,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 \end{definition}
 
 \begin{definition}[Execution Time]
-	The scheme was implemented in Ubuntu 13.10 on a Core 2 Duo 1.3GHz with this 2GB RAM in C++ using OpenCV 2.3.4. There were no run-time optimisations performed in the code nor any complexity reduction of algorithms. We processed and analysed 744 images. The results are shown in \Cref{tab:results_runningtime}. The mean running time versus the image size can be seen in \Cref{fig:results_runningtime}. \Cref{tab:results_runningtime} show a significant amount of processing time spent on denoising and intra-region smoothing.
+	The scheme was implemented in Ubuntu 13.10 on a Core 2 Duo 1.3GHz with 2GB RAM in C++ using OpenCV 2.3.4. There were no run-time optimisations performed in the code nor any complexity reduction of algorithms. We processed and analysed 744 images. The results are shown in \Cref{tab:results_runningtime}. The mean running time versus the image size can be seen in \Cref{fig:results_runningtime}. \Cref{tab:results_runningtime} show a significant amount of processing time spent on denoising and intra-region smoothing.
 	
 	\begin{table}[!h]
 		\renewcommand{\arraystretch}{1.3}
@@ -813,7 +813,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 			& $512\times512$	& $250.24$& $52.16$& $17.68$& $82.30$ \\
 			\hline
 			\multicolumn{4}{|r}{Mean} & $20.39$ & $79.42$ \\
-			\multicolumn{4}{|r}{St. Dev} & $2.50$ & $2.72$ \\
+			\multicolumn{4}{|r}{Std. Dev} & $2.50$ & $2.72$ \\
 			\hline
 			
 			%          	\hline
@@ -827,7 +827,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 			& $512\times512$ &$294.50$&$86.74$&$30.05$	& $69.93$ \\
 			\hline
 			\multicolumn{4}{|r}{Mean} & $33.81$ & $66.04$ \\
-			\multicolumn{4}{|r}{St. Dev} & $3.41$ & $3.59$ \\
+			\multicolumn{4}{|r}{Std. Dev} & $3.41$ & $3.59$ \\
 			\hline
 			
 			%            	\hline
@@ -841,7 +841,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 			& $512\times512$ &$338.75$&$121.32$&$39.19$&$60.80$ \\
 			\hline
 			\multicolumn{4}{|r}{Mean} & $43.33$ & $56.54$ \\
-			\multicolumn{4}{|r}{St. Dev} & $3.72$ & $3.87$ \\
+			\multicolumn{4}{|r}{Std. Dev} & $3.72$ & $3.87$ \\
 			\hline
 		\end{tabular}
 	\end{table}
