@@ -4,7 +4,11 @@
 
 \label{chap:Chapter6} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\textcolor{red}{[Introduction] What is interactive segmentation and the associated energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
+%\textcolor{red}{[Introduction] What is interactive segmentation and the associated energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
+
+In the previous section we worked with an automatic segmentation technique. As motivated in the introduction, it is ideal to remove as much manual input as possible, however, automatic segmentation isn't a silver bullet solution and at times it is necessary for the user to get involved. The goal of reducing user interaction still remains. In this section we design a novel energy function specifically for the images acquired in fluorescence microscopy for interactive segmentation.
+
+In \Cref{sec:interactivepopularweighting} we cover two very popular and widely used graph weighting schemes for general graph cut purposes. We then focus on the proposed weighting system in \Cref{sec:interactiveproposedweighting}. We determine the optimal parameters for all weighting schemes in \Cref{sec:optimalparameters} and present the results in \Cref{sec:interactiveresults}. We end this chapter with a discussion in \Cref{sec:interactivediscussion}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -86,8 +90,6 @@ In this section we introduce a novel weighting system that is based on the gener
 		\end{cases}
 	\end{equation}
 	This function is plotted in \Cref{fig:proposedinteractiveS}. 
-	
-	\textcolor{red}{Ensure that it obeys the submodularity constraint.}
 		
 	\begin{figure}[!h]
 		\centering
@@ -96,7 +98,6 @@ In this section we introduce a novel weighting system that is based on the gener
 		\label{fig:proposedinteractiveS}
 	\end{figure}
 \end{definition}
-
 
 \begin{definition}[Background weighting function] 
 	Similarly, the background weighting function is derived in the same way as the object weighting function. Let the maximum value of the intensity distribution be $k_{max} = P_{BG}$. Now $P_{BG}^{1} = \frac{P_{BG}}{k_{max}}$.
@@ -115,8 +116,6 @@ In this section we introduce a novel weighting system that is based on the gener
 	\end{equation}
 	This function is plotted in \Cref{fig:proposedinteractiveT}.
 	
-	\textcolor{red}{Ensure that it obeys the submodularity constraint.}
-	
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[scale=1]{/proposedinteractive/proposedinteractiveT}
@@ -129,6 +128,7 @@ In this section we introduce a novel weighting system that is based on the gener
 	To enable the seeds marked by the user as hard constraints, we use the same technique in \citep{Boykov2001_2}. Background and object seeds are weighted using \Cref{eq:hardconstraintweight}.
 \end{definition}
 
+The motivation for replacing part of the function with a parabolic function is to reduce the exponential decay of probabilty. The probabilty of pixels beyond the highest point, for object data, do not decay so quickly. Similarly for the decay rate of pixels below the highest point for background data. The modified energy function is still submodular, therefore its global optimum can be found using graph cuts.
 
 
 %----------------------------------------------------------------------------------------
@@ -408,11 +408,11 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \begin{enumerate}
 	\item [\textbf{e}] - using the optimal parameter setting for the weighting described by Eriksson \textit{et al.}
 	\item [\textbf{b}] - using the optimal parameter setting for the weighting described by Boykov \textit{et al.}
-	\item [\textbf{r1}] - Proposed method with optimal parameters found on the sample set.
-	\item [\textbf{rh1}] - Proposed method with hard costraints for optimal parameters found on the sample set.
+	\item [\textbf{r}] - Proposed method with optimal parameters found on the sample set.
+	\item [\textbf{rh}] - Proposed method with hard costraints for optimal parameters found on the sample set.
 \end{enumerate}
 
-\clearpage
+%\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 188
 \begin{figure}[!h]
@@ -1245,128 +1245,128 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 	\hline	Image	&	TP	&	TN	&	FP	&	FN	&	Precision	&	Recall	&	Accuracy	&	MCC	\\
 	\hline \rowcolor{closest} 1-e	&	39901	&	24637	&	879	&	119	&	0.978445	&	0.997026	&	0.984772	&	0.968092	\\
 	\hline \rowcolor{bad}	1-b	&	40020	&	23280	&	2236	&	0	&	0.947084	&	1.000000	&	0.965881	&	0.929565	\\
-	\hline	1-r1	&	38125	&	25489	&	27	&	1895	&	0.999292	&	0.952649	&	0.970673	&	0.940780	\\
-	\hline	1-rh1	&	38125	&	25489	&	27	&	1895	&	0.999292	&	0.952649	&	0.970673	&	0.940780	\\
+	\hline	1-r	&	38125	&	25489	&	27	&	1895	&	0.999292	&	0.952649	&	0.970673	&	0.940780	\\
+	\hline	1-rh	&	38125	&	25489	&	27	&	1895	&	0.999292	&	0.952649	&	0.970673	&	0.940780	\\
 	
 	\hline \rowcolor{closest} 2-e	&	20880	&	40848	&	2742	&	1066	&	0.883922	&	0.951426	&	0.941895	&	0.873376	\\
 	\hline	2-b	&	20417	&	40801	&	2789	&	1529	&	0.879816	&	0.930329	&	0.934113	&	0.854946	\\
-	\hline \rowcolor{bad}	2-r1	&	21798	&	38965	&	4625	&	148	&	0.824963	&	0.993256	&	0.927170	&	0.853529	\\
-	\hline \rowcolor{bad}	2-rh1	&	21798	&	38965	&	4625	&	148	&	0.824963	&	0.993256	&	0.927170	&	0.853529	\\
+	\hline \rowcolor{bad}	2-r	&	21798	&	38965	&	4625	&	148	&	0.824963	&	0.993256	&	0.927170	&	0.853529	\\
+	\hline \rowcolor{bad}	2-rh	&	21798	&	38965	&	4625	&	148	&	0.824963	&	0.993256	&	0.927170	&	0.853529	\\
 	
 	\hline	3-e	&	10043	&	55027	&	404	&	62	&	0.961329	&	0.993864	&	0.992889	&	0.973300	\\
 	\hline \rowcolor{closest}	3-b	&	10105	&	55056	&	375	&	0	&	0.964218	&	1.000000	&	0.994278	&	0.978619	\\
-	\hline \rowcolor{bad}	3-r1	&	9387	&	55215	&	216	&	718	&	0.977507	&	0.928946	&	0.985748	&	0.944652	\\
-	\hline \rowcolor{bad}	3-rh1	&	9387	&	55215	&	216	&	718	&	0.977507	&	0.928946	&	0.985748	&	0.944652	\\
+	\hline \rowcolor{bad}	3-r	&	9387	&	55215	&	216	&	718	&	0.977507	&	0.928946	&	0.985748	&	0.944652	\\
+	\hline \rowcolor{bad}	3-rh	&	9387	&	55215	&	216	&	718	&	0.977507	&	0.928946	&	0.985748	&	0.944652	\\
 	
 	\hline \rowcolor{bad}	4-e	&	726	&	49547	&	396	&	14867	&	0.647059	&	0.046559	&	0.767105	&	0.126807	\\
 	\hline	4-b	&	606	&	49943	&	0	&	14987	&	1.000000	&	0.038864	&	0.771317	&	0.172896	\\
-	\hline	4-r1	&	15593	&	47243	&	2700	&	0	&	0.852403	&	1.000000	&	0.958801	&	0.897953	\\
-	\hline \rowcolor{closest}	4-rh1	&	15593	&	47246	&	2697	&	0	&	0.852542	&	1.000000	&	0.958847	&	0.898056	\\
+	\hline	4-r	&	15593	&	47243	&	2700	&	0	&	0.852403	&	1.000000	&	0.958801	&	0.897953	\\
+	\hline \rowcolor{closest}	4-rh	&	15593	&	47246	&	2697	&	0	&	0.852542	&	1.000000	&	0.958847	&	0.898056	\\
 	
 	\hline \rowcolor{bad}	5-e	&	2001	&	40188	&	679	&	22668	&	0.746642	&	0.081114	&	0.643753	&	0.157788	\\
 	\hline	5-b	&	1709	&	40781	&	86	&	22960	&	0.952089	&	0.069277	&	0.648346	&	0.199395	\\
-	\hline	5-r1	&	24112	&	37964	&	2903	&	557	&	0.892541	&	0.977421	&	0.947205	&	0.892121	\\
-	\hline \rowcolor{closest}	5-rh1	&	24112	&	37968	&	2899	&	557	&	0.892673	&	0.977421	&	0.947266	&	0.892237	\\
+	\hline	5-r	&	24112	&	37964	&	2903	&	557	&	0.892541	&	0.977421	&	0.947205	&	0.892121	\\
+	\hline \rowcolor{closest}	5-rh	&	24112	&	37968	&	2899	&	557	&	0.892673	&	0.977421	&	0.947266	&	0.892237	\\
 	
 	\hline	6-e	&	36339	&	25698	&	57	&	3442	&	0.998434	&	0.913476	&	0.946609	&	0.895655	\\
 	\hline \rowcolor{closest}	6-b	&	36441	&	25708	&	47	&	3340	&	0.998712	&	0.916040	&	0.948318	&	0.898843	\\
-	\hline \rowcolor{bad}	6-r1	&	35795	&	25670	&	85	&	3986	&	0.997631	&	0.899801	&	0.937881	&	0.879705	\\
-	\hline \rowcolor{bad}	6-rh1	&	35795	&	25670	&	85	&	3986	&	0.997631	&	0.899801	&	0.937881	&	0.879705	\\
+	\hline \rowcolor{bad}	6-r	&	35795	&	25670	&	85	&	3986	&	0.997631	&	0.899801	&	0.937881	&	0.879705	\\
+	\hline \rowcolor{bad}	6-rh	&	35795	&	25670	&	85	&	3986	&	0.997631	&	0.899801	&	0.937881	&	0.879705	\\
 	
 	\hline	7-e	&	18125	&	39494	&	7857	&	60	&	0.697598	&	0.996701	&	0.879196	&	0.760449	\\
 	\hline \rowcolor{bad}	7-b	&	18184	&	37646	&	9705	&	1	&	0.652013	&	0.999945	&	0.851898	&	0.719945	\\
-	\hline \rowcolor{closest}	7-r1	&	17865	&	42666	&	4685	&	320	&	0.792239	&	0.982403	&	0.923630	&	0.832668	\\
-	\hline \rowcolor{closest}	7-rh1	&	17865	&	42666	&	4685	&	320	&	0.792239	&	0.982403	&	0.923630	&	0.832668	\\
+	\hline \rowcolor{closest}	7-r	&	17865	&	42666	&	4685	&	320	&	0.792239	&	0.982403	&	0.923630	&	0.832668	\\
+	\hline \rowcolor{closest}	7-rh	&	17865	&	42666	&	4685	&	320	&	0.792239	&	0.982403	&	0.923630	&	0.832668	\\
 	
 	\hline	8-e	&	43065	&	21953	&	205	&	313	&	0.995262	&	0.992784	&	0.992096	&	0.982368	\\
 	\hline \rowcolor{bad}	8-b	&	43262	&	21549	&	609	&	116	&	0.986118	&	0.997326	&	0.988937	&	0.975287	\\
-	\hline \rowcolor{closest}	8-r1	&	43148	&	21880	&	278	&	230	&	0.993598	&	0.994698	&	0.992249	&	0.982674	\\
-	\hline \rowcolor{closest}	8-rh1	&	43148	&	21880	&	278	&	230	&	0.993598	&	0.994698	&	0.992249	&	0.982674	\\
+	\hline \rowcolor{closest}	8-r	&	43148	&	21880	&	278	&	230	&	0.993598	&	0.994698	&	0.992249	&	0.982674	\\
+	\hline \rowcolor{closest}	8-rh	&	43148	&	21880	&	278	&	230	&	0.993598	&	0.994698	&	0.992249	&	0.982674	\\
 	
 	\hline	9-e	&	12118	&	52960	&	250	&	208	&	0.979787	&	0.983125	&	0.993011	&	0.977150	\\
 	\hline \rowcolor{bad}	9-b	&	12263	&	52689	&	521	&	63	&	0.959246	&	0.994889	&	0.991089	&	0.971480	\\
-	\hline \rowcolor{closest}	9-r1	&	12085	&	53035	&	175	&	241	&	0.985726	&	0.980448	&	0.993652	&	0.979179	\\
-	\hline \rowcolor{closest}	9-rh1	&	12085	&	53035	&	175	&	241	&	0.985726	&	0.980448	&	0.993652	&	0.979179	\\
+	\hline \rowcolor{closest}	9-r	&	12085	&	53035	&	175	&	241	&	0.985726	&	0.980448	&	0.993652	&	0.979179	\\
+	\hline \rowcolor{closest}	9-rh	&	12085	&	53035	&	175	&	241	&	0.985726	&	0.980448	&	0.993652	&	0.979179	\\
 	
 	\hline	10-e	&	34360	&	7816	&	23332	&	28	&	0.595577	&	0.999186	&	0.643555	&	0.384800	\\
 	\hline \rowcolor{bad}	10-b	&	34388	&	6963	&	24185	&	0	&	0.587096	&	1.000000	&	0.630966	&	0.362275	\\
-	\hline \rowcolor{closest}	10-r1	&	34297	&	31105	&	43	&	91	&	0.998748	&	0.997354	&	0.997955	&	0.995902	\\
-	\hline \rowcolor{closest}	10-rh1	&	34297	&	31105	&	43	&	91	&	0.998748	&	0.997354	&	0.997955	&	0.995902	\\
+	\hline \rowcolor{closest}	10-r	&	34297	&	31105	&	43	&	91	&	0.998748	&	0.997354	&	0.997955	&	0.995902	\\
+	\hline \rowcolor{closest}	10-rh	&	34297	&	31105	&	43	&	91	&	0.998748	&	0.997354	&	0.997955	&	0.995902	\\
 	
 	\hline \rowcolor{closest}	11-e	&	22982	&	38696	&	2156	&	1702	&	0.914233	&	0.931048	&	0.941132	&	0.875182	\\
 	\hline	11-b	&	23205	&	38353	&	2499	&	1479	&	0.902778	&	0.940083	&	0.939301	&	0.872254	\\
-	\hline \rowcolor{bad}	11-r1	&	21035	&	39776	&	1076	&	3649	&	0.951336	&	0.852171	&	0.927902	&	0.846315	\\
-	\hline \rowcolor{bad}	11-rh1	&	21035	&	39776	&	1076	&	3649	&	0.951336	&	0.852171	&	0.927902	&	0.846315	\\
+	\hline \rowcolor{bad}	11-r	&	21035	&	39776	&	1076	&	3649	&	0.951336	&	0.852171	&	0.927902	&	0.846315	\\
+	\hline \rowcolor{bad}	11-rh	&	21035	&	39776	&	1076	&	3649	&	0.951336	&	0.852171	&	0.927902	&	0.846315	\\
 	
 	\hline \rowcolor{bad}	12-e	&	19092	&	40749	&	5212	&	483	&	0.785550	&	0.975326	&	0.913101	&	0.816694	\\
 	\hline	12-b	&	19172	&	40683	&	5278	&	403	&	0.784131	&	0.979413	&	0.913315	&	0.818206	\\
-	\hline \rowcolor{closest}	12-r1	&	19243	&	40656	&	5305	&	332	&	0.783893	&	0.983040	&	0.913986	&	0.820421	\\
-	\hline \rowcolor{closest}	12-rh1	&	19243	&	40656	&	5305	&	332	&	0.783893	&	0.983040	&	0.913986	&	0.820421	\\
+	\hline \rowcolor{closest}	12-r	&	19243	&	40656	&	5305	&	332	&	0.783893	&	0.983040	&	0.913986	&	0.820421	\\
+	\hline \rowcolor{closest}	12-rh	&	19243	&	40656	&	5305	&	332	&	0.783893	&	0.983040	&	0.913986	&	0.820421	\\
 	
 	\hline \rowcolor{bad}	13-e	&	877	&	53053	&	1896	&	9710	&	0.316264	&	0.082837	&	0.822906	&	0.088365	\\
 	\hline	13-b	&	1249	&	52310	&	2639	&	9338	&	0.321245	&	0.117975	&	0.817245	&	0.108974	\\
-	\hline \rowcolor{closest}	13-r1	&	10343	&	44375	&	10574	&	244	&	0.494478	&	0.976953	&	0.834930	&	0.619385	\\
-	\hline \rowcolor{closest}	13-rh1	&	10343	&	44375	&	10574	&	244	&	0.494478	&	0.976953	&	0.834930	&	0.619385	\\
+	\hline \rowcolor{closest}	13-r	&	10343	&	44375	&	10574	&	244	&	0.494478	&	0.976953	&	0.834930	&	0.619385	\\
+	\hline \rowcolor{closest}	13-rh	&	10343	&	44375	&	10574	&	244	&	0.494478	&	0.976953	&	0.834930	&	0.619385	\\
 	
 	\hline \rowcolor{closest}	14-e	&	13304	&	42783	&	9112	&	337	&	0.593505	&	0.975295	&	0.855820	&	0.684384	\\
 	\hline \rowcolor{bad}	14-b	&	13517	&	41200	&	10695	&	124	&	0.558277	&	0.990910	&	0.834915	&	0.660146	\\
-	\hline	14-r1	&	13518	&	41344	&	10551	&	123	&	0.561635	&	0.990983	&	0.837128	&	0.663360	\\
-	\hline	14-rh1	&	13518	&	41344	&	10551	&	123	&	0.561635	&	0.990983	&	0.837128	&	0.663360	\\
+	\hline	14-r	&	13518	&	41344	&	10551	&	123	&	0.561635	&	0.990983	&	0.837128	&	0.663360	\\
+	\hline	14-rh	&	13518	&	41344	&	10551	&	123	&	0.561635	&	0.990983	&	0.837128	&	0.663360	\\
 	
 	\hline	15-e	&	3322	&	53662	&	8504	&	48	&	0.280906	&	0.985757	&	0.869507	&	0.487566	\\
 	\hline \rowcolor{bad}	15-b	&	3370	&	50812	&	11354	&	0	&	0.228878	&	1.000000	&	0.826752	&	0.432523	\\
-	\hline \rowcolor{closest}	15-r1	&	2439	&	62155	&	11	&	931	&	0.995510	&	0.723739	&	0.985626	&	0.842398	\\
-	\hline \rowcolor{closest}	15-rh1	&	2439	&	62155	&	11	&	931	&	0.995510	&	0.723739	&	0.985626	&	0.842398	\\
+	\hline \rowcolor{closest}	15-r	&	2439	&	62155	&	11	&	931	&	0.995510	&	0.723739	&	0.985626	&	0.842398	\\
+	\hline \rowcolor{closest}	15-rh	&	2439	&	62155	&	11	&	931	&	0.995510	&	0.723739	&	0.985626	&	0.842398	\\
 	
 	\hline	16-e	&	7439	&	55023	&	3070	&	4	&	0.707869	&	0.999463	&	0.953094	&	0.818543	\\
 	\hline \rowcolor{bad}	16-b	&	7443	&	54644	&	3449	&	0	&	0.683346	&	1.000000	&	0.947372	&	0.801733	\\
-	\hline \rowcolor{closest}	16-r1	&	7320	&	57448	&	645	&	123	&	0.919021	&	0.983474	&	0.988281	&	0.944220	\\
-	\hline \rowcolor{closest}	16-rh1	&	7320	&	57448	&	645	&	123	&	0.919021	&	0.983474	&	0.988281	&	0.944220	\\
+	\hline \rowcolor{closest}	16-r	&	7320	&	57448	&	645	&	123	&	0.919021	&	0.983474	&	0.988281	&	0.944220	\\
+	\hline \rowcolor{closest}	16-rh	&	7320	&	57448	&	645	&	123	&	0.919021	&	0.983474	&	0.988281	&	0.944220	\\
 	
 	\hline \rowcolor{closest}	17-e	&	8541	&	51662	&	4325	&	1008	&	0.663843	&	0.894439	&	0.918625	&	0.725841	\\
 	\hline \rowcolor{bad}	17-b	&	8611	&	50915	&	5072	&	938	&	0.629321	&	0.901770	&	0.908295	&	0.704143	\\
-	\hline	17-r1	&	9180	&	50237	&	5750	&	369	&	0.614869	&	0.961357	&	0.906631	&	0.722288	\\
-	\hline	17-rh1	&	9180	&	50237	&	5750	&	369	&	0.614869	&	0.961357	&	0.906631	&	0.722288	\\
+	\hline	17-r	&	9180	&	50237	&	5750	&	369	&	0.614869	&	0.961357	&	0.906631	&	0.722288	\\
+	\hline	17-rh	&	9180	&	50237	&	5750	&	369	&	0.614869	&	0.961357	&	0.906631	&	0.722288	\\
 	
 	\hline \rowcolor{bad}	18-e	&	31177	&	27384	&	991	&	5984	&	0.969193	&	0.838971	&	0.893570	&	0.796921	\\
 	\hline	18-b	&	34038	&	26721	&	1654	&	3123	&	0.953659	&	0.915960	&	0.927109	&	0.853331	\\
-	\hline \rowcolor{closest}	18-r1	&	35776	&	27921	&	454	&	1385	&	0.987469	&	0.962730	&	0.971939	&	0.943464	\\
-	\hline \rowcolor{closest}	18-rh1	&	35776	&	27921	&	454	&	1385	&	0.987469	&	0.962730	&	0.971939	&	0.943464	\\
+	\hline \rowcolor{closest}	18-r	&	35776	&	27921	&	454	&	1385	&	0.987469	&	0.962730	&	0.971939	&	0.943464	\\
+	\hline \rowcolor{closest}	18-rh	&	35776	&	27921	&	454	&	1385	&	0.987469	&	0.962730	&	0.971939	&	0.943464	\\
 	
 	\hline	19-e	&	15551	&	39888	&	10097	&	0	&	0.606324	&	1.000000	&	0.845932	&	0.695591	\\
 	\hline \rowcolor{bad}	19-b	&	15551	&	38006	&	11979	&	0	&	0.564875	&	1.000000	&	0.817215	&	0.655364	\\
-	\hline \rowcolor{closest}	19-r1	&	15545	&	43925	&	6060	&	6	&	0.719509	&	0.999614	&	0.907440	&	0.794909	\\
-	\hline \rowcolor{closest}	19-rh1	&	15545	&	43925	&	6060	&	6	&	0.719509	&	0.999614	&	0.907440	&	0.794909	\\
+	\hline \rowcolor{closest}	19-r	&	15545	&	43925	&	6060	&	6	&	0.719509	&	0.999614	&	0.907440	&	0.794909	\\
+	\hline \rowcolor{closest}	19-rh	&	15545	&	43925	&	6060	&	6	&	0.719509	&	0.999614	&	0.907440	&	0.794909	\\
 	
 	\hline \rowcolor{bad}	20-e	&	12134	&	50512	&	1907	&	983	&	0.864183	&	0.925059	&	0.955902	&	0.866613	\\
 	\hline \rowcolor{closest}	20-b	&	12496	&	51789	&	630	&	621	&	0.952004	&	0.952657	&	0.980911	&	0.940397	\\
-	\hline	20-r1	&	12751	&	51106	&	1313	&	366	&	0.906641	&	0.972097	&	0.974380	&	0.922984	\\
-	\hline	20-rh1	&	12751	&	51106	&	1313	&	366	&	0.906641	&	0.972097	&	0.974380	&	0.922984	\\
+	\hline	20-r	&	12751	&	51106	&	1313	&	366	&	0.906641	&	0.972097	&	0.974380	&	0.922984	\\
+	\hline	20-rh	&	12751	&	51106	&	1313	&	366	&	0.906641	&	0.972097	&	0.974380	&	0.922984	\\
 	
 	\hline	21-e	&	11464	&	32586	&	21443	&	43	&	0.348376	&	0.996263	&	0.672150	&	0.456093	\\
 	\hline \rowcolor{bad}	21-b	&	11498	&	5333	&	48696	&	9	&	0.191016	&	0.999218	&	0.256821	&	0.136162	\\
-	\hline \rowcolor{closest}	21-r1	&	11199	&	53750	&	279	&	308	&	0.975693	&	0.973234	&	0.991043	&	0.969032	\\
-	\hline \rowcolor{closest}	21-rh1	&	11199	&	53750	&	279	&	308	&	0.975693	&	0.973234	&	0.991043	&	0.969032	\\
+	\hline \rowcolor{closest}	21-r	&	11199	&	53750	&	279	&	308	&	0.975693	&	0.973234	&	0.991043	&	0.969032	\\
+	\hline \rowcolor{closest}	21-rh	&	11199	&	53750	&	279	&	308	&	0.975693	&	0.973234	&	0.991043	&	0.969032	\\
 	
 	\hline	22-e	&	29332	&	27618	&	8472	&	114	&	0.775897	&	0.996129	&	0.868988	&	0.766566	\\
 	\hline \rowcolor{bad}	22-b	&	29377	&	27242	&	8848	&	69	&	0.768528	&	0.997657	&	0.863937	&	0.759217	\\
-	\hline \rowcolor{closest}	22-r1	&	29359	&	28654	&	7436	&	87	&	0.797907	&	0.997045	&	0.885208	&	0.792940	\\
-	\hline \rowcolor{closest}	22-rh1	&	29359	&	28654	&	7436	&	87	&	0.797907	&	0.997045	&	0.885208	&	0.792940	\\
+	\hline \rowcolor{closest}	22-r	&	29359	&	28654	&	7436	&	87	&	0.797907	&	0.997045	&	0.885208	&	0.792940	\\
+	\hline \rowcolor{closest}	22-rh	&	29359	&	28654	&	7436	&	87	&	0.797907	&	0.997045	&	0.885208	&	0.792940	\\
 	
 	\hline	23-e	&	15993	&	47936	&	1603	&	4	&	0.908900	&	0.999750	&	0.975479	&	0.937647	\\
 	\hline \rowcolor{bad}	23-b	&	15997	&	47310	&	2229	&	0	&	0.877702	&	1.000000	&	0.965988	&	0.915538	\\
-	\hline \rowcolor{closest}	23-r1	&	15754	&	49292	&	247	&	243	&	0.984563	&	0.984810	&	0.992523	&	0.979741	\\
-	\hline \rowcolor{closest}	23-rh1	&	15754	&	49292	&	247	&	243	&	0.984563	&	0.984810	&	0.992523	&	0.979741	\\
+	\hline \rowcolor{closest}	23-r	&	15754	&	49292	&	247	&	243	&	0.984563	&	0.984810	&	0.992523	&	0.979741	\\
+	\hline \rowcolor{closest}	23-rh	&	15754	&	49292	&	247	&	243	&	0.984563	&	0.984810	&	0.992523	&	0.979741	\\
 	
 	\hline	24-e	&	7791	&	53310	&	4365	&	70	&	0.640918	&	0.991095	&	0.932327	&	0.765182	\\
 	\hline \rowcolor{bad}	24-b	&	7823	&	52446	&	5229	&	38	&	0.599372	&	0.995166	&	0.919632	&	0.735852	\\
-	\hline \rowcolor{closest}	24-r1	&	7705	&	54773	&	2902	&	156	&	0.726407	&	0.980155	&	0.953339	&	0.820244	\\
-	\hline \rowcolor{closest}	24-rh1	&	7705	&	54773	&	2902	&	156	&	0.726407	&	0.980155	&	0.953339	&	0.820244	\\
+	\hline \rowcolor{closest}	24-r	&	7705	&	54773	&	2902	&	156	&	0.726407	&	0.980155	&	0.953339	&	0.820244	\\
+	\hline \rowcolor{closest}	24-rh	&	7705	&	54773	&	2902	&	156	&	0.726407	&	0.980155	&	0.953339	&	0.820244	\\
 	
 	\hline	25-e	&	4850	&	30953	&	1076	&	28657	&	0.818427	&	0.144746	&	0.546310	&	0.193738	\\
 	\hline \rowcolor{bad}	25-b	&	1301	&	32010	&	19	&	32206	&	0.985606	&	0.038828	&	0.508286	&	0.136046	\\
-	\hline	25-r1	&	33203	&	28333	&	3696	&	304	&	0.899835	&	0.990927	&	0.938965	&	0.882349	\\
-	\hline \rowcolor{closest}	25-rh1	&	33203	&	28337	&	3692	&	304	&	0.899932	&	0.990927	&	0.939026	&	0.882461	\\
+	\hline	25-r	&	33203	&	28333	&	3696	&	304	&	0.899835	&	0.990927	&	0.938965	&	0.882349	\\
+	\hline \rowcolor{closest}	25-rh	&	33203	&	28337	&	3692	&	304	&	0.899932	&	0.990927	&	0.939026	&	0.882461	\\
 	\hline 
 \end{longtable} 
 
@@ -1404,4 +1404,15 @@ From the accuracy and Matthews Correlation Coeffieient measures shown in \Cref{t
 %----------------------------------------------------------------------------------------
 \newpage
 \section{Discussion}
-\textcolor{red}{Results dependant on the seeds. The proposed method requires less seed therefore less user interaction. There are less only two tuning paramaters. Results have a lot of speckle. Can be removed throught morphological erosion or connected components. The proposed weighting system is highly robust against multi-modal object distributions.}
+\label{sec:interactivediscussion}
+
+%\textcolor{red}{Results dependant on the seeds. The proposed method requires less seed therefore less user interaction. There are less only two tuning paramaters. Results have a lot of speckle. Can be removed throught morphological erosion or connected components. The proposed weighting system is highly robust against multi-modal object distributions.}
+
+We have experiment, very thoroughly, with the two of the most common graph weighting systems and have derived optimal parameters settings for each system which work very well on general fluorescence images. The worst performing of these was the weighting system proposed by Boykov and Jolly which still showed a very high average of 84.6089\% classification accuracy being outperformed by the weighting system proposed by Eriksson \textit{et al.} by 2.39\%. However, these two system fall staggeringly short of the proposed scheme which showed an average classification accuracy at 94.5778\%, a 7.5789\% increase in comparison to weighting system propsed by Eriksson \textit{et al.}
+
+
+
+
+
+
+
