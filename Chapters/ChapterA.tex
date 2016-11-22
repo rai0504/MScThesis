@@ -54,7 +54,7 @@ We focus specifically on incorporating fluorescent image properties into graph c
 This is done by tailoring the energy function, which is to be minimised, to suit the need given the properties of the data.
 Graph cuts is an extremely powerful and general mathematical tool. 
 It has also been used in 3D reconstruction, image restoration, image stitching, etc. 
-All that is required, is that the problem be characterised discretely and that the resulting function meet the sub-modularity constraint (for global minimisation).
+All that is required, is that the problem be characterised discretely and that the resulting function meet the submodularity constraint, for global minimisation.
 
 
 %----------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ This thesis is a collection of the main contributions listed below.
 	
 	\item
 	\textbf{Novel cell intensity enhancement function based on Bezier curves \citep{Ryan2016}.}
-	Fluorescence imaging is low light, low contrast technique. This poses a major problem for accurate object segmentation. However, there are strong characteristic features that allow for the object data to be enhanced and simultaneously suppress data that is likely to belong to the object. This is a sub-process in the pre-processing scheme designed for fluorescent image enhancement.
+	Fluorescence imaging is low light, low contrast technique. This poses a major problem for accurate object segmentation. However, there are strong characteristic features that allow for the object data to be enhanced and simultaneously suppress data that isn't likely to belong to the object. This is a sub-process in the pre-processing scheme designed for fluorescent image enhancement.
 	
 	\item 
 	\textbf{Novel parameter relations and modified graph weighting for graph cut active contours without edges segmentation.}
@@ -124,6 +124,6 @@ In \Cref{chap:Chapter3} we introduce the graph cut technique and its application
 \Cref{chap:Chapter4,chap:Chapter5,chap:Chapter6} cover the contributions and work undertaken.
 In \Cref{chap:Chapter4} we present the novel pre-processing scheme and data enhancement function.
 In \Cref{chap:Chapter5} we present the modified graph weighting and parameter estimation method for ACWE graph cut segmentation.
-In \Cref{chap:Chapter6} we present the fluorescence image specific optimal parameters derived for the energy functions by Boykov and Jolly, and Eriksson \textit{et al.}. We also present the novel energy function, derive the optimal parameters for fluorescence image segmentation and compare it to the previous energy functions.
+In \Cref{chap:Chapter6} we present the fluorescence image specific optimal parameters derived for the energy functions by Boykov and Jolly, and Eriksson \textit{et al}. We also present the novel energy function, derive the optimal parameters for fluorescence image segmentation and compare it to the previous energy functions.
 
-In \Cref{chap:Chapter7} we summarise our contributions and point out possible future work.
+In \Cref{chap:Chapter7} we summarise our contributions and point out limitation and possible directions for future work and extensions.

@@ -160,11 +160,11 @@ In this section we introduce a novel idea to weighting  a graph for image segmen
 		\includegraphics[width=0.3\columnwidth]{default_cv/6gray.jpg}
 		\label{fig:6graydefaultcv}
 	}
-	\caption{CAPTION MISSING HERE.}
+	\caption{Segmentation results on fluorescence images using the default parameters settings provides by El-Zehiry \textit{et al.}}
 	\label{fig:samplesetdefaultcv}
 \end{figure}
 
-In \citep{Maska2013}, the authors propsed a segmentation and tracking scheme for whole fluorescent cells in a timelapse series. The result was another set of hard-coded parameters which were based on maximising the Jacard coefficient of the automatically segmented cells in each frame of the timelapse series which was also manually segmented. The optimal parameter settings were $\mu=0.01$, $\lambda_1=1$ and $\lambda_2 = 85$. These parameters were used on the sample set in \Cref{fig:sampleset} and the results proved to be less useful as shown in \Cref{fig:samplesetcelltrack}. It can be deduced that the parameters were specifically tuned to the image type that was studied.
+In \citep{Maska2013}, the authors propsed a segmentation and tracking scheme for whole fluorescent cells in a timelapse series. The result was another set of hard-coded parameters which were based on maximising the Jacard coefficient of the automatically segmented cells in each frame of the timelapse series which was also manually segmented. The optimal parameter settings were $\mu=0.01$, $\lambda_1=1$ and $\lambda_2 = 85$. These parameters were used on the sample set in \Cref{fig:sampleset} and the results proved to be less useful as shown in \Cref{fig:samplesetcelltrack}. It can be deduced that the parameters were specifically tuned to the image type that was studied in the timelapse series.
 
 \begin{figure}[!t]
 	\centering
@@ -198,11 +198,11 @@ In \citep{Maska2013}, the authors propsed a segmentation and tracking scheme for
 		\includegraphics[width=0.3\columnwidth]{cell_tracking/6gray.jpg}
 		\label{fig:6graycelltrack}
 	}
-	\caption{CAPTION MISSING HERE.}
+	\caption{Segmentation results on fluorescence images using the parameters settings provides by Maska \textit{et al.}}
 	\label{fig:samplesetcelltrack}
 \end{figure}
 
-It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In the next section, \Cref{sec:cvgc_weighting} we devise a novel weighting scheme, parameter estimation as well as a new way to think of the parameters involved, in terms of \textit{proxy parameters}. We then specifically focus on tuning these parameter for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
+It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In the following sections, \Cref{sec:cvgc_weighting,sec:cvgc_analysis}, we devise a novel weighting scheme, parameter estimation as well as a new way to think of the parameters involved, in terms of \textit{proxy parameters}. We then specifically focus on tuning these parameter for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
 
 \subsection{Graph Weighting}
 \label{sec:cvgc_weighting}

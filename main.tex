@@ -82,6 +82,12 @@ headsepline, % Uncomment to get a line under the header
 
 %\usepackage{gensymb}
 
+%\usepackage[T3,OT2,T1]{fontenc}
+\usepackage[safe]{tipa}
+\usepackage{tipx}
+
+
+
 %\newtheorem{theorem}{Theorem}[section]
 %\newtheorem{lemma}[theorem]{Lemma}
 %\newtheorem{proposition}[theorem]{Proposition}
@@ -123,6 +129,11 @@ headsepline, % Uncomment to get a line under the header
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max} 
+
+% make single figures on a new page be place at the top
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
@@ -288,11 +299,11 @@ The methods and techniques presented herein will greatly improve the results and
 \begin{acknowledgements}
 \addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
 
-The acknowledgments and the people to thank go here, don't forget to include your project advisor\ldots
-\\
-God\\
-Super\\
-Family esp. Paps + Sian for editing\\
+I am filled with gratitude and thanksgiving to my God Jesus Christ for his favour upon my life. This thesis would be a blank book if it wasn't for His grace throughout the duration of my research from the research topic to the people He placed around me to get this done.
+ 
+I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard, my supervisor Professor Jules-Raymond Tampamo, PhD. Of all his noteworthy characteristics from guidance to the caliber of work he requires, it was his patience with me for three and half years for which I am thankful.
+
+Finally, the immense support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, the first time, Sian searched her pencil case for the deepest bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
 
 \end{acknowledgements}
 
@@ -455,7 +466,7 @@ Family esp. Paps + Sian for editing\\
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-\dedicatory{For/Dedicated to/To my\ldots} 
+\dedicatory{To God be the glory} 
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS

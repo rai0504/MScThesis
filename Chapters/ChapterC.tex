@@ -86,8 +86,6 @@ In this section we introduce a novel weighting system that is based on the gener
 		\end{cases}
 	\end{equation}
 	This function is plotted in \Cref{fig:proposedinteractiveS}. 
-	
-	\textcolor{red}{Ensure that it obeys the submodularity constraint.}
 		
 	\begin{figure}[!h]
 		\centering
@@ -96,7 +94,6 @@ In this section we introduce a novel weighting system that is based on the gener
 		\label{fig:proposedinteractiveS}
 	\end{figure}
 \end{definition}
-
 
 \begin{definition}[Background weighting function] 
 	Similarly, the background weighting function is derived in the same way as the object weighting function. Let the maximum value of the intensity distribution be $k_{max} = P_{BG}$. Now $P_{BG}^{1} = \frac{P_{BG}}{k_{max}}$.
@@ -129,6 +126,7 @@ In this section we introduce a novel weighting system that is based on the gener
 	To enable the seeds marked by the user as hard constraints, we use the same technique in \citep{Boykov2001_2}. Background and object seeds are weighted using \Cref{eq:hardconstraintweight}.
 \end{definition}
 
+The modified energy function is still submodular, therefore its global optimum can be found using graph cuts.
 
 
 %----------------------------------------------------------------------------------------
