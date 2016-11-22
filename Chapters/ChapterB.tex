@@ -153,8 +153,10 @@ The image segmentation problem is now in the form of an inference problem where 
 where $\mathcal{Y}$ denotes the set of all possible labellings. $\mathbf{Y}$ is said to be a \textit{Markov random field} (MRF) if:
 
 \begin{align}
-	&\Pr(\mathbf{Y}=y) > 0&  &\forall y \in \mathbf{Y},& &(Positivity),&\\
+	&\Pr(\mathbf{Y}=y) > 0&  &\forall y \in \mathbf{Y},& &(Positivity),&
+	\label{eq:markovpositivity}	\\
 	&\Pr(Y_p=y_p | x_{\mathcal{P}\setminus \{p\}}) = \Pr(Y_p=y_p | y_{\mathcal{N}_p})&  &\forall p \in \mathcal{P},& &(Markovianity),&
+	\label{eq:markovmarkovianity}
 \end{align}
 
 The positivity property constrains all configurations to have non-zero probability and is needed to ensure that the joint probability can be uniquely determined by the local conditional probabilities \citep{Smith1997}.

@@ -4,7 +4,9 @@
 
 \label{chap:Chapter5} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\textcolor{red}{[Introduction] What is special about the Chan-Vese formulation to the Mumford-Shah evolution energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
+%\textcolor{red}{[Introduction] What is special about the Chan-Vese formulation to the Mumford-Shah evolution energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
+
+The Mumford-Shah functional \citep{Mumford1989} is used to find optimal sub-regions of an image. The image is modelled to as a piecewise-smooth function. This functional is diffult to optimise and is usually done by optimising an approximation. Chan and Vese, in \citep{Chan2001}, optimises an approximation of the Mumford-Shah functional by using variational level sets. Hence, the curves are not explicitely manipulated. Instead, they are implicitely manipulated by evolving the level set function. This was found to be highly robust and accurate in practice, even when algorithms terminated at near optimums. In the following section we cover how this functional can be adapted for graph cut optimisation, for global optimisation. We then tweak the energy function for easier mathematical analysis and tune the parameter specifically for fluorescence image segmentation in \Cref{sec:cvgc_weightingandparameterestimation}. We present the results of our proposed energy function and parameter estimation method against other published parameter settings in \Cref{sec:cvgc_experimentalresults}. A discussion follows in \Cref{sec:cvgc_discussion}.
 
 
 \section{Graph Cut Model for Chan-Vese Segmentation}
@@ -258,7 +260,7 @@ To better understand the relationship between $\lambda_0$ and $\lambda_1$ and it
 	\lambda_0 = \alpha\lambda_1.
 	\label{eq:l0l1dependancy}
 \end{equation}
-Forcing this relation between $\lambda_0$ and $\lambda_1$ makes further analysis simpler and more intuitive. We can immediately see a constraint on $\alpha$. Since, we require data connections to be positive, i.e. $E^i(0), E^i(1) \geq 0$ (SEE SECTION??), this gives us a lowerbound on $\alpha$ for positive concavity of the energy functions
+Forcing this relation between $\lambda_0$ and $\lambda_1$ makes further analysis simpler and more intuitive. We can immediately see a constraint on $\alpha$. Since, we require data connections to be positive, i.e. $E^i(0), E^i(1) \geq 0$ , see \Cref{eq:markovpositivity}, this gives us a lowerbound on $\alpha$ for positive concavity of the energy functions
 \begin{equation}
 	\alpha > 0 \,\text{ lowerbound on } \alpha
 \end{equation}
@@ -3015,8 +3017,8 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \hhline{---------~~-}	18-k	&	0.03498	&	0.20029	&	0.06053	&	0.10322	&	29.9509	&	52.5219 	&	0.01479	&	0.16009	&		&		&	0.00944	\\
 \hhline{---------~~-}	18-e	&	0.03336	&	0.19711	&	0.05866	&	0.10095	&	29.9509	&	53.5287 	&	0.01364	&	0.15719	&		&		&	0.00539	\\
 \hhline{---------~~-}	18-d	&	0.01379	&	0.14367	&	0.03386	&	0.06740	&	29.9509	&	85.0788 	&	0.01438	&	0.16005	&		&		&	0.00900	\\
-\hhline{------------}	19-n	&	0.00892	&	0.02787	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.01849	&	0.04199	& 	& 	&	0.01771	\\
-\hhline{---------~~-}	19-m	&	0.00892	&	0.02787	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.00784	&	0.02717	&	0.01094	&	0.05214	&	0.02187	\\
+\hhline{------------}	19-n	&	0.00892	&	0.02787	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.01849	&	0.04199	&  \multirow{6}{*}{0.01094}	& \multirow{6}{*}{0.05214} &	0.01771	\\
+\hhline{---------~~-}	19-m	&	0.00892	&	0.02787	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.00784	&	0.02717	&		&		&	0.02187	\\
 \hhline{---------~~-}	19-o	&	0.01731	&	0.28587	&	0.05881	&	0.12816	&	29.9509	&	19.9019 	&	0.01611	&	0.18929	&		&		&	0.14232	\\
 \hhline{---------~~-}	19-k	&	0.01731	&	0.28587	&	0.05881	&	0.12816	&	29.9509	&	19.9019 	&	0.01611	&	0.18929	&		&		&	0.14232	\\
 \hhline{---------~~-}	19-e	&	0.01568	&	0.16181	&	0.03826	&	0.07599	&	29.9509	&	67.2144 	&	0.01563	&	0.15783	&		&		&	0.11039	\\
@@ -3249,7 +3251,8 @@ Accuracy is the fraction of the pixels that are correctly classified from among 
 	\hline 
 \end{longtabu} 
 
-From the marked-up rows, we can clearly see that the propsed method supercedes the competor methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision bu a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see the the performance of the competitor parameter settings are very erratic. The proposed method is much more stable which is verified by the standard deviation of the accuracy shown in \Cref{tab:overallsegmentationefficiency}.
+From the marked-up rows, we can clearly see that the propsed method supercedes the competor methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision but a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see the the performance of the competitor parameter settings are very erratic.
+%The proposed method is much more stable which is verified by the standard deviation of the accuracy shown in \Cref{tab:overallsegmentationefficiency}.
 
 \begin{longtable}{|c|c|c|c|c|c|c|}
 	\caption{Overall Segmentation Efficiency.} \label{tab:overallsegmentationefficiency}\\
@@ -3282,5 +3285,8 @@ From the marked-up rows, we can clearly see that the propsed method supercedes t
 
 \section{Discussion}
 \label{sec:cvgc_discussion}
-\textcolor{red}{Discuss the proposed method against the competing methods here.}
+%\textcolor{red}{Discuss the proposed method against the competing methods here.}
+
+The general parameter settings by El-Zehiry \textit{et al.} clearly outperform the fluorescence imaging specific parameter settings presented by Masaka \textit{et al.} by 25.8363\%. However, even the least accurate proposed parameter estimation technique outperforms El-Zehiry's parameter settings by 10.5925\% while the most accurate proposed method boasts an increase of 12.9597\%. The proposed method is also much more stable over a greater variety of fluorescence images, as can be seen by the standard deviation of accuracy shown in \Cref{tab:overallsegmentationefficiency}.
+
 
