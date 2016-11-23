@@ -154,7 +154,7 @@ headsepline, % Uncomment to get a line under the header
 %----------------------------------------------------------------------------------------
 
 \thesistitle{A Fluorescent Image Segmentation Model Based on Improved Discrete Active Contours} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
-\supervisor{Dr. Jules-Raymond \textsc{Tapamo}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\supervisor{Prof. Jules-Raymond \textsc{Tapamo}, PhD.} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Master of Science in Engineering} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
 \author{Ryan \textsc{Naidoo}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
@@ -224,7 +224,7 @@ headsepline, % Uncomment to get a line under the header
 \end{flushright}
 \end{minipage}\\[3cm]
  
-\large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+\large \textit{A thesis submitted in partial fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{in the}\\[0.4cm]
 \groupname\\\deptname\\[2cm] % Research group name and department name
  
@@ -247,8 +247,8 @@ headsepline, % Uncomment to get a line under the header
 \begin{itemize} 
 \item This work was done wholly or mainly while in candidature for a research degree at this University.
 \item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this is always clearly attributed.
-\item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
+\item Where I have consulted the published work of others, this has been clearly attributed.
+\item Where I have quoted from the work of others, the source has been given. With the exception of such quotations, this thesis is entirely my own work.
 \item I have acknowledged all main sources of help.
 \item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
 \end{itemize}
@@ -283,13 +283,15 @@ headsepline, % Uncomment to get a line under the header
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
 
-For multiple fields, from biosciences and pharmaceutical drug development to semiconductor and geology research and beyond, fluorescence microscopy has been established as an essential tool which allows for the visualisation of the diminutive organisms and objects that escape visibility with the naked eye. The consequent insight into this world has allowed us to view the world from an indispensably unique perspective which has since played in vital role in enriching the livelihood of mankind.
+For multiple fields, from biosciences and pharmaceutical drug development to semiconductor and geology research and beyond, fluorescence microscopy has been established as an essential tool which allows for the visualisation of diminutive organisms and objects that escape visibility with the naked eye. The consequent insight into this world has given us a view from an indispensably unique perspective which has since played in vital role in enriching the livelihood of mankind.
 
-Fluorescence microscopy isn’t the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and use this information to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
+Fluorescence microscopy is not the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and to leverage this knowledge to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
 
-We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image acquisition stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme such by defining a weighting process and parameter relations. We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for segmentation on the image of interest specifically. We compare this scheme with other well-known parameter estimation schemes and parameter settings. We also determine the optimal parameter setting for two energy and compare them to the novel energy function for fluorescent image segmentation.
+We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image acquisition stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme by defining a weighting process and explicit parameter relations.
+We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for the proposed segmentation method, specific to the image of interest.
+We compare this scheme with other well-known parameter estimation schemes and parameter settings. We also determine the optimal parameter setting for two energy and compare them to the novel energy function for fluorescent image segmentation.
 
-The results exhibit a significant boost in segmentation correctness and consistency. It is also supersedes previous schemes in terms of being applicable over a wider range of images. It also boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
+The results of the proposed methods exhibit a significant boost in segmentation correctness and consistency. It also supersedes previous schemes in terms of being applicable over a wider range of images. It also boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
 
 The methods and techniques presented herein will greatly improve the results and stability of higher level decision making as well as removing the need to manually fine-tune segmentation results.
 \end{abstract}
@@ -303,9 +305,9 @@ The methods and techniques presented herein will greatly improve the results and
 
 I am filled with gratitude and thanksgiving to my God Jesus Christ for his favour upon my life. This thesis would be a blank book if it wasn't for His grace throughout the duration of my research from the research topic to the people He placed around me to get this done.
  
-I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard, my supervisor Professor Jules-Raymond Tampamo, PhD. Of all his noteworthy characteristics from guidance to the caliber of work he requires, it was his patience with me for three and half years for which I am thankful.
+I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard, my supervisor Professor Jules-Raymond Tapamo, PhD. Of all his noteworthy characteristics from guidance to the calibre of work he requires, it was his patience with me for three and half years for which I am thankful.
 
-Finally, the immense support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, the first time, Sian searched her pencil case for the deepest bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
+Finally, the unwavering support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, the first time, Sian searched her pencil case for the deepest bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
 
 \end{acknowledgements}
 
@@ -330,7 +332,7 @@ Finally, the immense support I had from my family leaves me at a loss for words.
 % A
 \textbf{ACWE} & \textbf{A}ctive \textbf{C}ontours \textbf{W}ithout \textbf{E}dges\\
 \textbf{AOD} & \textbf{A}verage \textbf{O}ptical \textbf{D}ensity\\
-\textbf{AIDS} & \textbf{A}cquired \textbf{I}mmune \textbf{D}efiency \textbf{S}yndrome\\
+\textbf{AIDS} & \textbf{A}cquired \textbf{I}mmune \textbf{D}eficiency \textbf{S}yndrome\\
 \textbf{ARV} & \textbf{A}nti\textbf{r}etro\textbf{v}iral\\
 
 % B
@@ -342,7 +344,7 @@ Finally, the immense support I had from my family leaves me at a loss for words.
 \textbf{CCD} & \textbf{C}harge-\textbf{C}oupled \textbf{D}evice\\
 \textbf{CED} & \textbf{C}oherence \textbf{E}nhancing \textbf{D}iffusion\\
 \textbf{CLSM} & \textbf{C}onfocal \textbf{L}aser \textbf{S}canning \textbf{M}icroscopy\\
-\textbf{CML} & \textbf{C}hronic textbf{M}yelogenous \textbf{L}eukemia\\
+\textbf{CML} & \textbf{C}hronic \textbf{M}yelogenous \textbf{L}eukaemia\\
 \textbf{CRF} & \textbf{C}onditional \textbf{R}andom \textbf{F}ield\\
 
 % D
@@ -357,20 +359,20 @@ Finally, the immense support I had from my family leaves me at a loss for words.
 \textbf{EM} & \textbf{E}xpectation \textbf{M}aximisation\\
 
 % F
-\textbf{FCS} & \textbf{F}luorenscence \textbf{C}orrelation \textbf{S}pectroscopy\\
-\textbf{FDA} & \textbf{F}ood and \textbf{Drug} \textbf{A}dministration\\
+\textbf{FCS} & \textbf{F}luorescence \textbf{C}orrelation \textbf{S}pectroscopy\\
+\textbf{FDA} & \textbf{F}ood and \textbf{D}rug \textbf{A}dministration\\
 \textbf{FIFO} & \textbf{F}irst-\textbf{I}n \textbf{F}irst-\textbf{O}ut\\
-\textbf{FISH} & \textbf{F}luorenscence \textbf{i}n-\textbf{s}itu \textbf{H}ybridisation\\
-\textbf{FLIM} & \textbf{F}luorenscence \textbf{L}ifetime \textbf{I}maging \textbf{M}icroscopy\\
-\textbf{FRAP} & \textbf{F}luorenscence \textbf{R}ecovery \textbf{A}fter \textbf{P}hotobleaching\\
-\textbf{FRET} & \textbf{F}luorenscence \textbf{R}esonance \textbf{E}nergy \textbf{T}ransfer\\
+\textbf{FISH} & \textbf{F}luorescence \textbf{i}n-\textbf{s}itu \textbf{H}ybridisation\\
+\textbf{FLIM} & \textbf{F}luorescence \textbf{L}ifetime \textbf{I}maging \textbf{M}icroscopy\\
+\textbf{FRAP} & \textbf{F}luorescence \textbf{R}ecovery \textbf{A}fter \textbf{P}hotobleaching\\
+\textbf{FRET} & \textbf{F}luorescence \textbf{R}esonance \textbf{E}nergy \textbf{T}ransfer\\
 
 % G
 \textbf{GA} & \textbf{G}enetic \textbf{A}lgorithm \\
 \textbf{GCBLS} & \textbf{G}raph \textbf{C}ut \textbf{B}ased \textbf{L}evel \textbf{S}et\\
 \textbf{GFP} & \textbf{G}reen \textbf{F}luorescent \textbf{P}rotein\\
 \textbf{GLCM} & \textbf{G}ray \textbf{L}evel \textbf{C}o-occurrence \textbf{M}atrix\\
-\textbf{GMM} & \textbf{G}uassian \textbf{M}ixture \textbf{M}odelling\\
+\textbf{GMM} & \textbf{G}aussian \textbf{M}ixture \textbf{M}odelling\\
 \textbf{GRF} & \textbf{G}ibbs \textbf{R}andom \textbf{F}ield\\
 
 % H
