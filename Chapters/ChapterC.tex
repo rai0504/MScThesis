@@ -6,7 +6,7 @@
 
 %\textcolor{red}{[Introduction] What is interactive segmentation and the associated energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
 
-In the previous section we worked with an automatic segmentation technique. As motivated in the introduction, it is ideal to remove as much manual input as possible, however, automatic segmentation isn't a silver bullet solution and at times it is necessary for the user to get involved. The goal of reducing user interaction still remains. In this section we design a novel energy function specifically for the images acquired in fluorescence microscopy for interactive segmentation.
+In the previous section, we worked with an automatic segmentation technique. As motivated in the introduction, it is ideal to remove as much manual input as possible, however, automatic segmentation isn't a silver bullet solution and at times it is necessary for the user to get involved. The goal of reducing user interaction still remains. In this section, we design a novel energy function specifically for the images acquired in fluorescence microscopy for interactive segmentation.
 
 In \Cref{sec:interactivepopularweighting} we cover two very popular and widely used graph weighting schemes for general graph cut purposes. We then focus on the proposed weighting system in \Cref{sec:interactiveproposedweighting}. We determine the optimal parameters for all weighting schemes in \Cref{sec:optimalparameters} and present the results in \Cref{sec:interactiveresults}. We end this chapter with a discussion in \Cref{sec:interactivediscussion}.
 
@@ -18,9 +18,9 @@ In \Cref{sec:interactivepopularweighting} we cover two very popular and widely u
 \label{sec:interactivepopularweighting}
 
 %\textcolor{red}{We compare the weighting schemes by Boykov and Jolly in \citep{Boykov2001_2} and Eriksson \textit{et al.} in \citep{Eriksson2006}.}
-In this section we briefly cover the two weighting systems that are very popular for interactive graph cut segmentation.
+In this section, we briefly cover the two weighting systems that are very popular for interactive graph cut segmentation.
 
-\begin{definition}[Seeding only] In \citep{Eriksson2006}, Eriksson \textit{et al.} presented a weighting system that incorporates prior knownledge into the image partitioning process. The prior knowledge is given by the user by marking image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). From the histogram of the labelled regions, the intensity distribution is modelled as a Gaussian mixture model (GMM) which is fitted through Expectation Maximisation (EM). The terminal links are weighted as
+\begin{definition}[Seeding only] In \citep{Eriksson2006}, Eriksson \textit{et al.} presented a weighting system that incorporates prior knowledge into the image partitioning process. The prior knowledge is given by the user by marking image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). From the histogram of the labelled regions, the intensity distribution is modelled as a Gaussian mixture model (GMM) which is fitted through Expectation Maximisation (EM). The terminal links are weighted as
 	
 \begin{align}
 	D_p("obj") &= \frac{\Pr(I_p|\mathcal{O})}{\Pr(I_p|\mathcal{O})+\Pr(I_p|\mathcal{B})}, \\
@@ -33,25 +33,25 @@ The neighbourhood interaction function they used was
 	V_{\{p,q\}} = \exp\left( \frac{r(p,q)}{\sigma_R} \right)\exp\left( -\frac{(I_p-I_q)^2}{\sigma_W} \right),
 \end{equation}
 	
-where $r(\cdot)$ is the distance between pixels $p$ and $q$. Eriksson \textit{et al.} did not explicitely state the number of Guassian functions they've used in their intensity distribution model, therefore we've defaulted to using two curves.
+where $r(\cdot)$ is the distance between pixels $p$ and $q$. Eriksson \textit{et al.} did not explicitly state the number of Gaussian functions they've used in their intensity distribution model, therefore we've defaulted to using two curves.
 	
 \end{definition}
 
 \begin{definition}[Seeding with hard constraints]
-	In \citep{Boykov2001_2}, Boykov and Jolly proposed a general purpose interactive segmentation scheme for multi-dimensional images. As in the previous scheme, the user marks image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). An intensity distributions based on the histrogram from the seeded regions are calculated for each labelled region. Data weights for unseeded nodes are weighted as the negative log-likelihood from the intensity distribution. For the pixel $p$, the terminal weighting is
+	In \citep{Boykov2001_2}, Boykov and Jolly proposed a general purpose interactive segmentation scheme for multi-dimensional images. As in the previous scheme, the user marks image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). An intensity distributions based on the histogram from the seeded regions are calculated for each labelled region. Data weights for unseeded nodes are weighted as the negative log-likelihood from the intensity distribution. For the pixel $p$, the terminal weighting is
 
 \begin{align}
 	D_p("obj") &= -\ln\Pr(I_p|\mathcal{O}), \\
 	D_p("bkg") &= -\ln\Pr(I_p|\mathcal{B}).
 \end{align}
 
-Boykov and Jolly did not explicitely state how the intensity distribution is to be derived from the histogram. Therefore, we've used a Gaussian mixture model (GMM) of two Guassian curves which approximates the histogram. The neighbourhood interaction function they've propsed is
+Boykov and Jolly did not explicitly state how the intensity distribution is to be derived from the histogram. Therefore, we've used a Guassian mixture model (GMM) of two Guassian curves which approximates the histogram. The neighbourhood interaction function they've proposed is
 
 \begin{equation}
 	V_{\{p,q\}} = \exp\left( -\frac{(I_p-I_q)^2}{2 \sigma^2}\right)\cdot\frac{1}{r(p,q)},
 \end{equation}
 
-where $r(\cdot)$ is the distance between pixels $p$ and $q$. The distance function they used wasn't explicitely stated. Therefore, we've used the Euclidean norm.
+where $r(\cdot)$ is the distance between pixels $p$ and $q$. The distance function they used wasn't explicitly stated. Therefore, we've used the Euclidean norm.
 
 For the marked pixels, in addition to serving as seeds, they're also hard constraints. To ensure that they retain the label that they're marked with, they're given a terminal link weight that cannot be saturated by the neighbourhood nodes. This unsaturable weight is calculated as
 
@@ -60,7 +60,7 @@ For the marked pixels, in addition to serving as seeds, they're also hard constr
 	\label{eq:hardconstraintweight}
 \end{equation}
 
-Then the object maked node $p$ is data weighted as $c(S,p)=K$ and $c(p,T)=0$, and background marked node $p$ is data weighted as $c(S,p)=0$ and $c(p,T)=K$, where $c(\cdot)$ is the capacity of an edge.
+Then the object-marked node $p$ is data weighted as $c(S,p)=K$ and $c(p,T)=0$, and background-marked node $p$ is data weighted as $c(S,p)=0$ and $c(p,T)=K$, where $c(\cdot)$ is the capacity of an edge.
 \end{definition}
 
 %----------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ Then the object maked node $p$ is data weighted as $c(S,p)=K$ and $c(p,T)=0$, an
 \section{Proposed Weighting}
 \label{sec:interactiveproposedweighting}
 
-In this section we introduce a novel weighting system that is based on the general properties of black background fluorescence images.
+In this section, we introduce a novel weighting system that is based on the general properties of black background fluorescence images.
 
 \begin{definition}[Object weighting function]
 	We first normalise the intensity distribution. Let the maximum value of the intensity distribution be $k_{max}= max(P_{FG})$. Now $P_{FG}^{1} = \frac{P_{FG}}{k_{max}}$.
@@ -107,7 +107,7 @@ In this section we introduce a novel weighting system that is based on the gener
 	P_{BG}^2(x) = \frac{B-1}{(\iota_{BG})^2}(x-\iota_{BG})^2 +1 
 	\end{equation}
 	where $x \in [0,\iota_{BG}]$.
-	The final background weighitng function is
+	The final background weighting function is
 	\begin{equation}
 	D_p("bkg") = \begin{cases} 
 	P_{BG}^2(x) & x \in [0,\iota_{BG}) \\
@@ -128,7 +128,7 @@ In this section we introduce a novel weighting system that is based on the gener
 	To enable the seeds marked by the user as hard constraints, we use the same technique in \citep{Boykov2001_2}. Background and object seeds are weighted using \Cref{eq:hardconstraintweight}.
 \end{definition}
 
-The motivation for replacing part of the function with a parabolic function is to reduce the exponential decay of probabilty. The probabilty of pixels beyond the highest point, for object data, do not decay so quickly. Similarly for the decay rate of pixels below the highest point for background data. The modified energy function is still submodular, therefore its global optimum can be found using graph cuts.
+The motivation for replacing part of the function with a parabolic function is to reduce the exponential decay of probability. The probability of pixels beyond the highest point, for object data, do not decay so quickly. Similarly, for the decay rate of pixels below the highest point for background data. The modified energy function is still submodular, therefore its global optimum can be found using graph cuts.
 
 
 %----------------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ The segmentation results with the optimal parameters for each weighting system i
 		\label{fig:proposedhcinteractive}
 	}
 
-	\caption{Plots of mean segmentation accuracy against the corresponding method tuning parameters.\textbf{(a)} Weighting system proposed by Eriksson \textit{et al.} The remaining parameter is set to $\sigma_R=1$. \textbf{(b)} Weighting system with hard constraints proposed by Boykov \textit{et al.} \textbf{(c)} Proposed weighting system without hard constraints. \textbf{(d)} Proposed weighting system with hard constraints.}
+	\caption{Plots of mean segmentation accuracy against the corresponding method tuning parameters. \textbf{(a)} Weighting system proposed by Eriksson \textit{et al.} The remaining parameter is set to $\sigma_R=1$. \textbf{(b)} Weighting system with hard constraints proposed by Boykov \textit{et al.} \textbf{(c)} Proposed weighting system without hard constraints. \textbf{(d)} Proposed weighting system with hard constraints.}
 	\label{fig:interactiveweightingcomparison}
 \end{figure}
 
@@ -396,9 +396,9 @@ The segmentation results with the optimal parameters for each weighting system i
 \section{Experimental Results}
 \label{sec:interactiveresults}
 
-We compared the segmentation results for optimal parameters found in \Cref{sec:optimalparameters}. We used a common seed for all images which is shown in \Cref{fig:188seed,fig:195seed,fig:228seed,fig:1057seed,fig:1265seed,fig:10093seed,fig:10102seed,fig:10104seed,fig:12294seed,fig:12627seed,fig:13432seed,fig:13438seed,fig:13899seed,fig:13901seed,fig:21749seed,fig:21759seed,fig:32140seed,fig:35278seed,fig:37338seed,fig:37339seed,fig:38974seed,fig:40217seed,fig:40968seed,fig:41066seed,fig:42451seed}. From the seeds we calculated a probability distribution based on EMGMM for $k=2$, each for the background and the object seeds.
+We compared the segmentation results for optimal parameters found in \Cref{sec:optimalparameters}. We used a common seed for all images which is shown in \Cref{fig:188seed,fig:195seed,fig:228seed,fig:1057seed,fig:1265seed,fig:10093seed,fig:10102seed,fig:10104seed,fig:12294seed,fig:12627seed,fig:13432seed,fig:13438seed,fig:13899seed,fig:13901seed,fig:21749seed,fig:21759seed,fig:32140seed,fig:35278seed,fig:37338seed,fig:37339seed,fig:38974seed,fig:40217seed,fig:40968seed,fig:41066seed,fig:42451seed}. From the seeds, we calculated a probability distribution based on EMGMM for $k=2$, each for the background and the object seeds.
 
-The segmentation results where compared using the same method as in \Cref{sec:cvgc_experimentalresults}. That is, we've compiled a label for label comparison on the segmentation mask and the ground truth. The parameter settings with the corresponding segmentation results are shown in \Cref{tab:interactiveresults} including the efficiency measures \textit{precision}, \textit{recall}, \textit{accuracy} and \textit{Matthews Correlation Coefficient (MCC)}. The overview results are shown in \Cref{tab:overallinteractivesegmentationefficiency}. For each image we've highlighted the method which performs the best in blue and the worst in red.
+The segmentation results where compared using the same method as in \Cref{sec:cvgc_experimentalresults}. That is, we have compiled a label for label comparison on the segmentation mask and the ground truth. The parameter settings with the corresponding segmentation results are shown in \Cref{tab:interactiveresults} including the efficiency measures \textit{precision}, \textit{recall}, \textit{accuracy} and \textit{Matthews Correlation Coefficient (MCC)}. The overview results are shown in \Cref{tab:overallinteractivesegmentationefficiency}. For each image, we have highlighted the method which performs the best in blue and the worst in red.
 
 We differentiate between methods on the same image as follows:
 
@@ -409,7 +409,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 	\item [\textbf{e}] - using the optimal parameter setting for the weighting described by Eriksson \textit{et al.}
 	\item [\textbf{b}] - using the optimal parameter setting for the weighting described by Boykov \textit{et al.}
 	\item [\textbf{r}] - Proposed method with optimal parameters found on the sample set.
-	\item [\textbf{rh}] - Proposed method with hard costraints for optimal parameters found on the sample set.
+	\item [\textbf{rh}] - Proposed method with hard constraints for optimal parameters found on the sample set.
 \end{enumerate}
 
 %\clearpage
@@ -417,7 +417,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 188
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 1 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/188seg}
 		\label{fig:188seed}
@@ -450,7 +450,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 195
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 2 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/195seg}
 		\label{fig:195seed}
@@ -483,7 +483,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 228
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 3 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/228seg}
 		\label{fig:228seed}
@@ -516,7 +516,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 1057
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 4 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/1057seg}
 		\label{fig:1057seed}
@@ -549,7 +549,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 1265
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 5 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/1265seg}
 		\label{fig:1265seed}
@@ -582,7 +582,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 10093
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 6 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/10093seg}
 		\label{fig:10093seed}
@@ -615,7 +615,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 10102
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 7 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/10102seg}
 		\label{fig:10102seed}
@@ -648,7 +648,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 10104
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 8 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/10104seg}
 		\label{fig:10104seed}
@@ -681,7 +681,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 12294
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 9 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/12294seg}
 		\label{fig:12294seed}
@@ -714,7 +714,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 12627
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 10 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/12627seg}
 		\label{fig:12627seed}
@@ -747,7 +747,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 13432
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 11 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/13432seg}
 		\label{fig:13432seed}
@@ -780,7 +780,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 13438
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 12 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/13438seg}
 		\label{fig:13438seed}
@@ -813,7 +813,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 13899
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 13 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/13899seg}
 		\label{fig:13899seed}
@@ -846,7 +846,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 13901
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 14 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/13901seg}
 		\label{fig:13901seed}
@@ -879,7 +879,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 21749
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 15 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/21749seg}
 		\label{fig:21749seed}
@@ -912,7 +912,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 21759
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 16 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/21759seg}
 		\label{fig:21759seed}
@@ -945,7 +945,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 32140
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 17 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/32140seg}
 		\label{fig:32140seed}
@@ -978,7 +978,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 35278
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 18 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/35278seg}
 		\label{fig:35278seed}
@@ -1011,7 +1011,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 37338
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 19 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/37338seg}
 		\label{fig:37338seed}
@@ -1044,7 +1044,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 37339
 \begin{figure}[!h]
 \centering
-\subfigure[Seeds.]
+\subfigure[Image 20 with seeds.]
 {
 	\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/37339seg}
 	\label{fig:37339seed}
@@ -1077,7 +1077,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 38974
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 21 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/38974seg}
 		\label{fig:38974seed}
@@ -1110,7 +1110,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 40217
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 22 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/40217seg}
 		\label{fig:40217seed}
@@ -1143,7 +1143,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 40968
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 23 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/40968seg}
 		\label{fig:40968seed}
@@ -1176,7 +1176,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 41066
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 24 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/41066seg}
 		\label{fig:41066seed}
@@ -1209,7 +1209,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 % 42451
 \begin{figure}[!h]
 	\centering
-	\subfigure[Seeds.]
+	\subfigure[Image 25 with seeds.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testseeds/42451seg}
 		\label{fig:42451seed}
@@ -1241,7 +1241,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 
 \clearpage
 \begin{longtable}[!h]{|c|c|c|c|c|c|c|c|c|}
-	\caption{Interactive segmentation results.} \label{tab:interactiveresults}\\
+	\caption{Interactive Segmentation Results.} \label{tab:interactiveresults}\\
 	\hline	Image	&	TP	&	TN	&	FP	&	FN	&	Precision	&	Recall	&	Accuracy	&	MCC	\\
 	\hline \rowcolor{closest} 1-e	&	39901	&	24637	&	879	&	119	&	0.978445	&	0.997026	&	0.984772	&	0.968092	\\
 	\hline \rowcolor{bad}	1-b	&	40020	&	23280	&	2236	&	0	&	0.947084	&	1.000000	&	0.965881	&	0.929565	\\
@@ -1383,7 +1383,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 	\hline
 \end{longtable}
 
-From the accuracy and Matthews Correlation Coeffieient measures shown in \Cref{tab:interactiveresults}, it seems as if there is a close four-way "tug-o' war" between the methods. All methods seem to produce very good results over the test set. However, closer inspection reveals that the proposed method with hard constraints outperforms the least efficient weighting method by Boykov \textit{et al.} by 9.9689\% and the second least efficient weighting method by Eriksson \textit{et al.} by 7.5789\%. This is shown in \Cref{tab:overallinteractivesegmentationefficiency}. The graph of precision versus recall for all weighting methods is shown in \Cref{fig:interactiveprecisionvsrecall}. As can be seen, the proposed method is much more stable, producing high precision and recall consistently. The accuracy variation over the test set is shown in \Cref{fig:interactiveaccuracy}. This further shows the consistency and efficiency of the propsed weighting method with hard constraints over more general fluorescent images.
+From the accuracy and Matthews Correlation Coefficient measures shown in \Cref{tab:interactiveresults}, it seems as if there is a close four-way "tug-o' war" between the methods. All methods seem to produce very good results over the test set. However, closer inspection reveals that the proposed method with hard constraints outperforms the least efficient weighting method by Boykov \textit{et al.} by 9.9689\% and the second least efficient weighting method by Eriksson \textit{et al.} by 7.5789\%. This is shown in \Cref{tab:overallinteractivesegmentationefficiency}. The graph of precision versus recall for all weighting methods is shown in \Cref{fig:interactiveprecisionvsrecall}. As can be seen, the proposed method is much more stable, producing high precision and recall consistently. The accuracy variation over the test set is shown in \Cref{fig:interactiveaccuracy}. This further shows the consistency and efficiency of the proposed weighting method with hard constraints over more general fluorescent images.
 
 \begin{figure}[!h]
 	\centering
@@ -1408,7 +1408,7 @@ From the accuracy and Matthews Correlation Coeffieient measures shown in \Cref{t
 
 %\textcolor{red}{Results dependant on the seeds. The proposed method requires less seed therefore less user interaction. There are less only two tuning paramaters. Results have a lot of speckle. Can be removed throught morphological erosion or connected components. The proposed weighting system is highly robust against multi-modal object distributions.}
 
-We have experiment, very thoroughly, with the two of the most common graph weighting systems and have derived optimal parameters settings for each system which work very well on general fluorescence images. The worst performing of these was the weighting system proposed by Boykov and Jolly which still showed a very high average of 84.6089\% classification accuracy being outperformed by the weighting system proposed by Eriksson \textit{et al.} by 2.39\%. However, these two system fall staggeringly short of the proposed scheme which showed an average classification accuracy at 94.5778\%, a 7.5789\% increase in comparison to weighting system propsed by Eriksson \textit{et al.}
+We have experiment, very thoroughly, with the two of the most common graph weighting systems and have derived optimal parameters settings for each system which work very well on general fluorescence images. The worst performing of these was the weighting system proposed by Boykov and Jolly which still showed a very high average of 84.6089\% classification accuracy being outperformed by the weighting system proposed by Eriksson \textit{et al.} by 2.39\%. However, these two system fall staggeringly short of the proposed scheme which showed an average classification accuracy at 94.5778\%, a 7.5789\% increase in comparison to weighting system proposed by Eriksson \textit{et al.}
 
 
 
