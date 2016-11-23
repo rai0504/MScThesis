@@ -12,13 +12,13 @@
 %In such image analysis, image segmentation has established itself as a key process in identifying and extracting objects of interest which can thereafter be used in higher level image analysis.
 %The ever increasing demand on image segmentation is to extract the objects of interest with greater accuracy in a shorter time.
 
-Often enough, the poor results of a segmentation is not because the segmentation method is not tuned properly, or flawed in some way, it is because the image itself is extremely poor rendering object extraction virtually impossible. 
+Often enough, the poor results of a segmentation are not because the segmentation method is not tuned properly, or flawed in some way, it is because the image itself is extremely poor rendering object extraction virtually impossible. 
 The fluorescence image acquisition process is ridden with image degradation factors at almost every step.
-Yet still, the ever increasing demand on image segmentation is to extract the objects of interest with greater accuracy in a shorter time.
+Yet still, the ever-increasing demand on image segmentation is to extract the objects of interest with greater accuracy in a shorter time.
 %There are many factors that degrade the quality of fluorescence images and these can result in sub-optimal segmentations.
 %affect the accuracy of the segmentation.
 %These factors have been studied independently to a great deal and have been successfully applied to real-world data.
-Some of these problems are poor contrast, photo-bleaching, a not black enough blackground, non-fluorescence of samples, improper excitation, etc.
+Some of these problems are poor contrast, photo-bleaching, a not black enough background, non-fluorescence of samples, improper excitation, etc.
 
 Literature is rich with techniques that are able to, a high degree, negate the effect of these factors \cite{Lysaker2004,Wang2008,Zhou2013}. Given the frequency of occurrence of these problems in fluorescence images, it is surprising that there is lack of definition of a scheme prior to segmentation that prepares an image such that accurate segmentation can be achieved.
 
@@ -26,7 +26,7 @@ The task of defining a set of criteria an image has to meet for reliable segment
 %obtained,
 Image enhancement on the original image can be done to facilitate higher level analysis e.g. contrast enhancement.
 %segmentation qualities. The criteria of this scheme is
-In this chapter we aim to design a hybrid algorithm that builds on highly successful algorithms to produce better results. A typically fluorescence image segmentation scheme would then look like \Cref{fig:wholescheme}. The process emphasises
+In this chapter, we aim to design a hybrid algorithm that builds on highly successful algorithms to produce better results. A typically fluorescence image segmentation scheme would then look like \Cref{fig:wholescheme}. The process emphasises
 
 \begin{enumerate}
 	\item Noise reduction
@@ -75,7 +75,7 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 \end{definition}
 
 \begin{definition}[Poisson Noise Reduction]
-	In \Cref{sec:ImageProcessing} we mentioned that the primary form of noise in fluorescent images is Poisson noise. It is important to remove as much noise as possible without dampening the boundary information. To this end we have used the Total-Variation anisotropic denoising (Bregman Split). Although it was developed to remove Gaussian noise, it was shown by Rodriguez \textit{et al.}\citep{Rodriguez2008} that is supersedes other state-of-the-art Poisson noise removal methods, e.g.  wavelets \citep{Timmermann1999}, platelets\citep{Willett2004}, minimum description length \citep{Nowak1999}, while maintaining signal integrity. 
+	In \Cref{sec:ImageProcessing} we mentioned that the primary form of noise in fluorescent images is Poisson noise. It is important to remove as much noise as possible without dampening the boundary information. To this end, we have used the Total-Variation anisotropic denoising (Bregman Split). Although it was developed to remove Gaussian noise, it was shown by Rodriguez \textit{et al.}\citep{Rodriguez2008} that is supersedes other state-of-the-art Poisson noise removal methods, e.g.  wavelets \citep{Timmermann1999}, platelets\citep{Willett2004}, minimum description length \citep{Nowak1999}, while maintaining signal integrity. 
 	
 	The Poisson distribution, which has equal mean and standard deviation i.e. $\mu = \sigma$, is defined by
 	\begin{equation}
@@ -83,7 +83,7 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 	\label{eq:poissondist}
 	\end{equation}
 	
-	Let $y = \lbrace y_i:i=1, \cdots, N \rbrace$ and $x = \lbrace x_i:i=1, \cdots, N \rbrace$ be the observed and the true image, respectively. The sample $y_i$ is a Poisson contaminated form of $x_i$. We desire to recover the signal $x$ from the observed signal $y$. From Bayes' Law we get
+	Let $y = \lbrace y_i:i=1, \cdots, N \rbrace$ and $x = \lbrace x_i:i=1, \cdots, N \rbrace$ be the observed and the true image, respectively. The sample $y_i$ is a Poisson contaminated form of $x_i$. We desire to recover the signal $x$ from the observed signal $y$. From Bayes' Law, we get
 	\begin{equation}
 	P(x \vert y) = \frac{P(y \vert x)P(x)}{P(y)}
 	\label{eq:bayeslaw}
@@ -135,9 +135,9 @@ For segmentation regarding a specific feature, an ideal image is one where there
 	\label{fig:featuredataset}
 \end{figure}
 
-Grayscale medical image segmentation (MIS) typically uses intensity as the dominant feature on which the applied segmentation algorithms are biased. Hence, it is common to precede segmentation by contrast enhancement \citep{Kim2003,Subr2005}. The problem here lies with the fact that the aim contrast enhancement is to bring out the details more clearly that are otherwise obscured due to limited dynamic range, non-uniform illumination, etc. In fluorescence image this does not necessarily mean that the constrast enhanced image posesses better "segmentation qualities", in terms of intensity.
+Grayscale medical image segmentation (MIS) typically uses intensity as the dominant feature on which the applied segmentation algorithms are biased. Hence, it is common to precede segmentation by contrast enhancement \citep{Kim2003,Subr2005}. The problem here lies with the fact that the aim contrast enhancement is to bring out the details more clearly that are otherwise obscured due to limited dynamic range, non-uniform illumination, etc. In fluorescence image this does not necessarily mean that the contrast enhanced image possesses better "segmentation qualities", in terms of intensity.
 
-In this section we present a novel mapping function whose aim is to shrink the "region of uncertainty" by non-linearly widening the gap between background pixels and object pixels. This function is composed of two piece-wise sub-functions; one for data attenuation and one for data amplification. We first design the properties the mapping function should have. 
+In this section, we present a novel mapping function whose aim is to shrink the "region of uncertainty" by non-linearly widening the gap between background pixels and object pixels. This function is composed of two piece-wise sub-functions; one for data attenuation and one for data amplification. We first design the properties the mapping function should have. 
 
 \begin{definition}[Remapping Function Properties]
 	We denote the remap function as $\widetilde{x_i} = R(x_i)$, where $\widetilde{x_i}$ is the new value which remaps the input pixel, $x_i$, using the function $R$. The range on which $R$ works is $[0,L]$. For 8-bit gray scale images the highest value is usually $L=255$. Let the value that represents the greatest classification uncertainty be denoted $N$, as illustrated in \Cref{fig:featuredataset}.
@@ -146,7 +146,7 @@ In this section we present a novel mapping function whose aim is to shrink the "
 \begin{enumerate}
 	\item{}
 	\textit{$R$ must be non-decreasing in the interval $[0, L]$}\\
-	This is a trivial criterion arising from the context in which our problem is defined. We are specifically black background fluorescence images. Consequently, it is not possible for a lower intensity pixel to have a higher probability of belonging to the object compared to a pixel of a higher gray level intensity. 
+	This is a trivial criterion arising from the context in which our problem is defined. We specifically focus black background fluorescence images. Consequently, it is not possible for a lower intensity pixel to have a higher probability of belonging to the object compared to a pixel of a higher gray level intensity. 
 	
 	\item
 	\textit{$\widetilde{x_i} = R(x_i=N) = N$}\\
@@ -172,8 +172,8 @@ In this section we present a novel mapping function whose aim is to shrink the "
 \begin{definition}[Function Design]
 	Given the criteria presented, many functions can be designed. We have decided that one of the better solutions is to make the mapping function a piece-wise quadratic Bezier curve. This is to maintain intuitive tuning of the sub-functions. The two functions are $R_{att}$, for the attenuation section, and $R_{amp}$, for the amplification section as shown in \Cref{fig:remapfcn}.
 	
-	There are three anchor points the function must pass through. These are $p_0(0,0)$, $p_2(N, N)$ and $p_4(L,L)$. If the curve between $p_0$ and $p_4$ is a straight line then there is no change between the output and input image since the gradient of the line is equal to $1$. Additional control points are needed to bend the curve.
-	There is a particular class of curves whose shapes are useful for our purpose. This places constraints on the position of the control points. Relative to the straight line, $y=x, \, x \in [0,L]$, the amplification curve would be above the relaxed line, $p_{3y} > p_{3x}$, and similarly the attenuation curve would be below the line, $p_{1y} < p_{1x}$. Also, given that the function is to be a one-to-one function, the control point for the attenuation function $p_{1x}<N$; similarly the control point for the amplification function $p_{3x}>N$.
+	There are three anchor points the function must pass through. These are $p_0(0,0)$, $p_2(N, N)$ and $p_4(L,L)$. If the curve between $p_0$ and $p_4$ is a straight line, then there is no change between the output and input image since the gradient of the line is equal to $1$. Additional control points are needed to bend the curve.
+	There is a particular class of curves whose shapes are useful for our purpose. This places constraints on the position of the control points. Relative to the straight line, $y=x, \, x \in [0,L]$, the amplification curve would be above the relaxed line, $p_{3y} > p_{3x}$, and similarly the attenuation curve would be below the line, $p_{1y} < p_{1x}$. Also, given that the function is to be a one-to-one function, the control point for the attenuation function $p_{1x}<N$; similarly, the control point for the amplification function $p_{3x}>N$.
 	
 	\begin{figure}[!h]
 		\centering
@@ -182,7 +182,7 @@ In this section we present a novel mapping function whose aim is to shrink the "
 		\label{fig:remapfcn}
 	\end{figure}
 	
-	It is more geometrically intuitive to represnt the control points in polar coordinates with the center at $p_2(N,N)$. Therefore, control point $c$ is represented as $p_c(R_c, \theta_c)$; where $\theta_c \in [0, \frac{\pi}{4}]$ and $R_c \in \mathbb{R}^+$. The angular deviation is the measure off the straight line which is counter-clockwise for the amplification function and clockwise for the attenuation function. The deviation, $\theta_c$, where $c \in {1,2}$, away from the straight line is further implicitly represented as a range $\kappa_c \in [0,1]$ where $\kappa_c=0$ implies $\theta_c = 0$ would mean no deviation, and $\kappa_c = 1$ implies $\theta_c = \frac{\pi}{4}$ would mean maximum deviation.
+	It is more geometrically intuitive to represent the control points in polar coordinates with the centre at $p_2(N,N)$. Therefore, control point $c$ is represented as $p_c(R_c, \theta_c)$; where $\theta_c \in [0, \frac{\pi}{4}]$ and $R_c \in \mathbb{R}^+$. The angular deviation is the measure off the straight line which is counter-clockwise for the amplification function and clockwise for the attenuation function. The deviation, $\theta_c$, where $c \in {1,2}$, away from the straight line is further implicitly represented as a range $\kappa_c \in [0,1]$ where $\kappa_c=0$ implies $\theta_c = 0$ would mean no deviation, and $\kappa_c = 1$ implies $\theta_c = \frac{\pi}{4}$ would mean maximum deviation.
 	As the function approaches the ends of it domain, less attenuation or amplification occurs, which meets criterions 5 and 6.
 	
 	\begin{figure}[!t]
@@ -234,12 +234,12 @@ In this section we present a novel mapping function whose aim is to shrink the "
 	
 	For each input gray level intensity $x \in [0, L]$ we require corresponding output gray level intensity $y \in [0, L]$.
 	The curve is parameterised with respect to $t$ for each of its $x$ and $y$ parameters.
-	For a curve defined by three control points $q_0$, $q_1$ and $q_2$ where $q_0 < q_1 < q_2$, the equation for the curve determine by these points is the quadratic bezier given by
+	For a curve defined by three control points $q_0$, $q_1$ and $q_2$ where $q_0 < q_1 < q_2$, the equation for the curve determine by these points is the quadratic Bezier given by
 	\begin{equation}
 		R = \sum_{i=0}^2 q_i J_i^n
 	\end{equation}
 	
-	For a quadratic bezier curve, this simplifies to
+	For a quadratic Bezier curve, this simplifies to
 	\begin{align*}
 		R &= q_0(1-t)^2 + 2q_1(1-t)t + q_2t^2 \\
 		0 &= (q_0-2q_1+q_2)t^2 + (-2q_0+2q_1)t + (q_0-R)
@@ -279,7 +279,7 @@ In this section we present a novel mapping function whose aim is to shrink the "
 \end{definition}
 
 \begin{definition}[Function Properties and Constraints]
-This function presents several properties within the constraints defined a follows:
+This function presents several properties within the constraints defined as follows:
 \begin{enumerate}
 	\item
 	The curves obey the convex hull property. The sub-functions will always be contained within the control polygon determined by the control points \citep{Vince2006,Marsh2005}.
@@ -757,7 +757,7 @@ Further details on the coherence enhancing diffusion filter with optimised rotat
 	
 	\begin{table}[!h]
 		\renewcommand{\arraystretch}{1.3}
-		\caption{Classification Statistics[A - Original gray scale image, B - CED-ORI only, C - Anisotropic TV denoising only, D - Proposed Preprocessing Scheme]}
+		\caption{Classification Statistics [A - Original gray scale image, B - CED-ORI only, C - Anisotropic TV denoising only, D - Proposed Pre-processing Scheme]}
 		\label{tab:class_stats}
 		\centering
 		\begin{tabular}{|c|c|c|c|c|}
