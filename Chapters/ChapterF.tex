@@ -93,7 +93,7 @@ An example of approximating the contour by two grids is illustrated in \Cref{fig
 	\begin{equation}
 		c_2 = \frac{\sum_p u(x,y)(1-x_p)}{\sum_p (1-x_p)}.
 	\end{equation}
-	For simplification, $\nu=0$. To determine contour length using an 8-neighbourhood system, as illustrated in \Cref{fig:chanvesediscretelength}, we set $\Delta\rho=1$. The weight $w_k$ is assigned to its corresponding edge $e_k$. The Euclidean length of the  edges is $|e_1|=|e_3| = 1$ and $|e_2|=|e_4|=\sqrt{2}$, therefore the corresponding weights, which are determined using \Cref{eq:discretelength}, is $w_1 = w_3 = \frac{\pi}{8}$ and $w_2 = w_4 = \frac{\pi}{8\sqrt{2}}$. To calculate $n_k$ we need to count the intersections between the lines and the contour. An intersection between two pixels $p$ and $q$ exists \textit{if and only if} $x_p$ and $x_q$ have different labels.
+	For simplification, $\nu=0$. To determine contour length using an 8-neighbourhood system, as illustrated in \Cref{fig:chanvesediscretelength}, we set $\Delta\rho=1$. The weight $w_k$ is assigned to its corresponding edge $e_k$. The Euclidean length of the  edges is $|e_1|=|e_3| = 1$ and $|e_2|=|e_4|=\sqrt{2}$. Therefore the corresponding weights, which are determined using \Cref{eq:discretelength}, is $w_1 = w_3 = \frac{\pi}{8}$ and $w_2 = w_4 = \frac{\pi}{8\sqrt{2}}$. To calculate $n_k$ we need to count the intersections between the lines and the contour. An intersection between two pixels $p$ and $q$ exists \textit{if and only if} $x_p$ and $x_q$ have different labels.
 	\begin{equation}
 		n_{k} = x_p(1-x_q) + x_q(1-x_p) \text{; } \, k={(pq) \in \mathcal{N}_p}. 
 	\end{equation}
@@ -127,7 +127,7 @@ The graph for the energy function is constructed as in \citep{Kolmogorov2004}.
 \label{sec:cvgc_weightingandparameterestimation}
 
 %\textcolor{red}{What is wrong with the previously described graph weighting. What would we expect from a better weighting system. Problem images are multi-modal and extremely low contrast.}
-In this section, we introduce a novel idea to weighting  a graph for image segmentation based on the Chan-Vese formulation of the Mumford-Shah evolution function. Previous parameter estimation schemes focused very specifically on a certain image and this resulted in hard-coded. In \citep{ElZehiry2007}, were this method was first devised, they used the parameter settings $\mu = 0.1 \times 255^2$, $\lambda_1 = \lambda_2 = 1$. This worked very well on their synthetic images proving a strong resilience to noise and initial conditions. However, for fluorescence microscopy images, the results to be a bit too over-segmented for practical use. These parameters were used to segment the images in the sample set, \Cref{fig:sampleset}, the segmentation result is shown in \Cref{fig:samplesetdefaultcv}.
+In this section, we introduce a novel idea to weighting  a graph for image segmentation based on the Chan-Vese formulation of the Mumford-Shah evolution function. Previous parameter estimation schemes focused very specifically on a certain image and this resulted in hard-coded parameters. In \citep{ElZehiry2007}, were this method was first devised, they used the parameter settings $\mu = 0.1 \times 255^2$, $\lambda_1 = \lambda_2 = 1$. This worked very well on their synthetic images proving a strong resilience to noise and initial conditions. However, for fluorescence microscopy images, the results tend to be a bit too over-segmented for practical use. These parameters were used to segment the images in the sample set, \Cref{fig:sampleset}, and the segmentation results are shown in \Cref{fig:samplesetdefaultcv}.
 
 \begin{figure}[!h]
 	\centering
@@ -203,12 +203,12 @@ In \citep{Maska2013}, the authors proposed a segmentation and tracking scheme fo
 	\label{fig:samplesetcelltrack}
 \end{figure}
 
-It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In the following sections, \Cref{sec:cvgc_weighting,sec:cvgc_analysis}, we devise a novel weighting scheme, parameter estimation as well as a new way to think of the parameters involved, in terms of \textit{proxy parameters}. We then specifically focus on tuning these parameters for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
+It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In the following sections, \Cref{sec:cvgc_weighting,sec:cvgc_analysis}, we devise a novel weighting scheme, and parameter estimation; as well as a new way to think of the parameters involved, in terms of \textit{proxy parameters}. We then specifically focus on tuning these parameters for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
 
 \subsection{Graph Weighting}
 \label{sec:cvgc_weighting}
 
-The first thing we do is normalise the weighting for both the data and smoothing connections. For the weighting of the neighbourhood connections we use the Euclidean distance between adjacent nodes. This results in neighbourhood connections as illustrated in \Cref{fig:singlenodeconstruction}. The range of pixel intensities is also normalised i.e. $p \in [0,1]$. The weight of the connection from the source to the node $p$ is given by $E^i(0)|_{i=p} = \lambda_0|p-c_0|^2$. This is seen as how far away the pixel is from $c_0$. Similarly, the weight of the connection from the node to the sink is given by $E^i(1)|_{i=p}=\lambda_1|p-c_1|^2$, i.e. how far way the pixel is from $c_1$. The fully connected graph for a single node in the 8-connected neighbourhood system is illustrated in \Cref{fig:singlenodeconstruction}.
+The first thing we do is normalise the weighting for both the data and smoothing connections. For the weighting of the neighbourhood connections we use the Euclidean distance between adjacent nodes. This results in neighbourhood connections as illustrated in \Cref{fig:singlenodeconstruction}. The range of pixel intensities is also normalised i.e. $p \in [0,1]$. The weight of the connection from the source to the node $p$ is given by $E^i(0)|_{i=p} = \lambda_0|p-c_0|^2$. This is seen as how far away the pixel is from $c_0$. Similarly, the weight of the connection from the node to the sink is given by $E^i(1)|_{i=p}=\lambda_1|p-c_1|^2$, i.e. how far away the pixel is from $c_1$. The fully connected graph for a single node in the 8-connected neighbourhood system is illustrated in \Cref{fig:singlenodeconstruction}.
 
 \tikzstyle{vertex}=[circle,thick,draw]
 \begin{figure}[!h]
@@ -269,7 +269,7 @@ We will now analyse the flow through a single node. We use  \Cref{fig:singlenode
 	f_{max} = 4\mu + 4\frac{\mu}{\sqrt{2}} = \mu \left( 2\sqrt{2} + 4\right).
 	\label{eq:neighbourhoodsaturation}
 \end{equation}
-To guarantee that a node $p$ will be place in the source set, $p \in S$, we know that the incoming flow from the source must completely saturate all flow outlets, this can be expressed as
+To guarantee that a node $p$ will be placed in the source set, $p \in S$, we know that the incoming flow from the source must completely saturate all flow outlets, this can be expressed as
 \begin{equation}
 	E^i(0) > E^i(1) + \mu \left( 2\sqrt{2} + 4\right).
 	\label{eq:sourcesaturation}
@@ -281,7 +281,7 @@ E^i(1) > E^i(0) + \mu \left( 2\sqrt{2} + 4\right).
 \end{equation}
 This can be read as \textit{"The sink is larger than the source and all neighbourhood connections"}. To aid in understanding the energies, we use \Cref{fig:dataenergyplot}.
 
-For quadratic energies with $0 < c_0 < c_1 < 1$, there is a point, between $c_0$ and $c_1$, where the incoming flow from the source is completely saturates the sink with no excess remaining. This point, where the energies are equal, we call $p_e$, i.e. $E_0(p_e) = E_1(p_e)$. This point of zero net flow can be found as follows
+For quadratic energies with $0 < c_0 < c_1 < 1$, there is a point, between $c_0$ and $c_1$, where the incoming flow from the source completely saturates the sink with no excess remaining. This point, where the energies are equal, we call $p_e$, i.e. $E_0(p_e) = E_1(p_e)$. This point of zero net flow can be found as follows
 \begin{equation*}\begin{split}
 	E^{i=p_e}(1) & = E^{i=p_e}(0) \\
 	\lambda_1(p_e - c_1)^2 & = \lambda_0(p_e - c_0)^2 \\
@@ -371,7 +371,7 @@ The relationship between $p_e$ and $\alpha$ is illustrated in \Cref{fig:alphaper
 \end{definition}
 
 \begin{definition}[Lower-bound on $\mu$]
-	When we found the point, $p_e$, where the energies are equal in \Cref{eq:pe}, we ignored the other solution as it was not within the range from $c_0$ to $c_1$. Let this point be $p_{e^*}$. If this point is positive and $0<p_{e^*}<c_0$ then we must ensure that at no point within this range that the source flow saturates all the outgoing edges. This force a limit on how low $\mu$ can be. This is only of significant concern when $\alpha>1$. We only need to concern ourselves with the point $p=0$ as this is the point where the difference $E^i(0)-E^i(1)$ is the largest. The lower-bound on $\mu$ can be obtained as follows
+	When we found the point, $p_e$, where the energies are equal in \Cref{eq:pe}, we ignored the other solution as it was not within the range from $c_0$ to $c_1$. Let this point be $p_{e^*}$. If this point is positive and $0<p_{e^*}<c_0$ then we must ensure that at no point within this range that the source flow saturates all the outgoing edges. This forces a limit on how low $\mu$ can be. This is only of significant concern when $\alpha>1$. We only need to concern ourselves with the point $p=0$ as this is the point where the difference $E^i(0)-E^i(1)$ is the largest. The lower-bound on $\mu$ can be obtained as follows
 	\begin{equation*}\begin{split}
 		E^i(0)|_{p_i=0} &< E^i(1)|_{p_i=0} + \mu \left( 2\sqrt{2} + 4\right) \\
 		\lambda_0c_0^2 &< \lambda_1c_1^2 + \mu \left( 2\sqrt{2} + 4\right) \\
@@ -420,7 +420,7 @@ This point is marked off in \Cref{fig:dataenergyplot}.
 \end{definition}
 
 \begin{definition}[Parameter estimation process]
-	The parameter estimation is based on the assumption that sufficiently good approximations for $c_0$, $c_1$, $p_e$ and $h$ can be obtained. By sufficiently good we are referring to the closeness to the values these parameters would take for an ideal segmentation. From these approximations, we calculate the approximation for $\alpha$ using \Cref{eq:alphaapproximation}. The parameters $\mu$ and $\lambda_1$ are related and aren't separable, therefore we set choose to set $\mu$. We can then calculate $\lambda_1$ using \Cref{eq:lambda1approximation}. For the chosen $\mu$ we can calculate the upper-bound on $\lambda_1$ to ensure that the constraint \Cref{eq:mulowerbound} is met. The constraint on $\lambda_1$ is calculated as follows
+	The parameter estimation is based on the assumption that sufficiently good approximations for $c_0$, $c_1$, $p_e$ and $h$ can be obtained. By sufficiently good we are referring to the closeness to the values these parameters would be for an ideal segmentation. From these approximations, we calculate the approximation for $\alpha$ using \Cref{eq:alphaapproximation}. The parameters $\mu$ and $\lambda_1$ are related and are not separable, therefore we set choose to set $\mu$. We can then calculate $\lambda_1$ using \Cref{eq:lambda1approximation}. For the chosen $\mu$ we can calculate the upper-bound on $\lambda_1$ to ensure that the constraint \Cref{eq:mulowerbound} is met. The constraint on $\lambda_1$ is calculated as follows
 \begin{equation*}
 \mu\left( 2\sqrt{2} + 4 \right) > \lambda_1(\alpha c_0^2 - c_1^2)
 \end{equation*}
@@ -434,13 +434,13 @@ Finally $\lambda_0$ can be calculated using \Cref{eq:l0l1dependancy}.
 \label{sec:cvgc_parameterestimation}
 
 %\textcolor{red}{What sort of image properties are we tuning for? E.g. dark bg, low contrast, etc. Parameters limits and ranges.}
-The properties of the images obtained in fluorescence microscopy imaging can be used to guide the parameter estimation process. We focus, specifically, on black background images. Due to the fact that the predominant form of noise in the imaging system in Poisson distributed, we can further assume that the darker the background, the less noise that is present therein. The Poisson process also tells us that brighter regions exhibit a greater intensity variation due to the sampling process. Therefore, the curve for $E^i(1)$ is less convex than $E^i(0)$ as in \Cref{fig:dataenergyplot} and, resultantly, the value for $p_e$, in \Cref{fig:alphaperelationship}, is shifted to the left. This places a new lower-bound on $\alpha$ for fluorescence images
+The properties of the images obtained in fluorescence microscopy imaging can be used to guide the parameter estimation process. We focus specifically on black background images. Due to the fact that the predominant form of noise in the imaging system in Poisson distributed, we can further assume that the darker the background, the less noise that is present therein. The Poisson process also tells us that brighter regions exhibit a greater intensity variation due to the sampling process. Therefore, the curve for $E^i(1)$ is less convex than $E^i(0)$ as in \Cref{fig:dataenergyplot} and, resultantly, the value for $p_e$, in \Cref{fig:alphaperelationship}, is shifted to the left. This places a new lower-bound on $\alpha$ for fluorescence images
 \begin{equation}
 	\alpha \geq 1.
 	\label{eq:alphalowerboundFM}
 \end{equation}
 
-\begin{definition}[Manual Tuning] Before moving further into analysis of the relationships between the parameters, we first perform a manual tuning of parameters and observing the effect on the segmented results. This allows us to understand how strongly correlated the parameter is to the final result. We note that the curves, $E^i(0)$ and $E^i(1)$, can be tuned relative to a fixed value for $\mu$ and this wouldn't impact significantly on the range of possible solution sets. Therefore, we set $\mu=1$ in all our manual parameter tuning. We use a stopping criterion of $\epsilon=1\times10^{-3}$.
+\begin{definition}[Manual Tuning] Before moving further into analysis of the relationships between the parameters, we first perform a manual tuning of parameters and observing the effect on the segmented results. This allows us to understand how strongly correlated the parameter is to the final result. We note that the curves, $E^i(0)$ and $E^i(1)$, can be tuned relative to a fixed value for $\mu$ and this would not impact significantly on the range of possible solution sets. Therefore, we set $\mu=1$ in all our manual parameter tuning. We use a stopping criterion of $\epsilon=1\times10^{-3}$.
 	
 We cover a relatively wide range of parameter settings and note the output, i.e. over-segmented, under-segmented, almost ideal, etc. At this point, categorising the segmented output is largely subjective. We also use various initial conditions. Specifically, we use the segmented output from Otsu binarization, K-means ($k=2$) and Expectation-Maximisation for Gaussian Mixture Modelling (EMGMM) with ($k=2$). The initial and final means are of significant important in this study.
 
@@ -895,7 +895,7 @@ The means and standard deviations for the initial masks obtained are shown in \C
 \label{tab:initmaskvalues}
 \end{table}
 
-The final values for the segmentation results are shown in \Cref{tab:manualresults}. The table shows for each image, given the values for the input parameters, whether the degree of acceptance of the output. We take the  final results are the means of object and the background. From the final results, we calculate the values for $p_e$, \Cref{eq:pe}, and $h$ ,\Cref{eq:h}. The means for each image can vary greatly. To put the values of $p_e$ and $h$ into a relative perspective, they are also shown as a fraction of the distance between $c_0$ and $c_1$. Let $k_p \in (0,1)$ be the fraction of the distance $p_e-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kp}. Let $k_h \in (k_h,1)$ be the fraction of the distance $h-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kh}. The following relation holds $0 < k_p < k_h$.
+The final values for the segmentation results are shown in \Cref{tab:manualresults}. The table shows for each image, given the values for the input parameters, the degree of acceptance of the output. We take the  final results are the means of object and the background. From the final results, we calculate the values for $p_e$, \Cref{eq:pe}, and $h$ ,\Cref{eq:h}. The means for each image can vary greatly. To put the values of $p_e$ and $h$ into a relative perspective, they are also shown as a fraction of the distance between $c_0$ and $c_1$. Let $k_p \in (0,1)$ be the fraction of the distance $p_e-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kp}. Let $k_h \in (k_h,1)$ be the fraction of the distance $h-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kh}. The following relation holds $0 < k_p < k_h$.
 
 \begin{figure}[!h]
 	\centering
@@ -1055,7 +1055,7 @@ The final values for the segmentation results are shown in \Cref{tab:manualresul
 \end{longtable} 
 \end{center}
 
-Upon comparing the initial means in \Cref{tab:initmaskvalues} and final means for the acceptable and good segmentation results in \Cref{tab:manualresults}, the values of the initial means are larger. This is dues to over-segmentation produced by Otsu, K-means and EMGMM clustering. A na{\"i}ve approach to shifting the initial means closer to the final means is to dilate the initial mask. This pushes the boundaries of the contour for the object to accept the lower intensity neighbouring pixels as well as removes these relatively higher values from the background mask.
+Upon comparing the initial means in \Cref{tab:initmaskvalues} and final means for the acceptable and good segmentation results in \Cref{tab:manualresults}, the values of the initial means are larger. This is due to over-segmentation produced by Otsu, K-means and EMGMM clustering. A na{\"i}ve approach to shifting the initial means closer to the final means is to dilate the initial mask. This pushes the boundaries of the contour for the object to accept the lower intensity neighbouring pixels, as well as remove these relatively higher values from the background mask.
 
 %\textcolor{red}{Dilated table results and final radius for dilation.}
 To determine the optimal dilation size, we compare the difference of the mean values for each image in \Cref{tab:manualresults}, for the good segmentation results only. These values are shown in \Cref{tab:meanofmeans}. We use an elliptical element for dilation. The results of the dilation and the difference from the respective final means is shown in \Cref{tab:dilateotsu}, \Cref{tab:dilatekmeans} and \Cref{tab:dilateemgmm} for the initial masks obtained from Otsu binarization, K-means and EMGMM clustering respectively. The closest values to the average final mean is highlighted in blue. From the tables, it can be seen that a dilation size of 3 for a elliptical dilation element results in mean values that are closest to the average final means.
@@ -1292,7 +1292,7 @@ It is rarely the case where this is known or can be calculated, if ever at all. 
 
 We also compare our results  to two previously published parameter settings.
 The first is the parameter settings used in \citep{ElZehiry2007}, by El Zehiry \textit{et al.}, which is where this technique was first published. Their results showed excellent segmentation output on synthetic images and mammography images with very high robustness against noise. They do not specify the noise type.
-The second parameter setting which we test against is presented in \citep{Maska2013}, by Masaka \textit{et al.}. Their parameter setting where based on a time-lapse series of fluorescence images. Their scheme is a hybrid of algorithms design to segment whole fluorescent cells, however, we use the parameters settings they've presented for segmentation only. Their parameters were obtained by minimising the Jaccard coefficient over the time-lapse series. Their results show a greater area of cell detection and smoother boundaries. Although, the smoother contours are a result of CED-ORI \citep{Weickert2002} which is part of the scheme before segmentation.
+The second parameter setting which we test against is presented in \citep{Maska2013}, by Masaka \textit{et al.}. Their parameter setting was based on a time-lapse series of fluorescence images. Their scheme is a hybrid of algorithms design to segment whole fluorescent cells, however, we use the parameters settings they have presented for segmentation only. Their parameters were obtained by minimising the Jaccard coefficient over the time-lapse series. Their results show a greater area of cell detection and smoother boundaries; although, the smoother contours are a result of CED-ORI \citep{Weickert2002} which is part of the scheme before segmentation.
 
 The initial masks used in subsequent parameter estimation is shown in \Cref{fig:test188,fig:test195,fig:test228,fig:test1057,fig:test1265,fig:test10093,fig:test10102,fig:test10104,fig:test12294,fig:test12627,fig:test13432,fig:test13438,fig:test13899,fig:test13901,fig:test21749,fig:test21759,fig:test32140,fig:test35278,fig:test37338,fig:test37339,fig:test38974,fig:test40217,fig:test40968,fig:test41066,fig:test42451}.
 
@@ -3092,7 +3092,7 @@ As can be seen, the parameter settings presented previously in literature are no
 	\end{equation*}
 \end{definition}
 
-Accuracy is the fraction of the pixels that are correctly classified from among all pixels. MCC is the \textit{Matthews Correlation Coefficient} and is more accurate measure of accuracy when comparing classes whose sizes differ greatly. The result is a value between $-1$ and $+1$, where $-1$ is refers to a complete opposite classification, i.e. all background pixels are classified as object and all object are classified as background, and $+1$ means a perfect classification, $0$ is equivalent to a random classification. The results for each image in the test set is tabulated in \Cref{tab:segmentationefficiency}. The overall efficiency for each method is tabulated in \Cref{tab:overallsegmentationefficiency}. For each table, rows that are highlighted in blue show the method that performed the best for each image in \Cref{tab:segmentationefficiency} and over the test set in \Cref{tab:overallsegmentationefficiency}.
+Accuracy is the fraction of the pixels that are correctly classified from among all pixels. MCC is the \textit{Matthews Correlation Coefficient} and is more accurate measure of accuracy when comparing classes whose sizes differ greatly. The result is a value between $-1$ and $+1$, where $-1$ is refers to a complete opposite classification, i.e. all background pixels are labelled as "object" and all object pixels are labelled as "background", and $+1$ means a perfect classification, $0$ is equivalent to a random classification. The results for each image in the test set is tabulated in \Cref{tab:segmentationefficiency}. The overall efficiency for each method is tabulated in \Cref{tab:overallsegmentationefficiency}. For each table, rows that are highlighted in blue show the method that performed the best for each image in \Cref{tab:segmentationefficiency} and over the test set in \Cref{tab:overallsegmentationefficiency}.
 
 \begin{longtabu}[!h] {|c|c|c|c|c|c|c|c|c|}
 	\caption{Segmentation Efficiency.} \label{tab:segmentationefficiency} \\
@@ -3250,7 +3250,7 @@ Accuracy is the fraction of the pixels that are correctly classified from among 
 	\hline 
 \end{longtabu} 
 
-From the marked-up rows, we can clearly see that the proposed method supersedes the competitor methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision but a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see the performance of the competitor parameter settings are very erratic.
+From the marked-up rows, we can clearly see that the proposed method supersedes the competiting methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision but a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see the performance of the competitor parameter settings are very erratic.
 %The proposed method is much more stable which is verified by the standard deviation of the accuracy shown in \Cref{tab:overallsegmentationefficiency}.
 
 \begin{longtable}{|c|c|c|c|c|c|c|}
