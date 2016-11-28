@@ -106,7 +106,7 @@ The step through process of the proposed scheme is illustrated in \Cref{fig:flow
 	\label{equ:anisotropic_tv_constrained}
 	\end{equation}
 	
-	where $\mu > 0$ is the regularisation parameter which affects the balance between noise removal and signal preservation \citep{Getreuer2012}, $u$ is the true image and $f$ is the noisy image. For computationally efficiency issues, we actually solve the unconstrained problem
+	where $\mu > 0$ is the regularisation parameter which affects the balance between noise removal and signal preservation \citep{Getreuer2012}, $u$ is the true image and $f$ is the noisy image. For computational efficiency issues, we actually solve the unconstrained problem
 	
 	\begin{equation}
 	\underset{u, dx, dy} {\mathrm{min}} \left| \left|dx_1 \right| \right|_1 + \left| \left| dy_1 \right| \right|_1 + \frac{\mu}{2} \left| \left| u-f \right| \right|^2_2 +
@@ -135,7 +135,7 @@ For segmentation regarding a specific feature, an ideal image is one where there
 	\label{fig:featuredataset}
 \end{figure}
 
-Grayscale medical image segmentation (MIS) typically uses intensity as the dominant feature on which the applied segmentation algorithms are biased. Hence, it is common to precede segmentation by contrast enhancement \citep{Kim2003,Subr2005}. The problem here lies with the fact that the aim contrast enhancement is to bring out the details more clearly that are otherwise obscured due to limited dynamic range, non-uniform illumination, etc. In fluorescence image this does not necessarily mean that the contrast enhanced image possesses better "segmentation qualities", in terms of intensity.
+Grayscale medical image segmentation (MIS) typically uses intensity as the dominant feature on which the applied segmentation algorithms are biased. Hence, it is common to precede segmentation by contrast enhancement \citep{Kim2003,Subr2005}. The problem therein lies with the fact that the aim contrast enhancement is to bring out the details more clearly that are otherwise obscured due to limited dynamic range, non-uniform illumination, etc. In fluorescence image this does not necessarily mean that the contrast enhanced image possesses better "segmentation qualities", in terms of intensity.
 
 In this section, we present a novel mapping function whose aim is to shrink the "region of uncertainty" by non-linearly widening the gap between background pixels and object pixels. This function is composed of two piece-wise sub-functions; one for data attenuation and one for data amplification. We first design the properties the mapping function should have. 
 
