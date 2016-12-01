@@ -335,6 +335,27 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 
 %----------------------------------------------------------------------------------------
+%	DECLARATIONS-PUBLICATIONS PAGE DESIGN
+%----------------------------------------------------------------------------------------
+\newenvironment{declarationpublication}{
+	\checktoopen
+	\tttypeout{\abstractname}
+	\null\vfil
+	\thispagestyle{plain}
+	\begin{center}
+		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		\bigskip
+		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		\bigskip
+		{\huge \textbf{\MakeUppercase{Declaration 2 - Publications}} \par}
+		\bigskip
+	\end{center}
+}
+{
+	\vfil\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
 %	ABBREVIATIONS PAGE DESIGN
 %----------------------------------------------------------------------------------------
 
