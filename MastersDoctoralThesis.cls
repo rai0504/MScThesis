@@ -314,6 +314,54 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 
 %----------------------------------------------------------------------------------------
+%	DECLARATIONS-PLAGIARISM PAGE DESIGN
+%----------------------------------------------------------------------------------------
+\newcommand{\decplagiarismname}{Declaration 1 - Plagiarism}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\decplagiarismname}{Declaration 1 - Plagiarism}
+
+\newenvironment{declarationplagiarism}{
+	\checktoopen
+	\tttypeout{\abstractname}
+	\null\vfil
+	\thispagestyle{plain}
+	\begin{center}
+		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		\bigskip
+		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		\bigskip
+		{\huge \textbf{\MakeUppercase{\decplagiarismname}} \par}
+		\bigskip
+	\end{center}
+}
+{
+	\vfil\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
+%	DECLARATIONS-PUBLICATIONS PAGE DESIGN
+%----------------------------------------------------------------------------------------
+\newcommand{\decpublicationname}{Declaration 2 - Publications}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\decpublicationname}{Declaration 2 - Publications}
+
+\newenvironment{declarationpublication}{
+	\checktoopen
+	\tttypeout{\abstractname}
+	\null\vfil
+	\thispagestyle{plain}
+	\begin{center}
+		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		\bigskip
+		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		\bigskip
+		{\huge \textbf{\MakeUppercase{\decpublicationname}} \par}
+		\bigskip
+	\end{center}
+}
+{
+	\vfil\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
 %	ABBREVIATIONS PAGE DESIGN
 %----------------------------------------------------------------------------------------
 
@@ -382,6 +430,24 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 {
 \vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
+%	PREFACE PAGE DESIGN
+%----------------------------------------------------------------------------------------
+
+\newcommand{\prefacename}{Preface}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\prefacename}{Preface} % Acknowledgement text for English countries
+\providecaptionname{german,ngerman,austrian,naustrian}{\prefacename}{Danksagung} % Acknowledgement text for Germanic countries
+
+\NewDocumentEnvironment{preface}{}{%
+	\checktoopen
+	\tttypeout{\prefacename}
+	\thispagestyle{plain}
+	\begin{center}{\huge\textit{\prefacename}\par}\end{center}
+}
+{
+	\vfil\vfil\null
 }
 
 %----------------------------------------------------------------------------------------

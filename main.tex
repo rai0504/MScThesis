@@ -24,9 +24,9 @@
 
 \documentclass[
 11pt, % The default document font size, options: 10pt, 11pt, 12pt
-%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
+oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
 english, % ngerman for German
-singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+onehalfspacing, % Single line spacing, alternatives: singlespacing, onehalfspacing or doublespacing
 %draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
 %nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
 liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
@@ -162,10 +162,10 @@ headsepline, % Uncomment to get a line under the header
 
 \subject{Computer Vision} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
-\university{\href{http://www.ukzn.ac.za}{University of KwaZulu-Natal (Howard College)}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
+\university{\href{http://www.ukzn.ac.za}{University of KwaZulu-Natal}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
 \department{\href{http://caes.ukzn.ac.za/Homepage.aspx}{School of Engineering}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
 \group{\href{http://eece.ukzn.ac.za/Homepage.aspx}{Department of Electrical, Electronic and Computer Engineering}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
-\faculty{\href{http://faculty.university.com}{Faculty of Engineering}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+\faculty{\href{http://faculty.university.com}{College of Agriculture, Engineering and Science}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
 
 \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
 \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
@@ -222,43 +222,105 @@ headsepline, % Uncomment to get a line under the header
 %\href{http://www.jamessmith.com}
 \textcolor{magenta}{\supname} % Supervisor name - remove the \href bracket to remove the link  
 \end{flushright}
-\end{minipage}\\[3cm]
+\end{minipage}\\[2cm]
  
-\large \textit{A thesis submitted in partial fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+\large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+\facname\\\deptname\\[1cm] % Research group name and department name
  
-{\large \today}\\[4cm] % Date
-%\includegraphics{Logo} % University/department logo - uncomment to place it
+{\large \today}%\\[4cm] % Date
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=\columnwidth]{Logo.png} % University/department logo - uncomment to place it
+\end{figure}
+
  
 \vfill
 \end{center}
 \end{titlepage}
 
 %----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+
+\begin{preface}
+	\addchaptertocentry{\prefacename} % Add the preface to the table of contents
+	
+	The research work described in this thesis was carried out in the School of Engineering, University of KwaZulu-Natal, Durban, from July 2013 to December 2016, under the supervision of Professor Jules-Raymond Tapamo, PhD.
+	
+	This study is the origin al work of the author and has not been submitted in any form for any degree or diploma to any tertiary institution. Where use has been made of the work of others, it is duly acknowledged in the text.
+	
+\end{preface}
+
+%----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
 
-\begin{declaration}
-\addchaptertocentry{\authorshipname}
+%\begin{declaration}
+%\addchaptertocentry{\authorshipname}
+%
+%\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+%
+%\begin{itemize} 
+%\item This work was done wholly or mainly while in candidature for a research degree at this University.
+%\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
+%\item Where I have consulted the published work of others, this has been clearly attributed.
+%\item Where I have quoted from the work of others, the source has been given. With the exception of such quotations, this thesis is entirely my own work.
+%\item I have acknowledged all main sources of help.
+%\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
+%\end{itemize}
+% 
+%\noindent Signed:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
+% 
+%\noindent Date:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
+%\end{declaration}
+%
+%\cleardoublepage
 
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+\begin{declarationplagiarism}
+	\addchaptertocentry{\decplagiarismname}
+	
+	I, \authorname, declare that
+	\begin{enumerate}
+		\item The research reported in this thesis, except where otherwise indicated, is my original research.
+		
+		\item This thesis has not been submitted for any degree or examination at any other university.
+		
+		\item This thesis does not contain other persons' data, pictures, graphs or other information, unless specifically acknowledged as being sourced from other persons.
+		
+		\item This thesis does not contain other persons' writing, unless specifically acknowledged as being sourced from other researchers. Where other written sources have been quoted, then:
+		\begin{enumerate}
+			\item Their words have been re-written but the general information attributed to them has been referenced.
+			
+			\item Where their exact words have been used, then their writing has been placed in italics and inside quotation marks, and referenced.
+		\end{enumerate}
+	
+		\item This thesis does not contain text, graphics or tables copied and pasted from the Internet, unless specifically acknowledged, and the source being detailed in the thesis and in the References/Bibliography sections.\\
+	\end{enumerate}
 
-\begin{itemize} 
-\item This work was done wholly or mainly while in candidature for a research degree at this University.
-\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this has been clearly attributed.
-\item Where I have quoted from the work of others, the source has been given. With the exception of such quotations, this thesis is entirely my own work.
-\item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
-\end{itemize}
- 
-\noindent Signed:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
- 
-\noindent Date:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
-\end{declaration}
+	\vfill
+
+	\noindent Signed:\\
+	\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature	
+\end{declarationplagiarism}
+
+\cleardoublepage
+
+\begin{declarationpublication}
+	\addchaptertocentry{\decpublicationname}
+	
+	DETAILS OF CONTRIBUTION TO PUBLICATIONS that form part and/or include research presented in this thesis (include publications in preparation, submitted, in press and published and give details of the contributions of each author to the experimental work and writing of each publication)
+	\begin{enumerate}
+		\item PUT PUBLICATION HERE\\
+	\end{enumerate}
+	
+	\vfill
+	
+	\noindent Signed:\\
+	\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature	
+\end{declarationpublication}
 
 \cleardoublepage
 
@@ -307,7 +369,7 @@ I am filled with gratitude and thanksgiving to my God Jesus Christ for his favou
  
 I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard, my supervisor Professor Jules-Raymond Tapamo, PhD. Of all his noteworthy characteristics from guidance to the calibre of work he requires, it was his patience with me for three and half years for which I am thankful.
 
-Finally, the unwavering support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, the first time, Sian searched her pencil case for the deepest bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
+Finally, the unwavering support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, for the first time, Sian searched her pencil case for the deepest, bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
 
 \end{acknowledgements}
 
@@ -364,6 +426,8 @@ Finally, the unwavering support I had from my family leaves me at a loss for wor
 \textbf{FIFO} & \textbf{F}irst-\textbf{I}n \textbf{F}irst-\textbf{O}ut\\
 \textbf{FISH} & \textbf{F}luorescence \textbf{i}n-\textbf{s}itu \textbf{H}ybridisation\\
 \textbf{FLIM} & \textbf{F}luorescence \textbf{L}ifetime \textbf{I}maging \textbf{M}icroscopy\\
+\textbf{FN} & \textbf{F}alse \textbf{N}egatives\\
+\textbf{FP} & \textbf{F}alse \textbf{P}ositives\\
 \textbf{FRAP} & \textbf{F}luorescence \textbf{R}ecovery \textbf{A}fter \textbf{P}hotobleaching\\
 \textbf{FRET} & \textbf{F}luorescence \textbf{R}esonance \textbf{E}nergy \textbf{T}ransfer\\
 
@@ -423,6 +487,8 @@ Finally, the unwavering support I had from my family leaves me at a loss for wor
 \textbf{SNR} & \textbf{S}ignal-to-\textbf{N}oise \textbf{R}atio\\
 
 % T
+\textbf{TN} & \textbf{T}rue \textbf{N}egatives\\
+\textbf{TP} & \textbf{T}rue \textbf{P}ositives\\
 \textbf{TV} & \textbf{T}otal \textbf{V}ariation\\
 %\textbf{TRW} & \textbf{T}ree \textbf{R}e\textbf{w}eighted\\
 
