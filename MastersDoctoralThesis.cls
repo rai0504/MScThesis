@@ -314,6 +314,27 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 
 %----------------------------------------------------------------------------------------
+%	DECLARATIONS-PLAGIARISM PAGE DESIGN
+%----------------------------------------------------------------------------------------
+\newenvironment{declarationplagiarism}{
+	\checktoopen
+	\tttypeout{\abstractname}
+	\null\vfil
+	\thispagestyle{plain}
+	\begin{center}
+		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		\bigskip
+		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		\bigskip
+		{\huge \textbf{\MakeUppercase{Declaration 1 - Plagiarism}} \par}
+		\bigskip
+	\end{center}
+}
+{
+	\vfil\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
 %	ABBREVIATIONS PAGE DESIGN
 %----------------------------------------------------------------------------------------
 

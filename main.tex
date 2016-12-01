@@ -162,10 +162,10 @@ headsepline, % Uncomment to get a line under the header
 
 \subject{Computer Vision} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
 \keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
-\university{\href{http://www.ukzn.ac.za}{University of KwaZulu-Natal (Howard College)}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
+\university{\href{http://www.ukzn.ac.za}{University of KwaZulu-Natal}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
 \department{\href{http://caes.ukzn.ac.za/Homepage.aspx}{School of Engineering}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
 \group{\href{http://eece.ukzn.ac.za/Homepage.aspx}{Department of Electrical, Electronic and Computer Engineering}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
-\faculty{\href{http://faculty.university.com}{Faculty of Engineering}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+\faculty{\href{http://faculty.university.com}{College of Agriculture, Engineering and Science}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
 
 \hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
 \hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
@@ -226,10 +226,10 @@ headsepline, % Uncomment to get a line under the header
  
 \large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+\facname\\\deptname\\[2cm] % Research group name and department name
  
 {\large \today}\\[4cm] % Date
-%\includegraphics{Logo} % University/department logo - uncomment to place it
+\includegraphics{Logo} % University/department logo - uncomment to place it
  
 \vfill
 \end{center}
@@ -252,26 +252,51 @@ headsepline, % Uncomment to get a line under the header
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
 
-\begin{declaration}
-\addchaptertocentry{\authorshipname}
+%\begin{declaration}
+%\addchaptertocentry{\authorshipname}
+%
+%\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+%
+%\begin{itemize} 
+%\item This work was done wholly or mainly while in candidature for a research degree at this University.
+%\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
+%\item Where I have consulted the published work of others, this has been clearly attributed.
+%\item Where I have quoted from the work of others, the source has been given. With the exception of such quotations, this thesis is entirely my own work.
+%\item I have acknowledged all main sources of help.
+%\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
+%\end{itemize}
+% 
+%\noindent Signed:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
+% 
+%\noindent Date:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
+%\end{declaration}
+%
+%\cleardoublepage
 
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+\begin{declarationplagiarism}
+	I, \authorname, declare that
+	\begin{enumerate}
+		\item The research reported in this thesis, except where otherwise indicated, is my original research.
+		
+		\item This thesis has not been submitted for any degree or examination at any other university.
+		
+		\item This thesis does not contain other persons' data, pictures, graphs or other information, unless specifically acknowledged as being sourced from other persons.
+		
+		\item This thesis does not contain other persons' writing, unless specifically acknowledged as being sourced from other researchers. Where other written sources have been quoted, then:
+		\begin{enumerate}
+			\item Their words have been re-written but the general information attributed to them has been referenced.
+			
+			\item Where their exact words have been used, then their writing has been placed in italics and inside quotation marks, and referenced.
+		\end{enumerate}
+	
+		\item This thesis does not contain text, graphics or tables copied and pasted from the Internet, unless specifically acknowledged, and the source being detailed in the thesis and in the References/Bibliography sections.\\
+	\end{enumerate}
 
-\begin{itemize} 
-\item This work was done wholly or mainly while in candidature for a research degree at this University.
-\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this has been clearly attributed.
-\item Where I have quoted from the work of others, the source has been given. With the exception of such quotations, this thesis is entirely my own work.
-\item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
-\end{itemize}
- 
-\noindent Signed:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
- 
-\noindent Date:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
-\end{declaration}
+	\noindent Signed:\\
+	\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature	
+\end{declarationplagiarism}
 
 \cleardoublepage
 
