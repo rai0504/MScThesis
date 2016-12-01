@@ -316,6 +316,9 @@ KOMA-script documentation for details.}]{fancyhdr}
 %----------------------------------------------------------------------------------------
 %	DECLARATIONS-PLAGIARISM PAGE DESIGN
 %----------------------------------------------------------------------------------------
+\newcommand{\decplagiarismname}{Declaration 1 - Plagiarism}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\decplagiarismname}{Declaration 1 - Plagiarism}
+
 \newenvironment{declarationplagiarism}{
 	\checktoopen
 	\tttypeout{\abstractname}
@@ -326,7 +329,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 		\bigskip
 		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
 		\bigskip
-		{\huge \textbf{\MakeUppercase{Declaration 1 - Plagiarism}} \par}
+		{\huge \textbf{\MakeUppercase{\decplagiarismname}} \par}
 		\bigskip
 	\end{center}
 }
@@ -337,6 +340,9 @@ KOMA-script documentation for details.}]{fancyhdr}
 %----------------------------------------------------------------------------------------
 %	DECLARATIONS-PUBLICATIONS PAGE DESIGN
 %----------------------------------------------------------------------------------------
+\newcommand{\decpublicationname}{Declaration 2 - Publications}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\decpublicationname}{Declaration 2 - Publications}
+
 \newenvironment{declarationpublication}{
 	\checktoopen
 	\tttypeout{\abstractname}
@@ -347,7 +353,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 		\bigskip
 		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
 		\bigskip
-		{\huge \textbf{\MakeUppercase{Declaration 2 - Publications}} \par}
+		{\huge \textbf{\MakeUppercase{\decpublicationname}} \par}
 		\bigskip
 	\end{center}
 }
