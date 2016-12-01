@@ -385,6 +385,24 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 
 %----------------------------------------------------------------------------------------
+%	PREFACE PAGE DESIGN
+%----------------------------------------------------------------------------------------
+
+\newcommand{\prefacename}{Preface}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\prefacename}{Preface} % Acknowledgement text for English countries
+\providecaptionname{german,ngerman,austrian,naustrian}{\prefacename}{Danksagung} % Acknowledgement text for Germanic countries
+
+\NewDocumentEnvironment{preface}{}{%
+	\checktoopen
+	\tttypeout{\prefacename}
+	\thispagestyle{plain}
+	\begin{center}{\huge\textit{\prefacename}\par}\end{center}
+}
+{
+	\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
 
 \ifbool{hyperrefsupport}{% If the nohyperref class option has not been specified
 \AfterPackage{biblatex}{ % Load the hyperref package after the biblatex package for compatibility 
