@@ -202,8 +202,16 @@ headsepline, % Uncomment to get a line under the header
 \begin{titlepage}
 \begin{center}
 
-{\scshape\LARGE \univname\par}\vspace{1.5cm} % University name
-\textsc{\Large Masters Thesis}\\[0.5cm] % Thesis type
+{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name
+{\scshape\large \facname\par}
+%\large\facname \vspace{1.0cm} % College
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.3\columnwidth]{Logo.png} % University/department logo - uncomment to place it
+\end{figure}
+\vspace{0.5cm}
+%\textsc{\Large Masters Thesis}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
 {\huge \bfseries \ttitle\par}\vspace{0.4cm} % Thesis title
@@ -211,7 +219,7 @@ headsepline, % Uncomment to get a line under the header
  
 \begin{minipage}[t]{0.4\textwidth}
 \begin{flushleft} \large
-\emph{Author:}\\
+\emph{By:}\\
 %\href{http://www.johnsmith.com}
 \textcolor{magenta}{\authorname} % Author name - remove the \href bracket to remove the link
 \end{flushleft}
@@ -226,15 +234,11 @@ headsepline, % Uncomment to get a line under the header
  
 \large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{in the}\\[0.4cm]
-\facname\\\deptname\\[1cm] % Research group name and department name
+\deptname\\[1cm] % Research group name and department name
  
+ \LARGE\textbf{EXAMINER'S COPY}\\
 {\large \today}%\\[4cm] % Date
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=\columnwidth]{Logo.png} % University/department logo - uncomment to place it
-\end{figure}
 
- 
 \vfill
 \end{center}
 \end{titlepage}
@@ -251,6 +255,26 @@ headsepline, % Uncomment to get a line under the header
 	This study is the origin al work of the author and has not been submitted in any form for any degree or diploma to any tertiary institution. Where use has been made of the work of others, it is duly acknowledged in the text.
 	
 \end{preface}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+	\addchaptertocentry{\abstractname} % Add the abstract to the table of contents
+	
+	For multiple fields, from biosciences and pharmaceutical drug development to semiconductor and geology research and beyond, fluorescence microscopy has been established as an essential tool which allows for the visualisation of diminutive organisms and objects that escape visibility from the naked eye. The consequent insight into this world has given us a view from an indispensably unique perspective which has since played in vital role in enriching the livelihood of mankind.
+	
+	Fluorescence microscopy is not the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and to leverage this knowledge to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
+	
+	We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image acquisition stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme by defining a weighting process and explicit parameter relations.
+	We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for the proposed segmentation method, specific to the image of interest.
+	We compare this scheme with other well-known parameter estimation schemes and parameter settings. We also determine the optimal parameter setting for two energy and compare them to the novel energy function for fluorescent image segmentation.
+	
+	The results of the proposed methods exhibit a significant boost in segmentation correctness and consistency. It also supersedes previous schemes in terms of being applicable over a wider range of images. It furthermore boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
+	
+	The methods and techniques presented herein will greatly improve the results and stability of higher level decision making as well as removing the need to manually fine-tune segmentation results.
+\end{abstract}
 
 %----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
@@ -278,6 +302,20 @@ headsepline, % Uncomment to get a line under the header
 %\end{declaration}
 %
 %\cleardoublepage
+
+\begin{declarationsupervisor}
+	\addchaptertocentry{\decsupervisorname}
+	
+	As the candidates supervisor, I agree to the submission of this dissertation.
+	
+	\vfill
+	
+	\noindent \rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
+	\\ \noindent Jules-Raymond Tapamo
+		
+\end{declarationsupervisor}
+
+\cleardoublepage
 
 \begin{declarationplagiarism}
 	\addchaptertocentry{\decplagiarismname}
@@ -339,26 +377,6 @@ headsepline, % Uncomment to get a line under the header
 \hfill James 1.5 AMPC
 
 %----------------------------------------------------------------------------------------
-%	ABSTRACT PAGE
-%----------------------------------------------------------------------------------------
-
-\begin{abstract}
-\addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-
-For multiple fields, from biosciences and pharmaceutical drug development to semiconductor and geology research and beyond, fluorescence microscopy has been established as an essential tool which allows for the visualisation of diminutive organisms and objects that escape visibility from the naked eye. The consequent insight into this world has given us a view from an indispensably unique perspective which has since played in vital role in enriching the livelihood of mankind.
-
-Fluorescence microscopy is not the sole player in this venture. It shares the limelight with another important and just as critical field, and that is image segmentation. However, the course between fluorescence images and extracting a meaningful segmentation is laden with barriers and hurdles such as noise, extreme low contrast, non-uniform illumination, etc. The aim of this research is to better understand fluorescence image properties and to leverage this knowledge to enhance and develop domain-specific segmentation methods, using discrete combinatorial techniques, for extracting meaningful results.
-
-We design a pre-processing scheme which attempts to “undo” the adverse effects inherent in the image acquisition stage. Specifically, we tackle noise removal, boundary completion and enhancement and contrast enhancement. We also modify the Chan-Vese segmentation scheme by defining a weighting process and explicit parameter relations.
-We then use the information from an initial unsupervised segmentation to estimate the correct parameter settings for the proposed segmentation method, specific to the image of interest.
-We compare this scheme with other well-known parameter estimation schemes and parameter settings. We also determine the optimal parameter setting for two energy and compare them to the novel energy function for fluorescent image segmentation.
-
-The results of the proposed methods exhibit a significant boost in segmentation correctness and consistency. It also supersedes previous schemes in terms of being applicable over a wider range of images. It furthermore boasts a greater sense of generalisation since the parameters can be tuned for other images properties inherent in other domains.
-
-The methods and techniques presented herein will greatly improve the results and stability of higher level decision making as well as removing the need to manually fine-tune segmentation results.
-\end{abstract}
-
-%----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 
@@ -367,7 +385,7 @@ The methods and techniques presented herein will greatly improve the results and
 
 I am filled with gratitude and thanksgiving to my God Jesus Christ for his favour upon my life. This thesis would be a blank book if it wasn't for His grace throughout the duration of my research from the research topic to the people He placed around me to get this done.
  
-I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard, my supervisor Professor Jules-Raymond Tapamo, PhD. Of all his noteworthy characteristics from guidance to the calibre of work he requires, it was his patience with me for three and half years for which I am thankful.
+I truly am grateful for being accepted by the most prolific, honourable and yet humble and patient supervisor in UKZN Howard College, Professor Jules-Raymond Tapamo, PhD. Of all his noteworthy characteristics from guidance to the calibre of work he requires, it was his patience with me for three and half years for which I am thankful.
 
 Finally, the unwavering support I had from my family leaves me at a loss for words. I am so blessed to have a mother that doesn't get tired of encouraging me, and she had to do it very often throughout my studies. I often had to borrow her strength to get through. I think her name should really appear here...Charlotte. The quality of the language in this document would have been much lower if it wasn't for the in-house \textsf{\textipa{'gr\ae m@ 'na:tsiz}}, my father Ivan and my sister Sian. I won't forget how, for the first time, Sian searched her pencil case for the deepest, bloodiest red pen she could find. With every strike, cross and circle her smile grew wider. I am truly grateful for such a loving family.
 
@@ -552,8 +570,8 @@ Finally, the unwavering support I had from my family leaves me at a loss for wor
 \include{Chapters/ChapterA} % Introduction
 \include{Chapters/ChapterD} % Fluorescence Microscopy
 \include{Chapters/ChapterB} % Mathematical Background
-\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterJ} % Literature Review
+\include{Chapters/ChapterG} % Pre-Processing and Post-Processing Techniques
 %%\include{Chapters/ChapterE} % Automatic Segmentation
 \include{Chapters/ChapterF} % Graph Cut Solution to Chan-Vese Segmentation
 \include{Chapters/ChapterC} % Interactive Segmentation

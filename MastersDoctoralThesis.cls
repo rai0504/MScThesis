@@ -294,12 +294,23 @@ KOMA-script documentation for details.}]{fancyhdr}
 	\null\vfil
 	\thispagestyle{plain}
 	\begin{center}
-	{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+%	{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+%	\bigskip
+%	{\normalsize \MakeUppercase{\facname}\par}
+%	%{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+%	\bigskip
+	
+	{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name		
+	%{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+	%\bigskip
+	{\scshape\large \facname\par}
+	%{\normalsize \MakeUppercase{\facname} \par} % Faculty name
 	\bigskip
+	
 	{\huge\textit{\abstractname} \par}
 	\bigskip
-	{\normalsize \facname \par} % Faculty name
-	{\normalsize \deptname \par} % Department name
+	%{\normalsize \facname \par} % Faculty name
+	%{\normalsize \deptname \par} % Department name
 	\bigskip
 	{\normalsize \degreename\par} % Degree name
 	\bigskip
@@ -314,6 +325,32 @@ KOMA-script documentation for details.}]{fancyhdr}
 }
 
 %----------------------------------------------------------------------------------------
+%	DECLARATIONS-SUPERVISOR PAGE DESIGN
+%----------------------------------------------------------------------------------------
+\newcommand{\decsupervisorname}{Declaration - Supervisor}
+\providecaptionname{american,australian,british,canadian,english,newzealand,UKenglish,USenglish} {\decsupervisorname}{Declaration - Supervisor}
+
+\newenvironment{declarationsupervisor}{
+	\checktoopen
+	\tttypeout{\abstractname}
+	\null\vfil
+	\thispagestyle{plain}
+	\begin{center}
+		{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name		
+		%{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		%\bigskip
+		{\scshape\large \facname\par}
+		%{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		\bigskip
+		{\huge \textbf{\MakeUppercase{\decsupervisorname}} \par}
+		\bigskip
+	\end{center}
+}
+{
+	\vfil\vfil\vfil\null
+}
+
+%----------------------------------------------------------------------------------------
 %	DECLARATIONS-PLAGIARISM PAGE DESIGN
 %----------------------------------------------------------------------------------------
 \newcommand{\decplagiarismname}{Declaration 1 - Plagiarism}
@@ -325,9 +362,11 @@ KOMA-script documentation for details.}]{fancyhdr}
 	\null\vfil
 	\thispagestyle{plain}
 	\begin{center}
-		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
-		\bigskip
-		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name		
+		%{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		%\bigskip
+		{\scshape\large \facname\par}
+		%{\normalsize \MakeUppercase{\facname} \par} % Faculty name
 		\bigskip
 		{\huge \textbf{\MakeUppercase{\decplagiarismname}} \par}
 		\bigskip
@@ -349,9 +388,11 @@ KOMA-script documentation for details.}]{fancyhdr}
 	\null\vfil
 	\thispagestyle{plain}
 	\begin{center}
-		{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
-		\bigskip
-		{\normalsize \MakeUppercase{\facname} \par} % Faculty name
+		{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name		
+		%{\normalsize \MakeUppercase{\univname} \par} % University name in capitals
+		%\bigskip
+		{\scshape\large \facname\par}
+		%{\normalsize \MakeUppercase{\facname} \par} % Faculty name
 		\bigskip
 		{\huge \textbf{\MakeUppercase{\decpublicationname}} \par}
 		\bigskip
