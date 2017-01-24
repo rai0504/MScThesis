@@ -4,7 +4,56 @@
 
 \label{chap:Chapter7} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-We have shown, thoroughly and comprehensively, that the proposed methods are superior to existing methods. In some cases, there is a greater than 12\% increase in the accuracy of the results over a greater variation of fluorescence images. We have succeeded in moving a few steps closer to fully automated analysis. However, that is not to say that there are no limitations with the proposed methods.
+%\textcolor{red}{Summarise content and purpose of the section.\\
+%1. Restate the topic + explain why it is important. Usually a single sentence.\\
+%2. Aside from the topic, you should also restate or rephrase your thesis statement.\\
+%3. Briefly summarise main points. Avoid writing new information.\\
+%4. *Add the points up if section is inducive.\\
+%5. Make a call to action when appropriate.\\
+%---\\
+%1. Stick with a basic synthesis of information rather than summarisation. Rephrase in a way %that ties them together.\\
+%2. Bring things full circle. Directly link introduction and conclusion. Anecdote completion.\\
+%3. *Close with logic. *If research presents multiple sides of an argument.\\
+%4. *Make a suggestion.\\
+%---\\
+%1. Avoid saying "in conclusion" or similar sayings.\\
+%2. Leave out new information.\\
+%3. Avoid changing the tone of the paper. eg. An academic paper that is given an emotional or %sentimental conclusion.\\
+%4. Don't make any apologies eg. "I may not be an expert..." or "This is only my opinion..."
+%}
+
+%We have shown, thoroughly and comprehensively, that the proposed methods are superior to existing methods. In some cases, there is a greater than 12\% increase in the accuracy of the results over a greater variation of fluorescence images. We have succeeded in moving a few steps closer to fully automated analysis. However, that is not to say that there are no limitations with the proposed methods.
+
+This dissertation explores and investigates fluorescence image segmentation focussing specifically on the instances of the most common and widely used energy minimisation models that can be optimised via the graph cut framework. Fluorescence imaging covers a wide range of disciplines; we restrict our concern to biomedical and biological images.
+
+%\textcolor{red}{Some problems with fluorescence images that hinder accurate segmentation.}
+
+A rudimentary understanding of fluorescence imaging concepts are covered in \Cref{chap:Chapter2}, along with factors that affect image quality, common segmentation techniques and what these segmentations are used for in the higher stages of analysis.
+In \Cref{chap:Chapter3}, we present the mathematical foundation of the energy models used in graph cut segmentation. Our own contributions and efforts are documented in the next three chapters.
+
+\begin{definition}[Image Preparation - \Cref{chap:Chapter4}]
+	Due to our current understanding of the physical process involved in capturing fluorescent images, we typically cannot produce high quality images. This is a problem for segmentation algorithms which will readily produce inaccuracies and segmentation artefacts. To abate the problems, fluorescence images are usually pre-process in some way to allow for more accurate segmentation results.
+	
+	We propose a pre-processing segmentation scheme that pushes a great deal of the object data to the foreground which allows for enhanced visualisation and increased accuracy in segmentation. This is due to our novel data amplification function. Segmentation contours, after pre-processing with the proposed scheme, are smoother and follow the contour of the cell more tightly. we achieved an average accuracy of 94.0026\%, which is a 1,1391\% increase compared to an image with no pre-processing.
+\end{definition}
+
+\begin{definition}[Parameter Estimation for Discrete Chan-Vese Segmentation - \Cref{chap:Chapter5}]
+	Fluorescence images in cellular biology alone are greatly diverse and it seems as if there are very few common characteristics traits that are common to all fluorescence images. Previous researchers have tried to find parameter settings that work well, however; these are very limited in the general application of fluorescence image segmentation.
+	
+	We propose a parameter estimation method that tunes the parameters to the corresponding image. The derived method focuses not on the parameters directly but on the relationship between parameters. When suitable approximations of the final means, for the background and the object, are obtained, the parameters are calculated based on the relationship between parameters which, in this case, were tuned for cellular fluorescence images.
+	The proposed parameter estimation scheme was tested against two published parameter settings by El-Zehiry \textit{et al.} \citep{ElZehiry2007} and Masaka \textit{et al.} \citep{Maska2013}.
+	The proposed scheme exhibited high and consistent accuracy over a large range of images which average at 93.5329\%. This is a significant boost in comparison to the parameter setting by El-Zehiry \textit{et al.} \citep{ElZehiry2007} which averaged at 80.5732\% and Masaka \textit{et al.} \citep{Maska2013} which averaged at 54.7369\%.
+\end{definition}
+
+\begin{definition}[Interactive Segmentation - \Cref{chap:Chapter6}]
+	User interaction allows for specific marking of the objects of interest which sometimes presents too difficult a problem for automatic recognition or if the automatic seeding is not reliable. While fully automatic segmentation is the ultimate goal of image segmentation it is not always possible in industry especially when the properties of the image is not well known. While interactive segmentation is still widely used, the goal of reduced user interaction and increased segmentation accuracy has not changed.
+	
+	We propose an energy weighting system that is tailored to fluorescence image segmentation. There are two variants i.e. with and without hard constraints. The energy function is based on the general properties of intensity variation and pixel probability. The energy functions are based on the intensity variation of fluorescence images.
+	The proposed energy functions were tested against two common energy systems for interactive graph cut segmentation by Boykov and Jolly \citep{Boykov2001_2} and Eriksson \textit{et al.} \citep{Eriksson2006}.
+	The proposed scheme show an increase in accuracy and greater consistency over a large range of images which averaged at 94.5778\% with hard constraints and 94.5771\% without hard constraints. This is a significant boost in comparison to the general energy functions proposed by Boykov and Jolly \citep{Boykov2001_2} which averaged at 84.6089\% and Eriksson \textit{et al.} \citep{Eriksson2006} at 86.9989\%.
+\end{definition}
+
+The results from the research undertaken has confirmed that the aim of this dissertation has been achieved. We have studied the fluorescence imaging process and fluorescence images, and leveraged the understanding thereof to design fluorescence-image-specific segmentation schemes and functions that allow for more accurate segmentation and reduced user interaction.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1

@@ -6,13 +6,13 @@
 
 %\textcolor{red}{[Introduction] What is special about the Chan-Vese formulation to the Mumford-Shah evolution energy function. Advantages, disadvantages (parameter estimation). Course of the chapter.}
 
-The Mumford-Shah functional \citep{Mumford1989} is used to find optimal sub-regions of an image. The image is modelled to as a piece-wise smooth function. This functional is difficult to optimise and is usually done by optimising an approximation. Chan and Vese, in \citep{Chan2001}, optimises an approximation of the Mumford-Shah functional by using variational level sets. Hence, the curves are not explicitly manipulated. Instead, they are implicitly manipulated by evolving the level set function. This was found to be highly robust and accurate in practice, even when algorithms terminated at near optimums. In the following section, we cover how this functional can be adapted for graph cut optimisation, for global optimisation. We then tweak the energy function for easier mathematical analysis and tune the parameter specifically for fluorescence image segmentation in \Cref{sec:cvgc_weightingandparameterestimation}. We present the results of our proposed energy function and parameter estimation method against other published parameter settings in \Cref{sec:cvgc_experimentalresults}. A discussion follows in \Cref{sec:cvgc_discussion}.
+The Mumford-Shah functional \citep{Mumford1989} is used to find optimal sub-regions of an image. The image is modelled to as a piece-wise smooth function. This functional is difficult to optimise and is usually done by optimising an approximation. Chan and Vese \citep{Chan2001} optimised an approximation of the Mumford-Shah functional by using variational level sets. Hence, the curves are not explicitly manipulated. Instead, they are implicitly manipulated by evolving the level set function. This was found to be highly robust and accurate in practice, even when algorithms terminated at near optimums. In the following section, we cover how this functional can be adapted for graph cut optimisation, for global optimisation. We then tweak the energy function for easier mathematical analysis and tune the parameters specifically for fluorescence image segmentation in \Cref{sec:cvgc_weightingandparameterestimation}. We present the results of our proposed energy function and parameter estimation method against other published parameter settings in \Cref{sec:cvgc_experimentalresults}. A discussion is presented in \Cref{sec:cvgc_discussion} which is followed by a conclusion in \Cref{sec:cvgc_conclusion}.
 
 \section{Graph Cut Model for Chan-Vese Segmentation}
 \label{sec:chanveseGC}
 
 %\textcolor{red}{Chan-Vese formulation of the Mumford-Shah formulation. Length approximation using discrete representations (cut-metrics). Discrete representation of Chan-Vese formulation. Graph representation and sub-modularity constraint. Insensitivity to initialisation. What do the parameters mean and how do they influence the final result.}
-In this section, we briefly reintroduce the graph cut formulation for the Chan-Vese formulation of the Mumford-Shah evolution energy function for image segmentation. The Mumford-Shah model uses gradient descent techniques to obtain a minimum; but as previously discussed in \Cref{sec:MAPMRFEstimation}, they usually terminate at local minima. By reformulating the energy function in a discrete form that allows for appropriate graph representability, we can use graph cuts which are able to terminate at a global minimum, to iteratively converge to the optimal solution. For an in-depth exposition into this technique, look to \citep{Mumford1989,Chan2001,ElZehiry2007}.
+In this section, we briefly introduce the graph cut formulation for the Chan-Vese formulation of the Mumford-Shah evolution energy function for image segmentation. The Mumford-Shah model uses gradient descent techniques to obtain a minimum; but as previously discussed in \Cref{sec:MAPMRFEstimation}, they usually terminate at local minima. By reformulating the energy function in a discrete form that allows for appropriate graph representability, we can use graph cuts which are able to terminate at a global minimum, to iteratively converge to the optimal solution. For an in-depth exposition into this technique, see \citep{Mumford1989,Chan2001,ElZehiry2007}.
 
 The level set representation of the Mumford-Shah energy function is 
 \begin{equation}
@@ -27,9 +27,9 @@ The level set representation of the Mumford-Shah energy function is
 where $u(x,y)$ is the image, $H(\cdot)$ is the Heaviside step function, $\delta(\cdot)$ is the Dirac delta function and $\phi:\Omega \rightarrow \mathbb{R}$ is the level set function, such that:
 \begin{equation}
 	\begin{split}
-		\omega & = \{(x,y) \in \Omega|\Phi(x_p)>0\} \text{ Inside the boundary} \\
-		\bar{\omega} & = \{(x,y) \in \Omega|\Phi(x_p)<0\} \text{ Outside the boundary} \\
-		C = \partial\omega & = \{(x,y) \in \Omega|\Phi(x_p)=0\} \text{ Along the boundary},
+		\omega & = \{(x,y) \in \Omega|\Phi(x_p)>0\} \hspace{30pt} \text{ Inside the boundary} \\
+		\bar{\omega} & = \{(x,y) \in \Omega|\Phi(x_p)<0\} \hspace{30pt} \text{ Outside the boundary} \\
+		C = \partial\omega & = \{(x,y) \in \Omega|\Phi(x_p)=0\} \hspace{30pt} \text{ Along the boundary},
 	\end{split}
 	\label{eq:levelsetrepresentation}
 \end{equation}
@@ -53,7 +53,7 @@ The piece-wise smooth approximation of the image is then
 	\begin{equation}
 		\int_L n_L dL = \int_{0}^{\pi}\int_{-\infty}^{\infty} n_L d\rho d\theta = 2 \lVert C \rVert_E,
 	\end{equation}
-	where $n_L$ is the number of intersections between the contour $C$ and the line $L$, $ \lVert C \rVert_E$ is the Euclidean length of the contour, $0 < \rho < \infty$ and $0 < \theta < 2\pi$. From this the discrete approximation used by Boykov and Zabih is 
+	where $n_L$ is the number of intersections between the contour $C$ and the line $L$, $ \lVert C \rVert_E$ is the Euclidean length of the contour, $0 < \rho < \infty$ and $0 < \theta < 2\pi$. From this, the discrete approximation used by Boykov and Zabih is 
 	\begin{equation}
 		\lVert C \rVert_E = \frac{1}{2}\sum_k n_k \frac{\delta^2 \Delta\theta_k}{|e_k|} = \frac{1}{2}\sum_k n_k w_k
 		\label{eq:discretelength}
@@ -127,7 +127,7 @@ The graph for the energy function is constructed as in \citep{Kolmogorov2004}.
 \label{sec:cvgc_weightingandparameterestimation}
 
 %\textcolor{red}{What is wrong with the previously described graph weighting. What would we expect from a better weighting system. Problem images are multi-modal and extremely low contrast.}
-In this section, we introduce a novel idea to weighting  a graph for image segmentation based on the Chan-Vese formulation of the Mumford-Shah evolution function. Previous parameter estimation schemes focused very specifically on a certain image and this resulted in hard-coded parameters. In \citep{ElZehiry2007}, were this method was first devised, they used the parameter settings $\mu = 0.1 \times 255^2$, $\lambda_1 = \lambda_2 = 1$. This worked very well on their synthetic images proving a strong resilience to noise and initial conditions. However, for fluorescence microscopy images, the results tend to be a bit too over-segmented for practical use. These parameters were used to segment the images in the sample set, \Cref{fig:sampleset}, and the segmentation results are shown in \Cref{fig:samplesetdefaultcv}.
+In this section, we introduce a novel idea to weighting  a graph for image segmentation based on the Chan-Vese formulation of the Mumford-Shah evolution function. Previous parameter estimation schemes focused very specifically on certain images or image characterstics and this resulted in hard-coded parameters settings. In \citep{ElZehiry2007}, were this method was first devised, they used the parameter settings $\mu = 0.1 \times 255^2$, $\lambda_1 = \lambda_2 = 1$. This worked very well on their synthetic images proving a strong resilience to noise and initial conditions. However, for fluorescence microscopy images, the results tend to be a bit too over-segmented for practical use. These parameters were used to segment the images in the sample set, \Cref{fig:sampleset}, and the segmentation results are shown in \Cref{fig:samplesetdefaultcv}.
 
 \begin{figure}[!h]
 	\centering
@@ -161,11 +161,11 @@ In this section, we introduce a novel idea to weighting  a graph for image segme
 		\includegraphics[width=0.3\columnwidth]{default_cv/6gray.jpg}
 		\label{fig:6graydefaultcv}
 	}
-	\caption{Segmentation results on fluorescence images using the default parameters settings provides by El-Zehiry \textit{et al.}}
+	\caption{Segmentation results on fluorescence images using the default parameters settings provides by El-Zehiry \textit{et al.} \citep{ElZehiry2007}.}
 	\label{fig:samplesetdefaultcv}
 \end{figure}
 
-In \citep{Maska2013}, the authors proposed a segmentation and tracking scheme for whole fluorescent cells in a time-lapse series. The result was another set of hard-coded parameters which were based on maximising the Jaccard coefficient of the automatically segmented cells in each frame of the time-lapse series which was also manually segmented. The optimal parameter settings were $\mu=0.01$, $\lambda_1=1$ and $\lambda_2 = 85$. These parameters were used on the sample set in \Cref{fig:sampleset} and the results proved to be less useful as shown in \Cref{fig:samplesetcelltrack}. It can be deduced that the parameters were specifically tuned to the image type that was studied in the time-lapse series.
+Masaka \textit{et al.} \citep{Maska2013} proposed a segmentation and tracking scheme for whole fluorescent cells in a time-lapse series. The result was another set of hard-coded parameters which were based on maximising the Jaccard coefficient of the automatically segmented cells in each frame of the time-lapse series which was also manually segmented. The optimal parameter settings were $\mu=0.01$, $\lambda_1=1$ and $\lambda_2 = 85$. These parameters were used on the sample set in \Cref{fig:sampleset} and the results proved to be less useful as shown in \Cref{fig:samplesetcelltrack}. It can be deduced that the parameters were specifically tuned to the image type that was studied in the time-lapse series.
 
 \begin{figure}[!t]
 	\centering
@@ -199,11 +199,11 @@ In \citep{Maska2013}, the authors proposed a segmentation and tracking scheme fo
 		\includegraphics[width=0.3\columnwidth]{cell_tracking/6gray.jpg}
 		\label{fig:6graycelltrack}
 	}
-	\caption{Segmentation results on fluorescence images using the parameters settings provides by Maska \textit{et al.}}
+	\caption{Segmentation results on fluorescence images using the parameters settings provides by Maska \textit{et al.} \citep{Maska2013}.}
 	\label{fig:samplesetcelltrack}
 \end{figure}
 
-It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In the following sections, \Cref{sec:cvgc_weighting,sec:cvgc_analysis}, we devise a novel weighting scheme, and parameter estimation; as well as a new way to think of the parameters involved, in terms of \textit{proxy parameters}. We then specifically focus on tuning these parameters for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
+It can be seen that hard-coded parameter values do not produce very consistent results over a large range of image types as that found in fluorescence microscopy imaging. In \Cref{sec:cvgc_weighting,sec:cvgc_analysis}, we devise a novel weighting scheme, and parameter estimation; as well as a new way to think of the parameters involved, in terms of \textit{proxy relational parameters}. We then specifically focus on tuning these parameters for fluorescence images in \Cref{sec:cvgc_parameterestimation}.
 
 \subsection{Graph Weighting}
 \label{sec:cvgc_weighting}
@@ -259,7 +259,7 @@ To better understand the relationship between $\lambda_0$ and $\lambda_1$ and it
 	\lambda_0 = \alpha\lambda_1.
 	\label{eq:l0l1dependancy}
 \end{equation}
-Forcing this relation between $\lambda_0$ and $\lambda_1$ makes further analysis simpler and more intuitive. We can immediately see a constraint on $\alpha$. Since, we require data connections to be positive, i.e. $E^i(0), E^i(1) \geq 0$ , see \Cref{eq:markovpositivity}, this gives us a lower-bound on $\alpha$ for positive concavity of the energy functions
+Forcing this relation between $\lambda_0$ and $\lambda_1$ makes further analysis simpler and more intuitive. We can immediately see a constraint on $\alpha$. Since, we require data connections to be positive, i.e. $E^i(0), E^i(1) \geq 0$ , see Positivity constraint  in \Cref{eq:markovpositivity}, this gives us a lower-bound on $\alpha$ for positive concavity of the energy functions
 \begin{equation}
 	\alpha > 0 \,\text{ lower-bound on } \alpha
 \end{equation}
@@ -338,8 +338,8 @@ The point where the energies are equal, $p_e$, is shown in \Cref{fig:dataenergyp
 	From \Cref{eq:pe} we note that there is one tuneable parameter, i.e. $\alpha$. We can see that $p_e$ and $\alpha$ are inversely related. This is expressed mathematically as
 \begin{equation*}\begin{split}
 		\text{if } \alpha=1, p_e=c_0+\frac{c_1-c_0}{1+\sqrt{1}} = \frac{c_0+c_1}{2} \hspace{30pt}&\text{(midpoint between $c_0$ and $c_1$)}\\
-		\lim_{\alpha\to\infty}p_e = \lim_{\alpha\to\infty}c_0+\frac{c_1-c_0}{1+\sqrt{\infty}} = c_0\hspace{30pt} &\text{(maximum $\alpha$ yields lower-bound on $p_e$)}\\
-		\lim_{\alpha\to0}p_e = \lim_{\alpha\to0}c_0+\frac{c_1-c_0}{1+\sqrt{0}} = c_1\hspace{30pt} &\text{(minimum $\alpha$ yields upper-bound on $p_e$)}
+		\lim_{\alpha\to\infty}p_e = c_0\hspace{30pt} &\text{(maximum $\alpha$ yields lower-bound on $p_e$)}\\
+		\lim_{\alpha\to0}p_e = c_1\hspace{30pt} &\text{(minimum $\alpha$ yields upper-bound on $p_e$)}
 	\end{split}\end{equation*}
 \end{definition}
 The relationship between $p_e$ and $\alpha$ is illustrated in \Cref{fig:alphaperelationship}.
@@ -371,7 +371,7 @@ The relationship between $p_e$ and $\alpha$ is illustrated in \Cref{fig:alphaper
 \end{definition}
 
 \begin{definition}[Lower-bound on $\mu$]
-	When we found the point, $p_e$, where the energies are equal in \Cref{eq:pe}, we ignored the other solution as it was not within the range from $c_0$ to $c_1$. Let this point be $p_{e^*}$. If this point is positive and $0<p_{e^*}<c_0$ then we must ensure that at no point within this range that the source flow saturates all the outgoing edges. This forces a limit on how low $\mu$ can be. This is only of significant concern when $\alpha>1$. We only need to concern ourselves with the point $p=0$ as this is the point where the difference $E^i(0)-E^i(1)$ is the largest. The lower-bound on $\mu$ can be obtained as follows
+	When we found the point, $p_e$, where the energies are equal in \Cref{eq:pe}, we ignored the other solution as it was not within the range from $c_0$ to $c_1$. Let this point be $p_{e^*}$. If this point is positive and $0<p_{e^*}<c_0$ then we must ensure that at no point within this range must the source flow saturate all outgoing edges. This forces a limit on how low $\mu$ can be. This is only of significant concern when $\alpha>1$. We only need to concern ourselves with the point $p=0$ as this is the point where the difference $E^i(0)-E^i(1)$ is the largest. The lower-bound on $\mu$ can be obtained as follows
 	\begin{equation*}\begin{split}
 		E^i(0)|_{p_i=0} &< E^i(1)|_{p_i=0} + \mu \left( 2\sqrt{2} + 4\right) \\
 		\lambda_0c_0^2 &< \lambda_1c_1^2 + \mu \left( 2\sqrt{2} + 4\right) \\
@@ -420,7 +420,7 @@ This point is marked off in \Cref{fig:dataenergyplot}.
 \end{definition}
 
 \begin{definition}[Parameter estimation process]
-	The parameter estimation is based on the assumption that sufficiently good approximations for $c_0$, $c_1$, $p_e$ and $h$ can be obtained. By sufficiently good we are referring to the closeness to the values these parameters would be for an ideal segmentation. From these approximations, we calculate the approximation for $\alpha$ using \Cref{eq:alphaapproximation}. The parameters $\mu$ and $\lambda_1$ are related and are not separable, therefore we set choose to set $\mu$. We can then calculate $\lambda_1$ using \Cref{eq:lambda1approximation}. For the chosen $\mu$ we can calculate the upper-bound on $\lambda_1$ to ensure that the constraint \Cref{eq:mulowerbound} is met. The constraint on $\lambda_1$ is calculated as follows
+	The parameter estimation is based on the assumption that sufficiently good approximations for $c_0$, $c_1$, $p_e$ and $h$ can be obtained. By sufficiently good we are referring to the closeness to the values these parameters would be for an ideal segmentation. From these approximations, we calculate the approximation for $\alpha$ using \Cref{eq:alphaapproximation}. The parameters $\mu$ and $\lambda_1$ are related and are not separable, therefore we choose to set $\mu$. We can then calculate $\lambda_1$ using \Cref{eq:lambda1approximation}. For the chosen $\mu$ we can calculate the upper-bound on $\lambda_1$ to ensure that the constraint \Cref{eq:mulowerbound} is met. The constraint on $\lambda_1$ is calculated as follows
 \begin{equation*}
 \mu\left( 2\sqrt{2} + 4 \right) > \lambda_1(\alpha c_0^2 - c_1^2)
 \end{equation*}
@@ -442,7 +442,7 @@ The properties of the images obtained in fluorescence microscopy imaging can be 
 
 \begin{definition}[Manual Tuning] Before moving further into analysis of the relationships between the parameters, we first perform a manual tuning of parameters and observing the effect on the segmented results. This allows us to understand how strongly correlated the parameter is to the final result. We note that the curves, $E^i(0)$ and $E^i(1)$, can be tuned relative to a fixed value for $\mu$ and this would not impact significantly on the range of possible solution sets. Therefore, we set $\mu=1$ in all our manual parameter tuning. We use a stopping criterion of $\epsilon=1\times10^{-3}$.
 	
-We cover a relatively wide range of parameter settings and note the output, i.e. over-segmented, under-segmented, almost ideal, etc. At this point, categorising the segmented output is largely subjective. We also use various initial conditions. Specifically, we use the segmented output from Otsu binarization, K-means ($k=2$) and Expectation-Maximisation for Gaussian Mixture Modelling (EMGMM) with ($k=2$). The initial and final means are of significant important in this study.
+We cover a relatively wide range of parameter settings and note the output, i.e. over-segmented, under-segmented, almost ideal, etc. At this point, categorising the segmented output is largely subjective. We also use various initial conditions. Specifically, we use the segmented output from Otsu binarization, K-means ($k=2$) and Expectation-Maximisation for Gaussian Mixture Modelling (EMGMM) with ($k=2$). The initial and final means are of significant importance in this study.
 
 For \Cref{fig:1gray}, we show the output for the following combinations of $\alpha$ and $\lambda_1$. $(\alpha,\lambda_1) = \{(30,150), (40,50), (40,100), (40,150), (40,200), (45,150), (50,150)\}$. The initial segmentation masks are shown in \Cref{fig:image1init}. The segmented output for the combinations are shown in \Cref{fig:image1mytune}.
 
@@ -895,7 +895,15 @@ The means and standard deviations for the initial masks obtained are shown in \C
 \label{tab:initmaskvalues}
 \end{table}
 
-The final values for the segmentation results are shown in \Cref{tab:manualresults}. The table shows for each image, given the values for the input parameters, the degree of acceptance of the output. We take the  final results are the means of object and the background. From the final results, we calculate the values for $p_e$, \Cref{eq:pe}, and $h$ ,\Cref{eq:h}. The means for each image can vary greatly. To put the values of $p_e$ and $h$ into a relative perspective, they are also shown as a fraction of the distance between $c_0$ and $c_1$. Let $k_p \in (0,1)$ be the fraction of the distance $p_e-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kp}. Let $k_h \in (k_h,1)$ be the fraction of the distance $h-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kh}. The following relation holds $0 < k_p < k_h$.
+The final values for the segmentation results are shown in \Cref{tab:manualresults}.
+The table highlights extremely poor results in red, between 70\%-90\% accuracy in orange and remainder is left as is.
+%The table shows for each image, given the values for the input parameters, the degree of acceptance of the output.
+We take the  final results are the means of object and the background.
+From the final results, we calculate the values for $p_e$, \Cref{eq:pe}, and $h$, \Cref{eq:h}.
+The means for each image can vary greatly.
+To put the values of $p_e$ and $h$ into a relative perspective, they are also shown as a fraction of the distance between $c_0$ and $c_1$.
+Let $k_p \in (0,1)$ be the fraction of the distance $p_e-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kp}.
+Let $k_h \in (k_h,1)$ be the fraction of the distance $h-c_0$ and $c_1-c_0$ as illustrated in \Cref{fig:kh}, we have $0 < k_p < k_h$.
 
 \begin{figure}[!h]
 	\centering
@@ -929,6 +937,7 @@ The final values for the segmentation results are shown in \Cref{tab:manualresul
 	\label{fig:kh}
 \end{figure}
 
+\newpage
 \begin{center}
 	\begin{longtable}{|c|c|c|c|c|c|c|c|c|}
 	\caption{Results from manual tuning.} \label{tab:manualresults}\\
@@ -1058,7 +1067,7 @@ The final values for the segmentation results are shown in \Cref{tab:manualresul
 Upon comparing the initial means in \Cref{tab:initmaskvalues} and final means for the acceptable and good segmentation results in \Cref{tab:manualresults}, the values of the initial means are larger. This is due to over-segmentation produced by Otsu, K-means and EMGMM clustering. A na{\"i}ve approach to shifting the initial means closer to the final means is to dilate the initial mask. This pushes the boundaries of the contour for the object to accept the lower intensity neighbouring pixels, as well as remove these relatively higher values from the background mask.
 
 %\textcolor{red}{Dilated table results and final radius for dilation.}
-To determine the optimal dilation size, we compare the difference of the mean values for each image in \Cref{tab:manualresults}, for the good segmentation results only. These values are shown in \Cref{tab:meanofmeans}. We use an elliptical element for dilation. The results of the dilation and the difference from the respective final means is shown in \Cref{tab:dilateotsu}, \Cref{tab:dilatekmeans} and \Cref{tab:dilateemgmm} for the initial masks obtained from Otsu binarization, K-means and EMGMM clustering respectively. The closest values to the average final mean is highlighted in blue. From the tables, it can be seen that a dilation size of 3 for a elliptical dilation element results in mean values that are closest to the average final means.
+To determine the optimal dilation size, we compare the difference of the mean values for each image in \Cref{tab:manualresults}, for the good segmentation results only. These values are shown in \Cref{tab:meanofmeans}. We use an elliptical element for dilation. The results of the dilation and the difference from the respective final means is shown in \Cref{tab:dilateotsu}, \Cref{tab:dilatekmeans} and \Cref{tab:dilateemgmm} for the initial masks obtained from Otsu binarization, K-means and EMGMM clustering respectively. The closest values to the average final mean are highlighted in blue. From the tables, it can be seen that a dilation size of 3 for a elliptical dilation element results in mean values that are closest to the average final means.
 
 \begin{table}[!h]
 	\centering
@@ -1288,11 +1297,11 @@ Similarly, to determine $h$ we find the average of all $k_h$ in \Cref{tab:manual
 \begin{equation*}
 	k_h = 0.412737.
 \end{equation*}
-It is rarely the case where this is known or can be calculated, if ever at all. Instead, we use the results from three popular unsupervised clustering algorithms and compare the final segmented result against a ground truth. The algorithms chosen to generate an initial mask, from which we calculate $c_0$ and $c_1$ are: \textit{Otsu} \citep{Otsu1979}, $k$-means \citep{Kanungo2002} with $k=2$ and Expectation Maximisation Gaussian Mixture Modelling (EMGMM) \citep{Figueiredo2002} with $k=2$. From observations we see that these algorithms tend to generate over-segmented results. In light of this, we generate a fourth mask which is an EMGMM output with dilation. For dilation, we used an elliptical shape with a radius of $3px$. Once we have the initial mask and have calculated the initial $c_0$ and $c_1$ from this initial mask, we calculate $\lambda_1$ using \Cref{eq:lambda1fromkpandkh}. Now that we have $\alpha$ and $\lambda_1$ we calculate $\lambda_0$ using \Cref{eq:l0l1dependancy}. We set the termination criterion at $\epsilon=1 \times 10^{-3}$.
+It is rarely the case where the final means are known or can be pre-calculated, if ever at all. Instead, we use the results from three popular unsupervised clustering algorithms and compare the final segmented result against a ground truth. The algorithms chosen to generate an initial mask, from which we calculate $c_0$ and $c_1$ are: \textit{Otsu} \citep{Otsu1979}, $k$-means \citep{Kanungo2002} with $k=2$ and Expectation Maximisation Gaussian Mixture Modelling (EMGMM) \citep{Figueiredo2002} with $k=2$. From observations we see that these algorithms tend to generate over-segmented results. In light of this, we generate a fourth mask which is an EMGMM output with dilation. For dilation, we used an elliptical shape with a radius of $3px$. Once we have the initial mask and have calculated the initial $c_0$ and $c_1$ from this initial mask, we calculate $\lambda_1$ using \Cref{eq:lambda1fromkpandkh}. Now that we have $\alpha$ and $\lambda_1$ we calculate $\lambda_0$ using \Cref{eq:l0l1dependancy}. We set the termination criterion at $\epsilon=1 \times 10^{-3}$.
 
 We also compare our results  to two previously published parameter settings.
-The first is the parameter settings used in \citep{ElZehiry2007}, by El Zehiry \textit{et al.}, which is where this technique was first published. Their results showed excellent segmentation output on synthetic images and mammography images with very high robustness against noise. They do not specify the noise type.
-The second parameter setting which we test against is presented in \citep{Maska2013}, by Masaka \textit{et al.}. Their parameter setting was based on a time-lapse series of fluorescence images. Their scheme is a hybrid of algorithms design to segment whole fluorescent cells, however, we use the parameters settings they have presented for segmentation only. Their parameters were obtained by minimising the Jaccard coefficient over the time-lapse series. Their results show a greater area of cell detection and smoother boundaries; although, the smoother contours are a result of CED-ORI \citep{Weickert2002} which is part of the scheme before segmentation.
+The first is the parameter settings used El Zehiry \textit{et al.} \citep{ElZehiry2007}, which is where this technique was first published. Their results showed excellent segmentation output on synthetic images and mammography images with very high robustness against noise. They do not specify the noise type.
+The second parameter setting which we test against is presented by Masaka \textit{et al.} \citep{Maska2013}. Their parameter setting was based on a time-lapse series of fluorescence images. Their scheme is a hybrid of algorithms designed to segment whole fluorescent cells; however, we use the parameter setting they have presented for segmentation only. Their parameter setting was obtained by minimising the Jaccard coefficient over the time-lapse series. Their results show a greater area of cell detection and smoother boundaries; although, the smoother contours are a result of CED-ORI \citep{Weickert2002} which is part of the scheme before segmentation.
 
 The initial masks used in subsequent parameter estimation is shown in \Cref{fig:test188,fig:test195,fig:test228,fig:test1057,fig:test1265,fig:test10093,fig:test10102,fig:test10104,fig:test12294,fig:test12627,fig:test13432,fig:test13438,fig:test13899,fig:test13901,fig:test21749,fig:test21759,fig:test32140,fig:test35278,fig:test37338,fig:test37339,fig:test38974,fig:test40217,fig:test40968,fig:test41066,fig:test42451}.
 
@@ -2914,7 +2923,7 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \hhline{---------~~-}	1-k	&	0.02625	&	0.46444	&	0.09395	&	0.20711	&	29.9509	&	7.47525 	&	0.00556	&	0.43593	&		&		&	0.02333	\\
 \hhline{---------~~-}	1-e	&	0.00873	&	0.44298	&	0.07582	&	0.18796	&	29.9509	&	7.61164 	&	0.00638	&	0.43808	&		&		&	0.02629	\\
 \hhline{---------~~-}	1-d	&	0.00256	&	0.42168	&	0.06732	&	0.17555	&	29.9509	&	8.17148 	&	0.00785	&	0.44130	&		&		&	0.03098	\\
-\hhline{-----------}	2-n	&	0.05448	&	0.06033	&	\centering-	&	\centering-	&	\centering-	&	\centering-		&	0.05264	&	0.11120	& \multirow{6}{*}{0.03371}	& \multirow{6}{*}{0.10663}	&	0.02352	\\
+\hhline{------------}	2-n	&	0.05448	&	0.06033	&	\centering-	&	\centering-	&	\centering-	&	\centering-		&	0.05264	&	0.11120	& \multirow{6}{*}{0.03371}	& \multirow{6}{*}{0.10663}	&	0.02352	\\
 \hhline{---------~~-}	2-m	&	0.05448	&	0.06033	&	\centering-	&	\centering-	&	\centering-	&	\centering-		&	0.05490	&	0.05822	&		&		&	0.06960	\\
 \hhline{---------~~-}	2-o	&	0.04080	&	0.14206	&	0.05645	&	0.08259	&	29.9509	&	139.983 	&	0.03037	&	0.09425	&		&		&	0.00905	\\
 \hhline{---------~~-}	2-k	&	0.04080	&	0.14206	&	0.05645	&	0.08259	&	29.9509	&	139.984 	&	0.03037	&	0.09425	&		&		&	0.00905	\\
@@ -2944,8 +2953,9 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \hhline{---------~~-}	6-k	&	0.03173	&	0.15753	&	0.05117	&	0.08366	&	29.9509	&	90.7016 	&	0.00733	&	0.09131	&		&		&	0.01113	\\
 \hhline{---------~~-}	6-e	&	0.03348	&	0.16650	&	0.05404	&	0.08839	&	29.9509	&	81.1216 	&	0.00798	&	0.09229	&		&		&	0.01276	\\
 \hhline{---------~~-}	6-d	&	0.02350	&	0.11789	&	0.03809	&	0.06246	&	29.9509	&	161.108 	&	0.00446	&	0.08688	&		&		&	0.00384	\\
-\hhline{------------}	7-n	&	0.01226	&	0.04400	&\centering	-	&\centering	-	&	\centering-	&	\centering-		&	0.02896	&	0.09064	& \multirow{6}{*}{0.01346}	& \multirow{6}{*}{0.08035}	&	0.02579	\\
-\hhline{---------~~-}	7-m	&	0.01226	&	0.04400	&\centering	-	&\centering	-	&\centering	-	&	\centering-		&	0.01214	&	0.07147	&		&		&	0.00755	\\
+%\hhline{------------}	7-n	&	0.01226	&	0.04400	&\centering	-	&\centering	-	&	\centering-	&	\centering-		&	0.02896	&	0.09064	& \multirow{6}{*}{0.01346}	& \multirow{6}{*}{0.08035}	&	0.02579	\\
+\hhline{------------}	7-n	&	0.01226	&	0.04400	&\centering	-	&\centering	-	&	\centering-	&	\centering-		&	0.02896	&	0.09064	& 	& 	&	0.02579	\\
+\hhline{---------~~-}	7-m	&	0.01226	&	0.04400	&\centering	-	&\centering	-	&\centering	-	&	\centering-		&	0.01214	&	0.07147	&	0.01346	&	0.08035	&	0.00755	\\
 \hhline{---------~~-}	7-o	&	0.02098	&	0.16457	&	0.04317	&	0.08025	&	29.9509	&	69.6183 	&	0.01476	&	0.09537	&		&		&	0.01632	\\
 \hhline{---------~~-}	7-k	&	0.02098	&	0.16457	&	0.04317	&	0.08025	&	29.9509	&	69.6184 	&	0.01477	&	0.09538	&		&		&	0.01634	\\
 \hhline{---------~~-}	7-e	&	0.01766	&	0.12742	&	0.03462	&	0.06297	&	29.9509	&	119.128 	&	0.01353	&	0.08515	&		&		&	0.00488	\\
@@ -2986,9 +2996,10 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \hhline{---------~~-}	13-k	&	0.03430	&	0.23396	&	0.06515	&	0.11671	&	29.9509	&	36.0075 	&	0.02267	&	0.15618	&		&		&	0.00677	\\
 \hhline{---------~~-}	13-e	&	0.02970	&	0.20405	&	0.05664	&	0.10167	&	29.9509	&	47.2175 	&	0.02342	&	0.16248	&		&		&	0.00122	\\
 \hhline{---------~~-}	13-d	&	0.02115	&	0.12638	&	0.03742	&	0.06459	&	29.9509	&	129.640 	&	0.02045	&	0.14440	&		&		&	0.01633	\\
-\hhline{------------}	14-n	&	0.06029	&	0.06139	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.05777	&	0.16960	& \multirow{6}{*}{0.03323}	& \multirow{6}{*}{0.16654}	&	0.02761	\\
+%\hhline{------------}	14-n	&	0.06029	&	0.06139	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.05777	&	0.16960	& \multirow{6}{*}{0.03323}	& \multirow{6}{*}{0.16654}	&	0.02761	\\
+\hhline{------------}	14-n	&	0.06029	&	0.06139	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.05777	&	0.16960	& 	&	&	0.02761	\\
 \hhline{---------~~-}	14-m	&	0.06029	&	0.06139	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.00000	&	0.06097	&		&		&	0.07232	\\
-\hhline{---------~~-}	14-o	&	0.03772	&	0.30268	&	0.07866	&	0.14709 &	29.9509	&	20.4463 	&	0.02669	&	0.19334	&		&		&	0.02027	\\
+\hhline{---------~~-}	14-o	&	0.03772	&	0.30268	&	0.07866	&	0.14709 &	29.9509	&	20.4463 	&	0.02669	&	0.19334	&	0.03323	&	0.16654	&	0.02027	\\
 \hhline{---------~~-}	14-k	&	0.03772	&	0.30268	&	0.07866	&	0.14709	&	29.9509	&	20.4463 	&	0.02669	&	0.19334	&		&		&	0.02027	\\
 \hhline{---------~~-}	14-e	&	0.03359	&	0.25979	&	0.06854	&	0.12696	&	29.9509	&	28.0516 	&	0.02523	&	0.18031	&		&		&	0.00578	\\
 \hhline{---------~~-}	14-d	&	0.02592	&	0.15617	&	0.04605	&	0.07969	&	29.9509	&	84.6065 	&	0.02585	&	0.18815	&		&		&	0.01425	\\
@@ -3028,9 +3039,10 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 \hhline{---------~~-}	20-k	&	0.01666	&	0.23671	&	0.05066	&	0.10749	&	29.9509	&	29.6411 	&	0.01420	&	0.10368	&		&		&	0.05185	\\
 \hhline{---------~~-}	20-e	&	0.01507	&	0.13829	&	0.03411	&	0.06594	&	29.9509	&	94.5349 	&	0.01065	&	0.06009	&		&		&	0.00471	\\
 \hhline{---------~~-}	20-d	&	0.01287	&	0.07606	&	0.02264	&	0.03896	&	29.9509	&	359.465 	&	0.00954	&	0.05207	&		&		&	0.00317	\\
-\hhline{------------}	21-n	&	0.03017	&	0.07699	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.03501	&	0.36663	& \multirow{6}{*}{0.00965}	& \multirow{6}{*}{0.30254}	&	0.08947	\\
+%\hhline{------------}	21-n	&	0.03017	&	0.07699	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.03501	&	0.36663	& \multirow{6}{*}{0.00965}	& \multirow{6}{*}{0.30254}	&	0.08947	\\
+\hhline{------------}	21-n	&	0.03017	&	0.07699	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.03501	&	0.36663	& 	& 	&	0.08947	\\
 \hhline{---------~~-}	21-m	&	0.03017	&	0.07699	&\centering	-	&\centering	-	&\centering	-	&\centering	-		&	0.02604	&	0.04685	&		&		&	0.27208	\\
-\hhline{---------~~-}	21-o	&	0.01359	&	0.39872	&	0.07309	&	0.17256	&	29.9509	&	9.67724 	&	0.01025	&	0.35268	&		&		&	0.05076	\\
+\hhline{---------~~-}	21-o	&	0.01359	&	0.39872	&	0.07309	&	0.17256	&	29.9509	&	9.67724 	&	0.01025	&	0.35268	&	0.00965	&	0.30254	&	0.05076	\\
 \hhline{---------~~-}	21-k	&	0.01359	&	0.39872	&	0.07309	&	0.17256	&	29.9509	&	9.67724 	&	0.01025	&	0.35268	&		&		&	0.05076	\\
 \hhline{---------~~-}	21-e	&	0.00772	&	0.27844	&	0.04955	&	0.11946	&	29.9509	&	19.5846 	&	0.01018	&	0.35304	&		&		&	0.05104	\\
 \hhline{---------~~-}	21-d	&	0.00717	&	0.13728	&	0.02264	&	0.03896	&	29.9509	&	359.465 	&	0.00954	&	0.05207	&		&		&	0.25036	\\
@@ -3092,7 +3104,7 @@ As can be seen, the parameter settings presented previously in literature are no
 	\end{equation*}
 \end{definition}
 
-Accuracy is the fraction of the pixels that are correctly classified from among all pixels. MCC is the \textit{Matthews Correlation Coefficient} and is more accurate measure of accuracy when comparing classes whose sizes differ greatly. The result is a value between $-1$ and $+1$, where $-1$ is refers to a complete opposite classification, i.e. all background pixels are labelled as "object" and all object pixels are labelled as "background", and $+1$ means a perfect classification, $0$ is equivalent to a random classification. The results for each image in the test set is tabulated in \Cref{tab:segmentationefficiency}. The overall efficiency for each method is tabulated in \Cref{tab:overallsegmentationefficiency}. For each table, rows that are highlighted in blue show the method that performed the best for each image in \Cref{tab:segmentationefficiency} and over the test set in \Cref{tab:overallsegmentationefficiency}.
+Accuracy is the fraction of the pixels that are correctly classified from among all pixels. MCC is the \textit{Matthews Correlation Coefficient} and is more accurate measure of accuracy when comparing classes whose sizes differ greatly. The result is a value between $-1$ and $+1$, where $-1$ is refers to a complete opposite classification, i.e. all background pixels are labelled as "object" and all object pixels are labelled as "background", and $+1$ means a perfect classification, $0$ is equivalent to a random classification. The results for each image in the test set are tabulated in \Cref{tab:segmentationefficiency}. The overall efficiency for each method is tabulated in \Cref{tab:overallsegmentationefficiency}. For each table, rows that are highlighted in blue show the method that performed the best for each image in \Cref{tab:segmentationefficiency} and over the test set in \Cref{tab:overallsegmentationefficiency}.
 
 \begin{longtabu}[!h] {|c|c|c|c|c|c|c|c|c|}
 	\caption{Segmentation Efficiency.} \label{tab:segmentationefficiency} \\
@@ -3250,7 +3262,7 @@ Accuracy is the fraction of the pixels that are correctly classified from among 
 	\hline 
 \end{longtabu} 
 
-From the marked-up rows, we can clearly see that the proposed method supersedes the competiting methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision but a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see the performance of the competitor parameter settings are very erratic.
+From the marked-up rows, we can clearly see that the proposed method supersedes the competiting methods. This is better shown in \Cref{tab:overallsegmentationefficiency}. From the data in \Cref{tab:segmentationefficiency} we plot Precision vs Recall in \Cref{fig:precisionvsrecall}. From \Cref{fig:precisionvsrecall} we can see that the parameter settings proposed by Masaka \textit{et al.} tend to have low precision but a very high recall. We can also see that the parameter settings proposed by El Zehiry \textit{et al.} tend to have very low recall but a high precision. The proposed method, for all initialisation methods, have a relatively high precision and recall. We plot the accuracy over the test set which is shown in \Cref{fig:accuracyovertestset}. We can clearly see that the performance of the competitor parameter settings are very erratic.
 %The proposed method is much more stable which is verified by the standard deviation of the accuracy shown in \Cref{tab:overallsegmentationefficiency}.
 
 \begin{longtable}{|c|c|c|c|c|c|c|}
@@ -3259,8 +3271,8 @@ From the marked-up rows, we can clearly see that the proposed method supersedes 
 	\multirow{2}{*}{Method} & \multicolumn{2}{c|}{Precision} & \multicolumn{2}{c|}{Recall} & \multicolumn{2}{c|}{Accuracy}  \\ 
 	\hhline{~------}
 	& Mean & Std. Dev. & Mean & Std. Dev & Mean & Std. Dev.  \\ 
-	\hline	El-Zehiry \textit{et al.}	&	0.951912	&	0.088710	&	0.421993	&	0.226299	&	0.805732	&	0.151199	\\
-	\hline \rowcolor{bad}	Maska \textit{et al.}	&	0.485812	&	0.292765	&	0.993592	&	0.014007	&	0.547369	&	0.321099\\
+	\hline	El-Zehiry \textit{et al.} \citep{ElZehiry2007}	&	0.951912	&	0.088710	&	0.421993	&	0.226299	&	0.805732	&	0.151199	\\
+	\hline \rowcolor{bad}	Maska \textit{et al.} \citep{Maska2013}	&	0.485812	&	0.292765	&	0.993592	&	0.014007	&	0.547369	&	0.321099\\
 	\hline	Prop. - Otsu	&	0.876652	&	0.153530	&	0.845668	&	0.240808	&	0.911657	&	0.087720	\\
 	\hline	Prop. - K-means	&	0.874892	&	0.157316	&	0.844808	&	0.242856	&	0.909905	&	0.088468	\\
 	\hline	Prop. - EMGMM	&	0.875713	&	0.161034	&	0.883279	&	0.202419	&	0.918983	&	0.087190	\\
@@ -3282,10 +3294,42 @@ From the marked-up rows, we can clearly see that the proposed method supersedes 
 	\label{fig:accuracyovertestset}
 \end{figure}
 
+
 \section{Discussion}
 \label{sec:cvgc_discussion}
 %\textcolor{red}{Discuss the proposed method against the competing methods here.}
 
-The general parameter settings by El-Zehiry \textit{et al.} clearly outperform the fluorescence imaging specific parameter settings presented by Masaka \textit{et al.} by 25.8363\%. However, even the least accurate proposed parameter estimation technique outperforms El-Zehiry's parameter settings by 10.5925\% while the most accurate proposed method boasts an increase of 12.9597\%. The proposed method is also much more stable over a greater variety of fluorescence images, as can be seen by the standard deviation of accuracy shown in \Cref{tab:overallsegmentationefficiency}.
+The general parameter settings by El-Zehiry \textit{et al.} \citep{ElZehiry2007} clearly outperform the fluorescence imaging specific parameter settings presented by Masaka \textit{et al.} \citep{Maska2013} by 25.8363\%. However, even the least accurate proposed parameter estimation technique outperforms El-Zehiry's parameter settings by 10.5925\% while the most accurate proposed method boasts an increase of 12.9597\%. The proposed method is also much more stable over a greater variety of fluorescence images, as can be seen by the standard deviation of accuracy shown in \Cref{tab:overallsegmentationefficiency}.
 
+\section{Conclusion}
+\label{sec:cvgc_conclusion}
+%\textcolor{red}{Summarise content and purpose of the section.\\
+%1. Restate the topic + explain why it is important. Usually a single sentence.\\
+%2. Aside from the topic, you should also restate or rephrase your thesis statement.\\
+%3. Briefly summarise main points. Avoid writing new information.\\
+%4. *Add the points up if section is inducive.\\
+%5. Make a call to action when appropriate.\\
+%---\\
+%1. Stick with a basic synthesis of information rather than summarisation. Rephrase in a way %that ties them together.\\
+%2. Bring things full circle. Directly link introduction and conclusion. Anecdote completion.\\
+%3. *Close with logic. *If research presents multiple sides of an argument.\\
+%4. *Make a suggestion.\\
+%---\\
+%1. Avoid saying "in conclusion" or similar sayings.\\
+%2. Leave out new information.\\
+%3. Avoid changing the tone of the paper. eg. An academic paper that is given an emotional or %sentimental conclusion.\\
+%4. Don't make any apologies eg. "I may not be an expert..." or "This is only my opinion..."
+%}
+
+Fluorescence images are hugely diverse; even so of the images within the fields of cellular biology and medicine. The design of a general and  automatic segmentation method is not a trivial exercise; however, it is much needed.
+
+We have presented a novel parameter estimation technique which is able to tune the parameters of the graph-cut application of the Chan-Vese segmentation method, to the specific image.
+This is a huge contrast in comparison to the fixed parameter settings as proposed by El-Zehiry \textit{et al.} \citep{ElZehiry2007} and Masaka \textit{et al.} \citep{Maska2013}.
+Our method, does however, rely on the strong assumption that the initial means obtained from the initial unsupervised segmentation scheme is relatively close to the final means. 
+Fortunately though, in the domain of biological and medical fluorescence images, the unsupervised segmentation results obtained from an Otsu, K-means or EMGMM clustering is close enough to outperform the competitor parameter settings. We have shown that an EMGMM clustering and a dilation of 3 pixels, with an elliptical dilation element, provides the best aproximation to the final means which results in an average of 93.5329\% classification accuracy. Given the diversity of fluorescence images in the test set, this is a very pleasing result, especially when compared to the competitor parameter settings by El-Zehiry \textit{et al.} \citep{ElZehiry2007} which showed an average of 80.5732\% and Masaka \textit{et al.} \citep{Maska2013} which showed an average of 54.7369\%.
+Furthermore, considering the fact that it is not possible, for even the same professional, to consistently manually segment an image the same everytime, and that greater variation in groundtruths will result from many professionals, we can see that even a 10\% variation in groundtruths will result in the proposed scheme superseding the other schemes. This further shows the robustness of the algorithm.
+
+Once the initial means have been obtained, the parameters are adapted to the image by direct calculation by means of the \textit{relationship variables and formulae}. These relationship variables and formulae encode the important relation of the parameters with each other. This allows the  ability to adapt the parameter settings according to the properties of the image. These resutling parameters only allow high segmentation accuracy if the image has the properties that are encoded in the relationship variables and formulae.
+
+The relationship formulae only take into account the infomation from the intensity of the image. Other infomation, such as texture, can be incorporated into the formulae as well. This will include adapting the graph to hold this infomation so that it can be accounted for in the energy function.
 
