@@ -8,7 +8,7 @@
 
 In the previous section, we worked with an automatic segmentation technique. As motivated in the introduction, it is ideal to remove as much manual input as possible, however, automatic segmentation isn't a silver bullet solution and at times it is necessary for the user to get involved. The goal of reducing user interaction still remains. In this section, we design a novel energy function specifically for the images acquired in fluorescence microscopy for interactive segmentation.
 
-In \Cref{sec:interactivepopularweighting} we cover two very popular and widely used graph weighting schemes for general graph cut purposes. We then focus on the proposed weighting system in \Cref{sec:interactiveproposedweighting}. We determine the optimal parameters for all weighting schemes in \Cref{sec:optimalparameters} and present the results in \Cref{sec:interactiveresults}. We end this chapter with a discussion in \Cref{sec:interactivediscussion}.
+In \Cref{sec:interactivepopularweighting} we cover two very popular and widely used graph weighting schemes for general graph cut purposes. We then focus on the proposed weighting system in \Cref{sec:interactiveproposedweighting}. We determine the optimal parameters for all weighting schemes in \Cref{sec:optimalparameters} and present the results in \Cref{sec:interactiveresults}. We present a discussion in \Cref{sec:interactivediscussion} and close the chapter with a conclusion in \Cref{sec:interactive_conclusion}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -20,7 +20,8 @@ In \Cref{sec:interactivepopularweighting} we cover two very popular and widely u
 %\textcolor{red}{We compare the weighting schemes by Boykov and Jolly in \citep{Boykov2001_2} and Eriksson \textit{et al.} in \citep{Eriksson2006}.}
 In this section, we briefly cover the two weighting systems that are very popular for interactive graph cut segmentation.
 
-\begin{definition}[Seeding only] In \citep{Eriksson2006}, Eriksson \textit{et al.} presented a weighting system that incorporates prior knowledge into the image partitioning process. The prior knowledge is given by the user by marking image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). From the histogram of the labelled regions, the intensity distribution is modelled as a Gaussian mixture model (GMM) which is fitted through Expectation Maximisation (EM). The terminal links are weighted as
+\begin{definition}[Seeding only]
+	Eriksson \textit{et al.} \citep{Eriksson2006} presented a weighting system that incorporates prior knowledge into the image partitioning process. The prior knowledge is given by the user by marking image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). From the histogram of the labelled regions, the intensity distribution is modelled as a Gaussian Mixture Model (GMM) which is fitted through Expectation Maximisation (EM). The terminal links are weighted as
 	
 \begin{align}
 	D_p("obj") &= \frac{\Pr(I_p|\mathcal{O})}{\Pr(I_p|\mathcal{O})+\Pr(I_p|\mathcal{B})}, \\
@@ -33,25 +34,24 @@ The neighbourhood interaction function they used was
 	V_{\{p,q\}} = \exp\left( \frac{r(p,q)}{\sigma_R} \right)\exp\left( -\frac{(I_p-I_q)^2}{\sigma_W} \right),
 \end{equation}
 	
-where $r(\cdot)$ is the distance between pixels $p$ and $q$. Eriksson \textit{et al.} did not explicitly state the number of Gaussian functions they've used in their intensity distribution model, therefore we've defaulted to using two curves.
-	
+where $r(p,q)$ is the Euclidean distance between pixels $p$ and $q$. Eriksson \textit{et al.} did not explicitly state the number of Gaussian functions they've used in their intensity distribution model, therefore we've defaulted to using two curves.
 \end{definition}
 
 \begin{definition}[Seeding with hard constraints]
-	In \citep{Boykov2001_2}, Boykov and Jolly proposed a general purpose interactive segmentation scheme for multi-dimensional images. As in the previous scheme, the user marks image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). An intensity distributions based on the histogram from the seeded regions are calculated for each labelled region. Data weights for unseeded nodes are weighted as the negative log-likelihood from the intensity distribution. For the pixel $p$, the terminal weighting is
+	Boykov and Jolly \citep{Boykov2001_2} proposed a general purpose interactive segmentation scheme for multi-dimensional images. As in the previous scheme, the user marks image regions that are either "object" ($\mathcal{O}$) or "background" ($\mathcal{B}$). An intensity distributions based on the histogram from the seeded regions are calculated for each labelled region. Data weights for unseeded nodes are weighted as the negative log-likelihood from the intensity distribution. For the pixel $p$, the terminal weighting is
 
 \begin{align}
 	D_p("obj") &= -\ln\Pr(I_p|\mathcal{O}), \\
 	D_p("bkg") &= -\ln\Pr(I_p|\mathcal{B}).
 \end{align}
 
-Boykov and Jolly did not explicitly state how the intensity distribution is to be derived from the histogram. Therefore, we've used a Guassian mixture model (GMM) of two Guassian curves which approximates the histogram. The neighbourhood interaction function they've proposed is
+Boykov and Jolly did not explicitly state how the intensity distribution is to be derived from the histogram. Therefore, we've used a GMM of two Gaussian curves which approximates the histogram. The neighbourhood interaction function they've proposed is
 
 \begin{equation}
 	V_{\{p,q\}} = \exp\left( -\frac{(I_p-I_q)^2}{2 \sigma^2}\right)\cdot\frac{1}{r(p,q)},
 \end{equation}
 
-where $r(\cdot)$ is the distance between pixels $p$ and $q$. The distance function they used wasn't explicitly stated. Therefore, we've used the Euclidean norm.
+where $r(p,q)$ is the distance between pixels $p$ and $q$. The distance function they used wasn't explicitly stated. Therefore, we've used the Euclidean norm.
 
 For the marked pixels, in addition to serving as seeds, they're also hard constraints. To ensure that they retain the label that they're marked with, they're given a terminal link weight that cannot be saturated by the neighbourhood nodes. This unsaturable weight is calculated as
 
@@ -60,7 +60,7 @@ For the marked pixels, in addition to serving as seeds, they're also hard constr
 	\label{eq:hardconstraintweight}
 \end{equation}
 
-Then the object-marked node $p$ is data weighted as $c(S,p)=K$ and $c(p,T)=0$, and background-marked node $p$ is data weighted as $c(S,p)=0$ and $c(p,T)=K$, where $c(\cdot)$ is the capacity of an edge.
+Then the object-marked node $p$ is data weighted as $c(S,p)=K$ and $c(p,T)=0$, and background-marked node $p$ is data weighted as $c(S,p)=0$ and $c(p,T)=K$, where $c(u,v)$ is the capacity of the edge $uv$.
 \end{definition}
 
 %----------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ In this section, we introduce a novel weighting system that is based on the gene
 \begin{definition}[Object weighting function]
 	We first normalise the intensity distribution. Let the maximum value of the intensity distribution be $k_{max}= max(P_{FG})$. Now $P_{FG}^{1} = \frac{P_{FG}}{k_{max}}$.
 	
-	Let the maximum intensity value in the image occur at $I_{max}$. Let the weight for this intensity value be $F$. The value of $F$ in the final function is the same as that of the intensity distribution from the Gaussian mixture model. Therefore $F = P_{FG}^{1}(I_{max})$.
+	Let the maximum intensity value in the image occur at $I_{max}$. Let the weight for this intensity value be $F$. The value of $F$ in the final function is the same as that of the intensity distribution from the Gaussian Mixture Model. Therefore $F = P_{FG}^{1}(I_{max})$.
 	
 	Let the intensity value at which $P_{FG}^{1}$ is a maximum be denoted by $\iota_{FG}$. The intensity distribution after the point where the maximum value occurs is replaced by a parabola where the turning point maximum is $\left(\iota_{FG}, P_{FG}^{1}(\iota_{FG})\right)$ and the end point is $(I_{max},F)$. The parabola defined by these points is 
 	\begin{equation}
@@ -128,7 +128,20 @@ In this section, we introduce a novel weighting system that is based on the gene
 	To enable the seeds marked by the user as hard constraints, we use the same technique in \citep{Boykov2001_2}. Background and object seeds are weighted using \Cref{eq:hardconstraintweight}.
 \end{definition}
 
-The motivation for replacing part of the function with a parabolic function is to reduce the exponential decay of probability. The probability of pixels beyond the highest point, for object data, do not decay so quickly. Similarly, for the decay rate of pixels below the highest point for background data. The modified energy function is still submodular, therefore its global optimum can be found using graph cuts.
+\begin{definition}[Neighbourhood Interaction Function]
+	The neighbourhood interaction weights from the energy functions proposed by Boykov and Jolly \citep{Boykov2001_2} and Eriksson \textit{et al.} \citep{Eriksson2006} both encode the dissimilarity between adjacent pixels as an exponential squared difference fall-off. This is compounded even further by reducing it by a function that is the difference of the distance between pixels. This is a very steep fall-off for fluorescence images as pixels over a longer range still have a relatively high correllation. An appropriate neighbourhood weighting function is possible but requires very specific setting of the parameters as a slight change in the parameters results in a steep reaction of the neighbourhood energy function.
+	
+	To diminish the sharp reaction of the neighbourhood energy function of the previous functions, we use the following energy function which encourages greater correlation over longer distances and milder reaction to parameter changes
+	
+	\begin{equation}
+	V_{\{p,q\}} = \exp\left( -\frac{(I_p-I_q)}{\sigma} \right)\cdot\frac{1}{r(p,q)},
+	\end{equation}
+	
+	where $r(p,q)$ is the distance between pixels $p$ and $q$. We use the Euclidean distance.
+	
+\end{definition}
+
+The motivation for replacing part of the function with a parabolic function is to reduce the exponential decay of probability. The probability of pixels beyond the highest point, for object data, do not decay so quickly. Similarly, for the decay rate of pixels below the highest point for background data. It is also counter-intuitive to have a wavering probability distribution at higher a lower pixel intensity values. The modified energy function is still submodular and is derived off the energy model in \Cref{eq:generalformexpanded}, therefore its global optimum can be found using graph cuts.
 
 
 %----------------------------------------------------------------------------------------
@@ -223,7 +236,7 @@ The segmentation results with the optimal parameters for each weighting system i
 		\label{fig:proposedhcinteractive}
 	}
 
-	\caption{Plots of mean segmentation accuracy against the corresponding method tuning parameters. \textbf{(a)} Weighting system proposed by Eriksson \textit{et al.} The remaining parameter is set to $\sigma_R=1$. \textbf{(b)} Weighting system with hard constraints proposed by Boykov \textit{et al.} \textbf{(c)} Proposed weighting system without hard constraints. \textbf{(d)} Proposed weighting system with hard constraints.}
+	\caption{Plots of mean segmentation accuracy against the corresponding method tuning parameters. \textbf{(a)} Weighting system proposed by Eriksson \textit{et al.} \citep{Eriksson2006}. The remaining parameter is set to $\sigma_R=1$. \textbf{(b)} Weighting system with hard constraints proposed by Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed weighting system without hard constraints. \textbf{(d)} Proposed weighting system with hard constraints.}
 	\label{fig:interactiveweightingcomparison}
 \end{figure}
 
@@ -231,26 +244,26 @@ The segmentation results with the optimal parameters for each weighting system i
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/1seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleeriksson/1seg}
 		\label{fig:eriksson1}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/1seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/1seg}
 		\label{fig:boykov1}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/1seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/1seg}
 		\label{fig:proposed1}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/1seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/1seg}
 		\label{fig:proposedhc1}
 	}
 	
-	\caption{Interactive segmentation of Image 1 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 1 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg1}
 \end{figure}
 
@@ -263,21 +276,21 @@ The segmentation results with the optimal parameters for each weighting system i
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/2seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/2seg}
 		\label{fig:boykov2}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/2seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/2seg}
 		\label{fig:proposed2}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/2seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/2seg}
 		\label{fig:proposedhc2}
 	}
 	
-	\caption{Interactive segmentation of Image 2 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 2 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg2}
 \end{figure}
 
@@ -285,26 +298,26 @@ The segmentation results with the optimal parameters for each weighting system i
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/3seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleeriksson/3seg}
 		\label{fig:eriksson3}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/3seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/3seg}
 		\label{fig:boykov3}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/3seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/3seg}
 		\label{fig:proposed3}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/3seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/3seg}
 		\label{fig:proposedhc3}
 	}
 	
-	\caption{Interactive segmentation of Image 3 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 3 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg3}
 \end{figure}
 
@@ -312,26 +325,26 @@ The segmentation results with the optimal parameters for each weighting system i
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/4seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleeriksson/4seg}
 		\label{fig:eriksson4}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/4seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/4seg}
 		\label{fig:boykov4}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/4seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/4seg}
 		\label{fig:proposed4}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/4seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/4seg}
 		\label{fig:proposedhc4}
 	}
 	
-	\caption{Interactive segmentation of Image 4 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 4 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg4}
 \end{figure}
 
@@ -339,26 +352,26 @@ The segmentation results with the optimal parameters for each weighting system i
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/5seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleeriksson/5seg}
 		\label{fig:eriksson5}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/5seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/5seg}
 		\label{fig:boykov5}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/5seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/5seg}
 		\label{fig:proposed5}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/5seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/5seg}
 		\label{fig:proposedhc5}
 	}
 	
-	\caption{Interactive segmentation of Image 5 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 5 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg5}
 \end{figure}
 
@@ -366,26 +379,26 @@ The segmentation results with the optimal parameters for each weighting system i
 	\centering
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleeriksson/6seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleeriksson/6seg}
 		\label{fig:eriksson6}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleboykov/6seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleboykov/6seg}
 		\label{fig:boykov6}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposed/6seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposed/6seg}
 		\label{fig:proposed6}
 	}
 	\subfigure[]
 	{
-		\includegraphics[width=0.22\columnwidth]{/proposedinteractive/sampleproposedHC/6seg}
+		\includegraphics[width=0.23\columnwidth]{/proposedinteractive/sampleproposedHC/6seg}
 		\label{fig:proposedhc6}
 	}
 	
-	\caption{Interactive segmentation of Image 6 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \textbf{(b)} Boykov \textit{et al.} \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
+	\caption{Interactive segmentation of Image 6 in sample set (\Cref{fig:sampleset}). \textbf{(a)} Eriksson \textit{et al.} \citep{Eriksson2006}. \textbf{(b)} Boykov \textit{et al.} \citep{Boykov2001_2}. \textbf{(c)} Proposed (No hard constraints) \textbf{(d)} Proposed with hard constraints.}
 	\label{fig:interactivesampleseg6}
 \end{figure}
 
@@ -396,7 +409,7 @@ The segmentation results with the optimal parameters for each weighting system i
 \section{Experimental Results}
 \label{sec:interactiveresults}
 
-We compared the segmentation results for optimal parameters found in \Cref{sec:optimalparameters}. We used a common seed for all images which is shown in \Cref{fig:188seed,fig:195seed,fig:228seed,fig:1057seed,fig:1265seed,fig:10093seed,fig:10102seed,fig:10104seed,fig:12294seed,fig:12627seed,fig:13432seed,fig:13438seed,fig:13899seed,fig:13901seed,fig:21749seed,fig:21759seed,fig:32140seed,fig:35278seed,fig:37338seed,fig:37339seed,fig:38974seed,fig:40217seed,fig:40968seed,fig:41066seed,fig:42451seed}. From the seeds, we calculated a probability distribution based on EMGMM for $k=2$, each for the background and the object seeds.
+We compared the segmentation results for the optimal parameters found in \Cref{sec:optimalparameters}. We used a common seed for all images which is shown in \Cref{fig:188seed,fig:195seed,fig:228seed,fig:1057seed,fig:1265seed,fig:10093seed,fig:10102seed,fig:10104seed,fig:12294seed,fig:12627seed,fig:13432seed,fig:13438seed,fig:13899seed,fig:13901seed,fig:21749seed,fig:21759seed,fig:32140seed,fig:35278seed,fig:37338seed,fig:37339seed,fig:38974seed,fig:40217seed,fig:40968seed,fig:41066seed,fig:42451seed}. From the seeds, we calculated a probability distribution based on EMGMM for $k=2$, each for the background and the object seeds.
 
 The segmentation results where compared using the same method as in \Cref{sec:cvgc_experimentalresults}. That is, we have compiled a label for label comparison on the segmentation mask and the ground truth. The parameter settings with the corresponding segmentation results are shown in \Cref{tab:interactiveresults} including the efficiency measures \textit{precision}, \textit{recall}, \textit{accuracy} and \textit{Matthews Correlation Coefficient (MCC)}. The overview results are shown in \Cref{tab:overallinteractivesegmentationefficiency}. For each image, we have highlighted the method which performs the best in blue and the worst in red.
 
@@ -406,8 +419,8 @@ We differentiate between methods on the same image as follows:
 
 where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as follows:
 \begin{enumerate}
-	\item [\textbf{e}] - using the optimal parameter setting for the weighting described by Eriksson \textit{et al.}
-	\item [\textbf{b}] - using the optimal parameter setting for the weighting described by Boykov \textit{et al.}
+	\item [\textbf{e}] - using the optimal parameter setting for the weighting described by Eriksson \textit{et al.} \citep{Eriksson2006}.
+	\item [\textbf{b}] - using the optimal parameter setting for the weighting described by Boykov \textit{et al.} \citep{Boykov2001_2}.
 	\item [\textbf{r}] - Proposed method with optimal parameters found on the sample set.
 	\item [\textbf{rh}] - Proposed method with hard constraints for optimal parameters found on the sample set.
 \end{enumerate}
@@ -423,12 +436,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:188seed}
 	}
 
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/188seg}
 		\label{fig:eriksson188}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/188seg}
 		\label{fig:boykov188}
@@ -456,12 +469,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:195seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/195seg}
 		\label{fig:eriksson195}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/195seg}
 		\label{fig:boykov195}
@@ -489,12 +502,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:228seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/228seg}
 		\label{fig:eriksson228}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/228seg}
 		\label{fig:boykov228}
@@ -522,12 +535,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:1057seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/1057seg}
 		\label{fig:eriksson1057}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/1057seg}
 		\label{fig:boykov1057}
@@ -555,12 +568,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:1265seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/1265seg}
 		\label{fig:eriksson1265}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/1265seg}
 		\label{fig:boykov1265}
@@ -588,12 +601,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:10093seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/10093seg}
 		\label{fig:eriksson10093}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/10093seg}
 		\label{fig:boykov10093}
@@ -621,12 +634,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:10102seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/10102seg}
 		\label{fig:eriksson10102}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/10102seg}
 		\label{fig:boykov10102}
@@ -654,12 +667,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:10104seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/10104seg}
 		\label{fig:eriksson10104}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/10104seg}
 		\label{fig:boykov10104}
@@ -687,12 +700,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:12294seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/12294seg}
 		\label{fig:eriksson12294}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/12294seg}
 		\label{fig:boykov12294}
@@ -720,12 +733,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:12627seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/12627seg}
 		\label{fig:eriksson12627}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/12627seg}
 		\label{fig:boykov12627}
@@ -753,12 +766,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:13432seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/13432seg}
 		\label{fig:eriksson13432}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/13432seg}
 		\label{fig:boykov13432}
@@ -786,12 +799,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:13438seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/13438seg}
 		\label{fig:eriksson13438}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/13438seg}
 		\label{fig:boykov13438}
@@ -819,12 +832,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:13899seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/13899seg}
 		\label{fig:eriksson13899}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/13899seg}
 		\label{fig:boykov13899}
@@ -852,12 +865,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:13901seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/13901seg}
 		\label{fig:eriksson13901}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/13901seg}
 		\label{fig:boykov13901}
@@ -885,12 +898,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:21749seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/21749seg}
 		\label{fig:eriksson21749}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/21749seg}
 		\label{fig:boykov21749}
@@ -918,12 +931,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:21759seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/21759seg}
 		\label{fig:eriksson21759}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/21759seg}
 		\label{fig:boykov21759}
@@ -951,12 +964,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:32140seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/32140seg}
 		\label{fig:eriksson32140}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/32140seg}
 		\label{fig:boykov32140}
@@ -984,12 +997,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:35278seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/35278seg}
 		\label{fig:eriksson35278}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/35278seg}
 		\label{fig:boykov35278}
@@ -1017,12 +1030,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:37338seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/37338seg}
 		\label{fig:eriksson37338}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/37338seg}
 		\label{fig:boykov37338}
@@ -1050,12 +1063,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 	\label{fig:37339seed}
 }
 
-\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 {
 	\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/37339seg}
 	\label{fig:eriksson37339}
 }
-\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 {
 	\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/37339seg}
 	\label{fig:boykov37339}
@@ -1083,12 +1096,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:38974seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/38974seg}
 		\label{fig:eriksson38974}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/38974seg}
 		\label{fig:boykov38974}
@@ -1116,12 +1129,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:40217seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/40217seg}
 		\label{fig:eriksson40217}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/40217seg}
 		\label{fig:boykov40217}
@@ -1149,12 +1162,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:40968seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/40968seg}
 		\label{fig:eriksson40968}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/40968seg}
 		\label{fig:boykov40968}
@@ -1182,12 +1195,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:41066seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/41066seg}
 		\label{fig:eriksson41066}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/41066seg}
 		\label{fig:boykov41066}
@@ -1215,12 +1228,12 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 		\label{fig:42451seed}
 	}
 	
-	\subfigure[Eriksson \textit{et al.} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
+	\subfigure[Eriksson \textit{et al.} \citep{Eriksson2006} $\lambda = 10$, $\sigma_W = 7.5$, $\sigma_R = 1$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testeriksson/42451seg}
 		\label{fig:eriksson42451}
 	}
-	\subfigure[Boykov \textit{et al.} $\lambda=7.5$, $\sigma=5$.]
+	\subfigure[Boykov \textit{et al.} \citep{Boykov2001_2} $\lambda=7.5$, $\sigma=5$.]
 	{
 		\includegraphics[width=0.23\columnwidth]{proposedinteractive/testboykov/42451seg}
 		\label{fig:boykov42451}
@@ -1376,14 +1389,14 @@ where \textit{imageno} goes from $1$ to $25$ and \textit{method} is defined as f
 	\multirow{2}{*}{Method} & \multicolumn{2}{c|}{Precision} & \multicolumn{2}{c|}{Recall} & \multicolumn{2}{c|}{Accuracy} \\ 
 	\hhline{~------}
 	& Mean & Std. Dev. & Mean & Std. Dev & Mean & Std. Dev.  \\ 
-	\hline	Eriksson \textit{et al.}	&	0.747138	&	0.212337	&	0.827658	&	0.331833	&	0.869989	&	0.123919	\\
-	\hline \rowcolor{bad}	Boykov \textit{et al.}	&	0.757085	&	0.246706	&	0.831052	&	0.342374	&	0.846089	&	0.173522	\\
+	\hline	Eriksson \textit{et al.} \citep{Eriksson2006}	&	0.747138	&	0.212337	&	0.827658	&	0.331833	&	0.869989	&	0.123919	\\
+	\hline \rowcolor{bad}	Boykov \textit{et al.} \citep{Boykov2001_2}	&	0.757085	&	0.246706	&	0.831052	&	0.342374	&	0.846089	&	0.173522	\\
 	\hline	Proposed	&	0.865337	&	0.147243	&	0.961572	&	0.059908	&	0.945771	&	0.046453	\\
 	\hline \rowcolor{closest}	Proposed with Hard Constraints	&	0.865351	&	0.147245	&	0.961572	&	0.059908	&	0.945778	&	0.046454	\\	
 	\hline
 \end{longtable}
 
-From the accuracy and Matthews Correlation Coefficient measures shown in \Cref{tab:interactiveresults}, it seems as if there is a close four-way "tug-o' war" between the methods. All methods seem to produce very good results over the test set. However, closer inspection reveals that the proposed method with hard constraints outperforms the least efficient weighting method by Boykov \textit{et al.} by 9.9689\% and the second least efficient weighting method by Eriksson \textit{et al.} by 7.5789\%. This is shown in \Cref{tab:overallinteractivesegmentationefficiency}. The graph of precision versus recall for all weighting methods is shown in \Cref{fig:interactiveprecisionvsrecall}. As can be seen, the proposed method is much more stable, producing high precision and recall consistently. The accuracy variation over the test set is shown in \Cref{fig:interactiveaccuracy}. This further shows the consistency and efficiency of the proposed weighting method with hard constraints over more general fluorescent images.
+From the accuracy and Matthews Correlation Coefficient measures shown in \Cref{tab:interactiveresults}, it seems as if there is a close four-way "tug-o' war" between the methods. All methods seem to produce very good results over the test set. However, closer inspection reveals that the proposed method with hard constraints outperforms the least efficient weighting method by Boykov \textit{et al.} \citep{Boykov2001_2} by 9.9689\% and the second least efficient weighting method by Eriksson \textit{et al.} \citep{Eriksson2006} by 7.5789\%. This is shown in \Cref{tab:overallinteractivesegmentationefficiency}. The graph of precision versus recall for all weighting methods is shown in \Cref{fig:interactiveprecisionvsrecall}. As can be seen, the proposed method is much more stable, producing high precision and recall consistently. The accuracy variation over the test set is shown in \Cref{fig:interactiveaccuracy}. This further shows the consistency and efficiency of the proposed weighting method with hard constraints over more general fluorescent images.
 
 \begin{figure}[!h]
 	\centering
@@ -1408,11 +1421,35 @@ From the accuracy and Matthews Correlation Coefficient measures shown in \Cref{t
 
 %\textcolor{red}{Results dependant on the seeds. The proposed method requires less seed therefore less user interaction. There are less only two tuning paramaters. Results have a lot of speckle. Can be removed throught morphological erosion or connected components. The proposed weighting system is highly robust against multi-modal object distributions.}
 
-We have experimented, very thoroughly, with the two of the most common graph weighting systems and have derived optimal parameters settings for each system which work very well on general fluorescence images. The worst performing of these was the weighting system proposed by Boykov and Jolly which still showed a very high average of 84.6089\% classification accuracy being outperformed by the weighting system proposed by Eriksson \textit{et al.} by 2.39\%. However, these two system fall staggeringly short of the proposed scheme which showed an average classification accuracy at 94.5778\%; a 7.5789\% increase in comparison to weighting system proposed by Eriksson \textit{et al.}
+We have experimented, very thoroughly, with the two of the most common graph weighting systems and have derived optimal parameters settings for each system which work very well on general fluorescence images. The worst performing of these was the weighting system proposed by Boykov and Jolly \citep{Boykov2001_2} which still showed a very high average of 84.6089\% classification accuracy being outperformed by the weighting system proposed by Eriksson \textit{et al.} \citep{Eriksson2006} by 2.39\%. However, these two systems fall staggeringly short of the proposed scheme with hard constraints which showed an average classification accuracy at 94.5778\%; a 7.5789\% increase in comparison to the best competitor weighting system, which was proposed by Eriksson \textit{et al.} \citep{Eriksson2006}.
 
+\section{Conclusion}
+\label{sec:interactive_conclusion}
+%\textcolor{red}{Summarise content and purpose of the section.\\
+%1. Restate the topic + explain why it is important. Usually a single sentence.\\
+%2. Aside from the topic, you should also restate or rephrase your thesis statement.\\
+%3. Briefly summarise main points. Avoid writing new information.\\
+%4. *Add the points up if section is inducive.\\
+%5. Make a call to action when appropriate.\\
+%---\\
+%1. Stick with a basic synthesis of information rather than summarisation. Rephrase in a way %that ties them together.\\
+%2. Bring things full circle. Directly link introduction and conclusion. Anecdote completion.\\
+%3. *Close with logic. *If research presents multiple sides of an argument.\\
+%4. *Make a suggestion.\\
+%---\\
+%1. Avoid saying "in conclusion" or similar sayings.\\
+%2. Leave out new information.\\
+%3. Avoid changing the tone of the paper. eg. An academic paper that is given an emotional or %sentimental conclusion.\\
+%4. Don't make any apologies eg. "I may not be an expert..." or "This is only my opinion..."
+%}
 
+It is not an ideal case to allow human interaction in segmentation; as such, it is a strongly sort after ideal to make segmentation entirely automatic. Consequently, automatic segmentation has come a long way; however, there still are cases where human involvement is neccessary. The goal of increasing segmentation accuracy and diminishing human interaction is still prime.
 
+We have presented a novel energy function for interactive segmentation of fluorescence images, specifically black background fluorescent images. The function accounts for the fact that the probability distribution intensity values do not exponetionally decay as the intensity values move away from the mean of the corresponding region i.e. background or object.
+We have replaced the exponential decay with a quadratic decay and rigorously compared the new energy function to two widely used energy functions which were proposed by Eriksson \textit{et al.} \citep{Eriksson2006} and Boykov and Jolly \citep{Boykov2001_2}.
+The proposed energy function can be implemented with and without hard constraints, and both showed very high performance in accuracy and consistency. The competitor energy functions exhibited a fairly high average segmentation accuracy of 84.6089\% for Boykov and Jolly \citep{Boykov2001_2} and 86.9989\% for Eriksson \textit{et al.} \citep{Eriksson2006}. However, they were trumped by the proposed energy function which boasted an average accuracy of 94.5778\% with hard constraints and 94.5771\% without hard constraints.
 
+These results are subject to the seeds chosen. Given additional, the competitor algorithms could have exhibited much better performance. This comes at the cost of increased user interaction. From the graphs of the proposed energy functions, illustrated in \Cref{fig:proposedinteractiveS} and \Cref{fig:proposedinteractiveT}, we can see that all that is required is for the foreground/object seed to mark the lower range of object and the background seed to mark the higher range of the background.
 
 
 

@@ -9,10 +9,10 @@
 Image segmentation falls under the mathematical classification as being an \textit{ill-posed inverse problem} \citep{Poggio1985,Terzopoulos1986}.
 It is an inverse problem since we require a model from observation, this simply means: given the results, what are the causes?
 In image segmentation, this translates to, given a 2D matrix of intensity values, which pixels belong to the object and which belong to the background.
-Image segmentation is also an ill-posed problem since there is a lack of uniqueness or stability of a solution \citep{Kabanikhin2008}, which are two of the three requirements for a solution to be \textit{well-posed}; the other being existence.
-Image segmentation is an ill-posed problem because immense amount of information is suppressed in the acquisition processed \citep{Tarantola2005,Bertero1998,Bertero2006}.
+Image segmentation is an ill-posed problem since there is a lack of uniqueness or stability of a solution \citep{Kabanikhin2008}, which are two of the three requirements for a solution to be \textit{well-posed}; the other being existence.
+The ill-posedness exists because an immense amount of information is suppressed in the acquisition processed \citep{Tarantola2005,Bertero1998,Bertero2006}.
 Many tasks in vision are inherently or can be reformulated as ill-posed inverse problems e.g. scene reconstruction, stereo matching, image restoration, image deconvolution, etc.
-Computer vision is used heavily in industry, medicine and life science fields included, hence there is a need for a robust, environmentally resistant approach.
+Computer vision is used heavily in industry, medicine and many life science fields, hence there is a need for a robust, environmentally resistant approach.
 The \textit{optimisation approach} is an elegant way to obtain a solution.
 In computer vision, a problem can be posed as an optimisation problem as follows: We are given a coarse, discrete and noisy, approximation of the visual data, $d$, we aim to infer some hidden quantities $x$, labels, depth, probable pixel intensity, etc., based on it.
 We then have to design an \textit{objective function}, also known as an \textit{energy function} or \textit{cost function},
@@ -32,14 +32,14 @@ In the optimisation of this function we seek a minimum energy,
 \end{equation}
 
 which has roots in Statistical Physics where lower energies correspond to more stable solutions.
-This gives us a general idea of how we should assign energies to solutions; better a solution, the lower an energy we should assign to it.
+This gives us a general idea of how we should assign energies to solutions; the better a solution, the lower an energy we should assign to it.
 In this case, a huge number of inference problems in vision can be solved by minimising the associated energy.
 A solution is only as good as the energy model and the optimisation technique. Once a precise energy and a minimising algorithm is found, the problem is essentially solved \citep{Delong2011}. 
 
 Early attempts in computer vision would solve problems like these using iteration or relaxation methods \citep{Waltz1975,Rosenfeld1976}.
-In these attempts the problems are solved in a Calculus of variations framework. This is still a popular approach to optimisation in vision since Poggio \textit{et al.}. \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
+In these attempts the problems are solved in a Calculus of variations framework. This is still a popular approach to optimisation in vision since Poggio \textit{et al.} \citep{Poggio1985} proposed an integrated framework to regularisation theory for vision \citep{Sakaue1999}.
 Many important advancements in computer vision are proposals for a better energy model, a better algorithm or both \citep{Delong2011,Boykov2001,Kolmogorov2005,Mumford1989,Shi1997}.
-In this thesis, we focus on discrete energy optimisation using graph cuts for image segmentation.
+In this dissertation, we focus on discrete energy optimisation using graph cuts for image segmentation.
 
 %\textcolor{red}{Plan for the chapter.}
 Image segmentation falls under a broader category of problems known as \textit{labelling problems}.
@@ -55,7 +55,7 @@ In \Cref{sec:LabellingProblems} we briefly discuss labelling problems and its fo
 
 Among the many computer vision problems, image segmentation is the easiest labelling problem to understand.
 A labelling problem is simply assigning to an observation, a label that most accurately explains it.
-An observation can be anything that we wish to classify e.g. pixels, features, salient points, depth measurement, etc.
+An observation can be anything that we wish to classify e.g. pixels, features, salient points, depth measurements, etc.
 A label is a description of that observation.
 There are two types of labels: \textit{semantic labelling} (person, car, tree, sky, face, eye, etc.) or \textit{pixel-wise labelling} (texture, shape, colour, background/object, etc.) \citep{Delong2011,Athanasiadis2007}.
 
@@ -113,8 +113,7 @@ Most often, settling for an approximate solution is "good enough".
 As previously mentioned, image segmentation can be viewed as a labelling problem.
 The problem is the huge search space in which the solution, or possibly more than one, exists.
 We need a metric that is able to appropriately weight a configuration $f$.
-\textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems.
-\textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks.
+\textit{Random Fields} are able to provide a structured and yet flexible probabilistic framework for labelling problems of which \textit{Markov Random Fields} (MRFs) and \textit{Conditional Random Fields} (CRFs) are mostly used in vision tasks.
 We focus on the discrete image representation provided by MRFs in which we can embed the properties of a desired segmentation solution.
 MRFs are pivotal in designing, weighting and structuring graphs, so we give a brief introduction into the concepts needed to understand the probabilistic make-up for graph cut image segmentation.
 
@@ -127,13 +126,13 @@ MRFs are pivotal in designing, weighting and structuring graphs, so we give a br
 
 A \textit{random field} (RF) is a stochastic process where each random variable is indexed by a spatial variable \citep{Adler2007,Gikhman1996}.
 A random field model can be intuitively represented as an undirected graph $\mathcal{G}(\mathcal{V}_{RF},\mathcal{E}_{RF})$ where $\mathcal{V_{RF}} = \{1, \ldots, n\}$ is the set of sites which correspond to a random variable for each pixel in $\mathcal{P}$, $\mathcal{E}_{RF}$ is the set of undirected edges which links the random variables.
-In vision, random variables which correspond to neighbouring or nearby pixels are linked.
+In vision, a random variable, which typically corresponds to a pixel, is linked to neighbouring random variables.
 These links model interdependency in images, nearby pixels exhibit a high degree of spatial correlation (similarity) \citep{Brett2003}.
 Common connectivity arrangements in 2D images are 4 and 8-connectivity.
 Similarly, higher dimensional data can be represented using graphs.
 For 3D images, common connectivity arrangements are 6- and 26-connectivity.
 Connectedness is illustrated in \Cref{fig:connectedness} for 4-connectivity for 2D image data and 6-connectivity for 3D image data.
-In this thesis, we are concerned with 2D images only.
+In this dissertation, we are concerned with 2D images only.
 Two sites, $p$ and $q$, are neighbours if edge $(p,q) \bigcup (q,p) \in \mathcal{E}_{RF}$.
 The set of neighbours of $p$ are denoted $\mathcal{N}_p$.
 The RF associated with $\mathcal{P}$ is denoted as $\mathbf{Y} = \{Y_p:p \in \mathcal{P}\}$, where each $Y_p$ can be assigned one of $k$ labels from $\mathcal{L}$.
@@ -182,8 +181,8 @@ The joint distribution can be specified as a \textit{Gibbs Random Field} (GRF) \
 where $\mathcal{C}$ is the set of cliques.
 \Cref{fig:n4} shows a simple MRF construction.
 This MRF contains cliques of order one and two, i.e. $$\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \ldots, \{8,9\}\}.$$ \Cref{fig:n8} shows a more densely connected MRF where there are cliques of order one, two and three, i.e. $$\mathcal{C} = \{1, 2, \ldots, 9, \{1,2\}, \{1,4\}, \{1,5\}, \ldots, \{5,9\}, \{8,9\}, \{1,2,5\}, \{2,3,5\}, \ldots, \{5,6,9\} \}.$$
-However, cliques of orders higher than two are ignored for computational reasons.
-In \Cref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as a \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
+However, cliques of orders higher than two are generally ignored due to the computational demands.
+In \Cref{eq:gibbs1} the term $\Psi_c(\mathbf{x}_c)$ is known as the \textit{potential function} for the clique $c$, where $\mathbf{x}_c = \{x_i, i \in c\}$.
 The constant $Z$ is called the \textit{partition function} and ensures that the sum of all probabilities is one.
 After expanding \Cref{eq:gibbs1} for a maximum clique order of two, the conditional distribution of a pairwise MRF is:
 
@@ -264,7 +263,7 @@ the constant $Z$ is not needed as it does not affect the final labelling.
 In this form, the equation is a sum of potentials, i.e. a sum of energies.
 The first term encodes the data constraints, $E_{data}$, and the second term encodes the prior constraints, $E_{prior}$.
 In addition, there is a factor that controls the relative importance between the data and the prior, $\lambda$.
-The general form of the energy equation is:
+The general form of the energy equation is then:
 
 \begin{equation}
 	E(f) = E_{data}(f) + \lambda E_{prior}(f),
@@ -316,7 +315,7 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 \begin{definition}[Simulated Annealing]
 	This is a stochastic optimisation method that simulates the annealing of a material.
 	It is one of the only general-purpose energy minimisation methods.
-	It was devloped and published independantly by \v{C}ern{\'y} \citep{Cerny1985} and Kirkpatrick \textit{et al.} \citep{Kirkpatrick1983} and was introduced into computer vision by Geman and Geman \citep{Geman1984}.
+	It was developed and published independantly by \v{C}ern{\'y} \citep{Cerny1985} and Kirkpatrick \textit{et al.} \citep{Kirkpatrick1983} and was introduced into computer vision by Geman and Geman \citep{Geman1984}.
 	The algorithm is initialised with a random labelling.
 	Each pixel is then visited and a local random change is made.
 	If the change results in a lower energy, then it is accepted, else the change is accepted based on a probability parameter, i.e. the temperature.
@@ -340,8 +339,8 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 \end{definition}
 
 \begin{definition}[Loopy Belief Propagation (LBP)]
-	The belief propagation algorithm was initially designed to be used on acyclic graphs  where it able to obtain a global minimum \citep{Pearl1988}.
-	However, the same algorithm has been successfully applied on cyclic graphs firstly for error-correcting code problems \citep{Frey1998} and then later on in vision \citep{Freeman2000}.
+	The belief propagation algorithm was initially designed to be used on acyclic graphs  where it is able to obtain a global minimum \citep{Pearl1988}.
+	The same algorithm has been successfully applied on cyclic graphs firstly for error-correcting code problems \citep{Frey1998} and then later on in vision \citep{Freeman2000}.
 	Convergence is not guaranteed as the algorithm might get stuck alternating between two labels \citep{Pearl1988}.
 \end{definition}
   
@@ -353,7 +352,7 @@ The general form in \Cref{eq:generalform} can be rewritten as:
 	However, it did not receive much attention and remained buried for almost ten years primarily because of the disinterest in binary image restoration and, at the time, it's optimisation was notoriously slow which made it an unappealing technique when compared to stochastic optimisation methods, like simulated annealing, which was popular at the time.
 	In the last two decades, graph cut optimisation has been a major focus as a key tool in optimisation since Roy and Cox \citep{Roy1998} used it to solve more interesting problems in multi-camera stereo.
 	Shortly after, Boykov \textit{et al.} generalised the method for determining the MAP estimate of MRFs \citep{Boykov1998}.
-	Graph cut optimisation is the technique of focus in this thesis.
+	Graph cut optimisation is the technique of focus in this dissertation.
 \end{definition}
   
 %----------------------------------------------------------------------------------------
@@ -781,7 +780,7 @@ In graph cut image segmentation the energy function, defined by the image, has t
 In the previous section, we talked about representing the energy function as a graph. However, not all energy functions can be represented as a graph. Moreover, minimising an arbitrary energy function, even if the energy is binary, is NP-hard \citep{Shimony1994}. There does exist a class of functions which is graph representable and is able to be minimised in polynomial time, i.e. an exact global minimum can be obtained in a single graph cut. These energy functions are known as \textit{submodular functions}. They are sometimes referred to as "discrete analogue of convex functions" since they're the easiest to minimise, much like convex functions. For an energy to be submodular, it must satisfy the submodularity constraint:
 
 \begin{align}
-&f^p(a,b) + f^p(a+1,b+1) \leq f^p(a,b+l) + f^p(a+1,b),&  &\forall a,b \in \mathcal{L},&
+&f^p(a,b) + f^p(a+1,b+1) \leq f^p(a,b+1) + f^p(a+1,b),&  &\forall a,b \in \mathcal{L},&
 \end{align}
 
 where $\mathcal{L}$ is an ordered label set. The type of energies we are concerned with are second order binary energies, and enforcing the submodularity constraint means that the energy function must satisfy:
@@ -909,7 +908,7 @@ The algorithm works at converting a preflow, $f$, into a normal flow and then te
 		\item Anti-symmetry/Skew Symmetry\\
 		$\forall u, v, \in V, f(u,v) = -f(v,u)$
 		
-		\item Non-negative Constrain\\
+		\item Non-negative Constraint\\
 		The flow into $v \in V-\{s\}$ must be greater than or equal to the flow out of $v$. $\forall u \in V, v \in V-\{s\}, \sum f(u,v)>0$
 	\end{enumerate}
 \end{definition}
