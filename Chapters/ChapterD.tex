@@ -272,7 +272,7 @@ Due to the physical nature of the fluorescence and image acquisition process, th
 There are measures that can be taken to largely mitigate some problems but they can never be completely eliminated.
 The presence of these factors directly affect segmentation accuracy and subsequently higher level analysis.
 Therefore, images are processed prior to segmentation to suppress the artefacts and reconstruct the original data \citep{Danek2012} or better yet to enhance it.
-\Cref{chap:Chapter7} takes a step in this vein.
+\Cref{chap:Chapter4} takes a step in this vein.
 Here we present some of the commonly occurring factors that reduce image quality and the methods used to mitigate them, and some of the techniques employed for segmentation.
 
 \subsection{Pre-processing}
@@ -324,7 +324,7 @@ Here we present some of the commonly occurring factors that reduce image quality
 	However, this is not the case. There is a limited number of cycles before permanent bleaching \citep{LichtmanConchello2005}.
 	\Cref{fig:bleaching} illustrates the effect of photobleaching.
 	\textit{Photobleaching} is the most prominent form of bleaching.
-	It is due the interaction of the fluorophore with an oxygen molecule.
+	It is due to the interaction of the fluorophore with an oxygen molecule.
 	This can move the oxygen molecule to an excited singlet state, which then becomes a reactive molecule.
 	When in this state, the oxygen molecule can participate in many chemically destructive reactions with organic molecules causing \textit{phototoxicity} \citep{Danek2012}.
 	Photobleaching is used to study diffusion and motion through a technique called \textit{fluorescence recovery after photobleaching} (FRAP) \citep{LichtmanConchello2005,AbramowitzDavidson2016}.
@@ -367,7 +367,7 @@ Here we present some of the commonly occurring factors that reduce image quality
 	\begin{equation}
 		O = n(s \otimes h),
 	\end{equation}
-	where $O$ is the formed image, $n$ is the noise function, $s$ is the exact image and $h$ is the specific PSF of the optical system.
+	where $O$ is the formed image, $n$ is the noise function, $s$ is the exact image, $\otimes$ is the convolution operator and $h$ is the specific PSF of the optical system.
 	We discuss the PSF first.
 	The observed image is not an exact representation of the real object.
 	Optical systems have an inherent property called 'the point spread function' which is the systems optical response to a point light source \citep{Danek2012}.
@@ -515,7 +515,7 @@ We review some of the common techniques used in fluorescence microscopy image se
 	
 	The aim of deformable model techniques is to fit a deformable model, either a curve or a surface, to the image data.
 	They may be formulated either explicitly, as a parametric contour (2D) or a surface, e.g. snakes \citep{Kass1988} or active contours \citep{Caselles1997,Li2009,Cheng2009}, or implicitly as a zero-level of a function with one dimension higher than that of the image data, e.g. as a level set \citep{Osher2003}.
-	This technique widely used in fluorescence image segmentation \citep{Dzyubachyk2008,Ortiz2001,Dufour2005,Dzyubachyk2010,Boukari2014,Maska2007}.
+	This technique is widely used in fluorescence image segmentation \citep{Dzyubachyk2008,Ortiz2001,Dufour2005,Dzyubachyk2010,Boukari2014,Maska2007}.
 	
 	The aim of discrete combinatorial optimisation is to search a finite countable solution space for the optimal solution.
 	Optimality is defined with respect to some energy function, which embeds one or more criteria, which is to be minimised.
@@ -568,7 +568,8 @@ Object measures can be loosely classified into four categories: geometric measur
 
 \begin{definition}[Shape descriptors]
 	Shapes descriptors provide a more wholesome way of describing an object's shape than compared to the single parameter shape measures.
-	Differential chain codes, and its two most common descriptors, boundary chain code (BCC) and differential chain code (DCC), are used to represent the distance around an object.
+	%Differential chain codes, and its two most common descriptors, boundary chain code (BCC) and differential chain code (DCC), are used to represent the distance around an object.
+	The differential chain code (DCC) and boundary chain code (BCC) are the two most commonly used shape descriptors that are used to represent the distance around an object.
 	Fourier descriptors is another object distance measure that exploits the periodicity of BCC.
 	There are also graph representations of which the two most common are minimum spanning tree (MST) \citep{Giesen2014,Yuan2009} and Delaunay triangulation (DT) \citep{Kozubek2000,Attali1997}.
 \end{definition}
